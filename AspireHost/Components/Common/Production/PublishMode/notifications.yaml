@@ -1,0 +1,16 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: notifications
+spec:
+  type: pubsub.azure.servicebus.topics
+  version: v1
+  metadata:
+  - name: connectionString
+    secretKeyRef:
+      name: "NotificationBus:ConnectionString"
+      key: "NotificationBus:ConnectionString"
+  - name: maxConcurrentHandlers 
+    value: 1
+auth:
+  secretStore: secretstore

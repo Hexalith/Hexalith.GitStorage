@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <NoWarn>$(NoWarn);IDE0079;RCS1251;</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Hexalith.Domains.Abstractions" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="Shouldly" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\HexalithApp\src\HexalithApp.ApiServer\HexalithApp.ApiServer.csproj" />
+    <ProjectReference Include="..\..\HexalithApp\src\HexalithApp.WebServer\HexalithApp.WebServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Domains\Aggregates\" />
+    <Folder Include="Domains\Events\" />
+    <Folder Include="Domains\Commands\" />
+  </ItemGroup>
+</Project>

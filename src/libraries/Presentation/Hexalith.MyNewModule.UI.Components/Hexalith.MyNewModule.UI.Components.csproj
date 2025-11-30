@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+    <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Hexalith.Application.Modules.Abstractions" />
+    <PackageReference Include="Hexalith.Application.Sessions.Abstractions" />
+    <PackageReference Include="Hexalith.Application.Partitions.Abstractions" />
+    <PackageReference Include="Hexalith.UI.Components" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\Hexalith.MyNewModule.Abstractions\Hexalith.MyNewModule.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Application\Hexalith.MyNewModule.Requests\Hexalith.MyNewModule.Requests.csproj" />
+    <ProjectReference Include="..\..\Domain\Hexalith.MyNewModule.Localizations\Hexalith.MyNewModule.Localizations.csproj" />
+  </ItemGroup>
+
+</Project>

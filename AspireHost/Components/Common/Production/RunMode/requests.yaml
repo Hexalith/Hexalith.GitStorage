@@ -1,0 +1,16 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: requests
+spec:
+  type: pubsub.azure.servicebus.topics
+  version: v1
+  metadata:
+  - name: connectionString
+    secretKeyRef:
+      name: "RequestBus:ConnectionString"
+      key: "RequestBus:ConnectionString"
+  - name: maxConcurrentHandlers 
+    value: 1
+auth:
+  secretStore: secretstore

@@ -1,0 +1,79 @@
+@page "/MyToDo/MyToDo"
+@rendermode InteractiveAuto
+<HexEntityIndexPage OnLoadData="LoadSummaries"
+                    OnImport="ImportAsync"
+                    OnExport="ExportAsync"
+                    OnDatabaseSynchronize="SynchronizeDatabaseAsync"
+                    AddPagePath="/MyToDo/Add/MyToDo"
+                    Title="@Labels.ListTitle">
+    <MyToDoSummaryGrid Items="_summariesQuery" EntityDetailsPath="/MyToDo/MyToDo" OnDisabledChanged="OnDisabledChangedAsync" />
+</HexEntityIndexPage>
+
+@code {
+    private IEnumerable<MyToDoSummaryViewModel>? _summaries;
+    private IQueryable<MyToDoSummaryViewModel>? _summariesQuery;
+
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthenticationStateTask { get; set; }
+
+    private ClaimsPrincipal? _user;
+    private ClaimsPrincipal User => _user ?? throw new InvalidOperationException("User not initialized");
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (AuthenticationStateTask is not null)
+        {
+            var authState = await AuthenticationStateTask;
+            _user = authState.User;
+        }
+        await base.OnInitializedAsync();
+    }
+
+    private async Task LoadSummaries()
+    {
+        _summaries = [..(await RequestService
+            .SubmitAsync(User, new GetMyToDoSummaries(), CancellationToken.None))
+            .Results
+            .OrderBy(p => p.Id)];
+        _summariesQuery = _summaries.AsQueryable();
+        if (!_summaries.Any())
+        {
+            await CommandService.SubmitCommandsAsync(User, MyNewModuleQuickStartData.Data, CancellationToken.None);
+        }
+    }
+    private static Task SynchronizeDatabaseAsync()
+    {
+        return Task.CompletedTask;
+    }
+    private async Task OnDisabledChangedAsync(string id)
+    {
+        var item = _summaries?.FirstOrDefault(s => s.Id == id);
+        if (item is null)
+        {
+            return;
+        }
+        if (item.Disabled)
+        {
+            await CommandService.SubmitCommandAsync(User, new DisableMyToDo(item.Id), CancellationToken.None);
+        }
+        else
+        {
+            await CommandService.SubmitCommandAsync(User, new EnableMyToDo(item.Id), CancellationToken.None);
+        }
+        if (_summaries is not null)
+        {
+            // Update the disabled value of the item in the collection
+            _summaries = [.. _summaries.Select(s => s.Id == item.Id ? s with { Disabled = item.Disabled } : s)];
+            _summariesQuery = _summaries.AsQueryable();
+        }
+    }
+
+    private static async Task ImportAsync()
+    {
+        await Task.CompletedTask;
+    }
+    private static async Task ExportAsync()
+    {
+        await Task.CompletedTask;
+    }
+}

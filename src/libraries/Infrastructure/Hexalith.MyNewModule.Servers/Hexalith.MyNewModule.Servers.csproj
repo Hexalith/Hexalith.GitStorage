@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <NoWarn>$(NoWarn);CA2000;S2325;</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Hexalith.Infrastructure.DaprRuntime" />
+    <PackageReference Include="Hexalith.UI.Components.Abstractions" />
+    <PackageReference Include="Hexalith.Application.Sessions.Abstractions" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\Hexalith.MyNewModule\Hexalith.MyNewModule.csproj" />
+    <ProjectReference Include="..\..\Application\Hexalith.MyNewModule.Requests\Hexalith.MyNewModule.Requests.csproj" />
+  </ItemGroup>
+</Project>
