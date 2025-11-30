@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfix(ui): remove duplicate parameter declarations in UserNotFoundErrorBoundary\n\nRemove redundant ErrorContent and ChildContent parameter declarations\nthat duplicated inherited parameters from ErrorBoundary base class,\ncausing Blazor runtime error about case-insensitive parameter name conflicts.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
