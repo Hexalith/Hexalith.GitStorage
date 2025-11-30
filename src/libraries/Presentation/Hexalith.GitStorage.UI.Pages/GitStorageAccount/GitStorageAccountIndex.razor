@@ -1,0 +1,79 @@
+@page "/GitStorageAccount/GitStorageAccount"
+@rendermode InteractiveAuto
+<HexEntityIndexPage OnLoadData="LoadSummaries"
+                    OnImport="ImportAsync"
+                    OnExport="ExportAsync"
+                    OnDatabaseSynchronize="SynchronizeDatabaseAsync"
+                    AddPagePath="/GitStorageAccount/Add/GitStorageAccount"
+                    Title="@Labels.ListTitle">
+    <GitStorageAccountSummaryGrid Items="_summariesQuery" EntityDetailsPath="/GitStorageAccount/GitStorageAccount" OnDisabledChanged="OnDisabledChangedAsync" />
+</HexEntityIndexPage>
+
+@code {
+    private IEnumerable<GitStorageAccountSummaryViewModel>? _summaries;
+    private IQueryable<GitStorageAccountSummaryViewModel>? _summariesQuery;
+
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthenticationStateTask { get; set; }
+
+    private ClaimsPrincipal? _user;
+    private ClaimsPrincipal User => _user ?? throw new InvalidOperationException("User not initialized");
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (AuthenticationStateTask is not null)
+        {
+            var authState = await AuthenticationStateTask;
+            _user = authState.User;
+        }
+        await base.OnInitializedAsync();
+    }
+
+    private async Task LoadSummaries()
+    {
+        _summaries = [..(await RequestService
+            .SubmitAsync(User, new GetGitStorageAccountSummaries(), CancellationToken.None))
+            .Results
+            .OrderBy(p => p.Id)];
+        _summariesQuery = _summaries.AsQueryable();
+        if (!_summaries.Any())
+        {
+            await CommandService.SubmitCommandsAsync(User, GitStorageQuickStartData.Data, CancellationToken.None);
+        }
+    }
+    private static Task SynchronizeDatabaseAsync()
+    {
+        return Task.CompletedTask;
+    }
+    private async Task OnDisabledChangedAsync(string id)
+    {
+        var item = _summaries?.FirstOrDefault(s => s.Id == id);
+        if (item is null)
+        {
+            return;
+        }
+        if (item.Disabled)
+        {
+            await CommandService.SubmitCommandAsync(User, new DisableGitStorageAccount(item.Id), CancellationToken.None);
+        }
+        else
+        {
+            await CommandService.SubmitCommandAsync(User, new EnableGitStorageAccount(item.Id), CancellationToken.None);
+        }
+        if (_summaries is not null)
+        {
+            // Update the disabled value of the item in the collection
+            _summaries = [.. _summaries.Select(s => s.Id == item.Id ? s with { Disabled = item.Disabled } : s)];
+            _summariesQuery = _summaries.AsQueryable();
+        }
+    }
+
+    private static async Task ImportAsync()
+    {
+        await Task.CompletedTask;
+    }
+    private static async Task ExportAsync()
+    {
+        await Task.CompletedTask;
+    }
+}

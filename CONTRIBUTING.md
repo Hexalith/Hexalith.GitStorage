@@ -1,6 +1,6 @@
-# Contributing to Hexalith.MyNewModule
+# Contributing to Hexalith.GitStorage
 
-Thank you for considering contributing to Hexalith.MyNewModule! This document provides guidelines and instructions for contributing.
+Thank you for considering contributing to Hexalith.GitStorage! This document provides guidelines and instructions for contributing.
 
 ## Table of Contents
 
@@ -36,12 +36,12 @@ Before contributing, ensure you have:
 1. Fork the repository on GitHub
 2. Clone your fork:
    ```bash
-   git clone https://github.com/YOUR-USERNAME/Hexalith.MyNewModule.git
-   cd Hexalith.MyNewModule
+   git clone https://github.com/YOUR-USERNAME/Hexalith.GitStorage.git
+   cd Hexalith.GitStorage
    ```
 3. Add upstream remote:
    ```bash
-   git remote add upstream https://github.com/Hexalith/Hexalith.MyNewModule.git
+   git remote add upstream https://github.com/Hexalith/Hexalith.GitStorage.git
    ```
 4. Initialize submodules:
    ```bash
@@ -116,8 +116,8 @@ public record ModuleConfiguration(
 
 | Element | Convention | Example |
 |---------|------------|---------|
-| Classes/Records | PascalCase | `MyToDo` |
-| Interfaces | IPascalCase | `IMyToDoService` |
+| Classes/Records | PascalCase | `GitStorageAccount` |
+| Interfaces | IPascalCase | `IGitStorageAccountService` |
 | Methods | PascalCase | `GetDetailsAsync` |
 | Parameters | camelCase | `moduleName` |
 | Private fields | _camelCase | `_repository` |
@@ -156,11 +156,11 @@ public record ModuleConfiguration(
 ### Examples
 
 ```
-feat(domain): add MyToDo aggregate
+feat(domain): add GitStorageAccount aggregate
 
-Add the MyToDo aggregate with support for:
+Add the GitStorageAccount aggregate with support for:
 - Add, update, and delete operations
-- Event sourcing with MyToDoAdded event
+- Event sourcing with GitStorageAccountAdded event
 - Validation for all properties
 
 Closes #123
@@ -250,11 +250,11 @@ Fixes #456
 
 ```csharp
 [Fact]
-public void Apply_MyToDoAdded_ShouldInitializeAggregate()
+public void Apply_GitStorageAccountAdded_ShouldInitializeAggregate()
 {
     // Arrange
-    var aggregate = new MyToDo();
-    var added = new MyToDoAdded("id", "name", "comments");
+    var aggregate = new GitStorageAccount();
+    var added = new GitStorageAccountAdded("id", "name", "comments");
 
     // Act
     var result = aggregate.Apply(added);
@@ -294,8 +294,8 @@ Required for:
 ## Need Help?
 
 - **Discord**: [Join our community](https://discordapp.com/channels/1102166958918610994/1102166958918610997)
-- **Issues**: [GitHub Issues](https://github.com/Hexalith/Hexalith.MyNewModule/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Hexalith/Hexalith.MyNewModule/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Hexalith/Hexalith.GitStorage/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Hexalith/Hexalith.GitStorage/discussions)
 
 Thank you for contributing! 🎉
 

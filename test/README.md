@@ -1,6 +1,6 @@
 # Test Projects
 
-This directory contains all test projects for the Hexalith.MyNewModule solution.
+This directory contains all test projects for the Hexalith.GitStorage solution.
 
 ## Overview
 
@@ -14,18 +14,18 @@ The test projects follow these conventions:
 
 ```
 test/
-└── Hexalith.MyNewModule.Tests/
+└── Hexalith.GitStorage.Tests/
     ├── Domains/
     │   ├── Aggregates/    # Aggregate unit tests
     │   ├── Commands/      # Command validation tests
     │   └── Events/        # Event serialization tests
-    ├── Hexalith.MyNewModule.Tests.csproj
+    ├── Hexalith.GitStorage.Tests.csproj
     └── README.md
 ```
 
 ## Test Project
 
-### Hexalith.MyNewModule.Tests
+### Hexalith.GitStorage.Tests
 
 Main test project covering:
 - Domain aggregate behavior
@@ -46,7 +46,7 @@ dotnet test
 dotnet test --logger "console;verbosity=detailed"
 
 # Run specific test class
-dotnet test --filter "FullyQualifiedName~MyToDoAggregateTests"
+dotnet test --filter "FullyQualifiedName~GitStorageAccountAggregateTests"
 
 # Run tests with coverage
 dotnet test --collect:"XPlat Code Coverage"
@@ -74,14 +74,14 @@ dotnet test --collect:"XPlat Code Coverage" --results-directory ./coverage
 Test aggregate behavior and domain logic:
 
 ```csharp
-public class MyToDoAggregateTests
+public class GitStorageAccountAggregateTests
 {
     [Fact]
-    public void Apply_MyToDoAdded_ShouldInitializeAggregate()
+    public void Apply_GitStorageAccountAdded_ShouldInitializeAggregate()
     {
         // Arrange
-        var aggregate = new MyToDo();
-        var added = new MyToDoAdded("id", "name", "comments");
+        var aggregate = new GitStorageAccount();
+        var added = new GitStorageAccountAdded("id", "name", "comments");
 
         // Act
         var result = aggregate.Apply(added);
@@ -97,15 +97,15 @@ public class MyToDoAggregateTests
 Test command validation:
 
 ```csharp
-public class AddMyToDoValidatorTests
+public class AddGitStorageAccountValidatorTests
 {
-    private readonly AddMyToDoValidator _validator = new();
+    private readonly AddGitStorageAccountValidator _validator = new();
 
     [Fact]
     public void Validate_EmptyId_ShouldFail()
     {
         // Arrange
-        var command = new AddMyToDo("", "name", null);
+        var command = new AddGitStorageAccount("", "name", null);
 
         // Act
         var result = _validator.Validate(command);
@@ -122,17 +122,17 @@ public class AddMyToDoValidatorTests
 Test event serialization:
 
 ```csharp
-public class MyToDoEventSerializationTests
+public class GitStorageAccountEventSerializationTests
 {
     [Fact]
-    public void MyToDoAdded_ShouldRoundTripSerialize()
+    public void GitStorageAccountAdded_ShouldRoundTripSerialize()
     {
         // Arrange
-        var original = new MyToDoAdded("id", "name", "comments");
+        var original = new GitStorageAccountAdded("id", "name", "comments");
 
         // Act
         var json = JsonSerializer.Serialize(original);
-        var deserialized = JsonSerializer.Deserialize<MyToDoAdded>(json);
+        var deserialized = JsonSerializer.Deserialize<GitStorageAccountAdded>(json);
 
         // Assert
         deserialized.ShouldNotBeNull();
@@ -151,9 +151,9 @@ public class MyToDoEventSerializationTests
 ```
 
 Examples:
-- `Apply_MyToDoAdded_ShouldInitializeAggregate`
+- `Apply_GitStorageAccountAdded_ShouldInitializeAggregate`
 - `Validate_EmptyId_ShouldReturnValidationError`
-- `Serialize_MyToDoEvent_ShouldRoundTrip`
+- `Serialize_GitStorageAccountEvent_ShouldRoundTrip`
 
 ### Arrange-Act-Assert Pattern
 

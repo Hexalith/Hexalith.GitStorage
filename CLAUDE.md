@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-AI assistant guidance for **Hexalith.MyNewModule** - a DDD/CQRS/Event Sourcing module template.
+AI assistant guidance for **Hexalith.GitStorage** - a DDD/CQRS/Event Sourcing module template.
 
 ## Critical Rules (Always Follow)
 
@@ -56,21 +56,21 @@ public sealed record MyEntity(
 
 ```csharp
 [PolymorphicSerialization]
-public partial record MyToDoAdded(
+public partial record GitStorageAccountAdded(
     string Id,
     [property: DataMember(Order = 2)] string Name,
     [property: DataMember(Order = 3)] string? Comments)
-    : MyToDoEvent(Id);
+    : GitStorageAccountEvent(Id);
 ```
 
 ### Command (same pattern as Event)
 
 ```csharp
 [PolymorphicSerialization]
-public abstract partial record MyToDoCommand(string Id)
+public abstract partial record GitStorageAccountCommand(string Id)
 {
     public string AggregateId => Id;
-    public static string AggregateName => MyToDoDomainHelper.MyToDoAggregateName;
+    public static string AggregateName => GitStorageAccountDomainHelper.GitStorageAccountAggregateName;
 }
 ```
 
@@ -82,26 +82,26 @@ public ApplyResult Apply([NotNull] object domainEvent)
     ArgumentNullException.ThrowIfNull(domainEvent);
     return domainEvent switch
     {
-        MyToDoAdded e => ApplyEvent(e),
-        MyToDoDescriptionChanged e => ApplyEvent(e),
-        MyToDoEvent => ApplyResult.NotImplemented(this),
+        GitStorageAccountAdded e => ApplyEvent(e),
+        GitStorageAccountDescriptionChanged e => ApplyEvent(e),
+        GitStorageAccountEvent => ApplyResult.NotImplemented(this),
         _ => ApplyResult.InvalidEvent(this, domainEvent),
     };
 }
 
-private ApplyResult ApplyEvent(MyToDoAdded e) => !(this as IDomainAggregate).IsInitialized()
-    ? ApplyResult.Success(new MyToDo(e), [e])
-    : ApplyResult.Error(this, "The MyToDo already exists.");
+private ApplyResult ApplyEvent(GitStorageAccountAdded e) => !(this as IDomainAggregate).IsInitialized()
+    ? ApplyResult.Success(new GitStorageAccount(e), [e])
+    : ApplyResult.Error(this, "The GitStorageAccount already exists.");
 ```
 
 ### Request with Result
 
 ```csharp
 [PolymorphicSerialization]
-public partial record GetMyToDoDetails(
+public partial record GetGitStorageAccountDetails(
     string Id,
-    [property: DataMember(Order = 2)] MyToDoDetailsViewModel? Result = null)
-    : MyToDoRequest(Id), IRequest
+    [property: DataMember(Order = 2)] GitStorageAccountDetailsViewModel? Result = null)
+    : GitStorageAccountRequest(Id), IRequest
 {
     object? IRequest.Result => Result;
 }
@@ -111,10 +111,10 @@ public partial record GetMyToDoDetails(
 
 | Type | Pattern | Example |
 |------|---------|---------|
-| Events | `{Entity}{PastTenseVerb}` | `MyToDoAdded`, `MyToDoDisabled` |
-| Commands | `{Verb}{Entity}` | `AddMyToDo`, `DisableMyToDo` |
-| Requests | `Get{Entity}{Details\|Summaries}` | `GetMyToDoDetails` |
-| Handlers | `{Command\|Request}Handler` | `AddMyToDoHandler` |
+| Events | `{Entity}{PastTenseVerb}` | `GitStorageAccountAdded`, `GitStorageAccountDisabled` |
+| Commands | `{Verb}{Entity}` | `AddGitStorageAccount`, `DisableGitStorageAccount` |
+| Requests | `Get{Entity}{Details\|Summaries}` | `GetGitStorageAccountDetails` |
+| Handlers | `{Command\|Request}Handler` | `AddGitStorageAccountHandler` |
 | Private fields | `_camelCase` | `_repository` |
 
 ## Key Attributes
@@ -125,30 +125,30 @@ public partial record GetMyToDoDetails(
 
 ## Entity Creation Order
 
-1. **Events** → `src/libraries/Domain/Hexalith.MyNewModule.Events/{Entity}/`
-2. **Aggregate** → `src/libraries/Domain/Hexalith.MyNewModule.Aggregates/`
-3. **Commands** → `src/libraries/Application/Hexalith.MyNewModule.Commands/{Entity}/`
-4. **Requests** → `src/libraries/Application/Hexalith.MyNewModule.Requests/{Entity}/`
-5. **Projections** → `src/libraries/Application/Hexalith.MyNewModule.Projections/`
-6. **UI Components** → `src/libraries/Presentation/Hexalith.MyNewModule.UI.Components/`
-7. **UI Pages** → `src/libraries/Presentation/Hexalith.MyNewModule.UI.Pages/`
+1. **Events** → `src/libraries/Domain/Hexalith.GitStorage.Events/{Entity}/`
+2. **Aggregate** → `src/libraries/Domain/Hexalith.GitStorage.Aggregates/`
+3. **Commands** → `src/libraries/Application/Hexalith.GitStorage.Commands/{Entity}/`
+4. **Requests** → `src/libraries/Application/Hexalith.GitStorage.Requests/{Entity}/`
+5. **Projections** → `src/libraries/Application/Hexalith.GitStorage.Projections/`
+6. **UI Components** → `src/libraries/Presentation/Hexalith.GitStorage.UI.Components/`
+7. **UI Pages** → `src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/`
 
 ## Testing
 
 ```csharp
 [Fact]
-public void Apply_MyToDoAdded_ShouldInitializeAggregate()
+public void Apply_GitStorageAccountAdded_ShouldInitializeAggregate()
 {
     // Arrange
-    var aggregate = new MyToDo();
-    var added = new MyToDoAdded("test-id", "Test Name", null);
+    var aggregate = new GitStorageAccount();
+    var added = new GitStorageAccountAdded("test-id", "Test Name", null);
 
     // Act
     var result = aggregate.Apply(added);
 
     // Assert
     result.Succeeded.ShouldBeTrue();
-    result.Aggregate.ShouldBeOfType<MyToDo>()
+    result.Aggregate.ShouldBeOfType<GitStorageAccount>()
         .Id.ShouldBe("test-id");
 }
 ```

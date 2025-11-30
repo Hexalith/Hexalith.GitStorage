@@ -1,13 +1,13 @@
 <Project>
   <PropertyGroup>
-    <HexalithAppName>MyNewModule</HexalithAppName>
+    <HexalithAppName>GitStorage</HexalithAppName>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="$(MSBuildThisFileDirectory)src\libraries\Application\Hexalith.MyNewModule\Hexalith.MyNewModule.csproj" />
-    <ProjectReference Include="$(MSBuildThisFileDirectory)src\libraries\Infrastructure\Hexalith.MyNewModule.ApiServer\Hexalith.MyNewModule.ApiServer.csproj" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)src\libraries\Application\Hexalith.GitStorage\Hexalith.GitStorage.csproj" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)src\libraries\Infrastructure\Hexalith.GitStorage.ApiServer\Hexalith.GitStorage.ApiServer.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)src\HexalithMyNewModuleApiServerApplication.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src\HexalithGitStorageApiServerApplication.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Hexalith.Security.ApiServer" />

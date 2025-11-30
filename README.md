@@ -1,28 +1,28 @@
-# Hexalith.MyNewModule
+# Hexalith.GitStorage
 
 A comprehensive template repository for creating new Hexalith modules following Domain-Driven Design (DDD), CQRS (Command Query Responsibility Segregation), and Event Sourcing architectural patterns.
 
 ## Build Status
 
-[![License: MIT](https://img.shields.io/github/license/hexalith/hexalith.MyNewModule)](https://github.com/hexalith/hexalith/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/github/license/hexalith/hexalith.GitStorage)](https://github.com/hexalith/hexalith/blob/main/LICENSE)
 [![Discord](https://img.shields.io/discord/1063152441819942922?label=Discord&logo=discord&logoColor=white&color=d82679)](https://discordapp.com/channels/1102166958918610994/1102166958918610997)
 
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/31529/badge.svg)](https://scan.coverity.com/projects/hexalith-hexalith-MyNewModule)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d48f6d9ab9fb4776b6b4711fc556d1c4)](https://app.codacy.com/gh/Hexalith/Hexalith.MyNewModule/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.MyNewModule&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.MyNewModule)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.MyNewModule&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.MyNewModule)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.MyNewModule&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.MyNewModule)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.MyNewModule&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.MyNewModule)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.MyNewModule&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.MyNewModule)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.MyNewModule&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.MyNewModule)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.MyNewModule&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.MyNewModule)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.MyNewModule&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.MyNewModule)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.MyNewModule&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.MyNewModule)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.MyNewModule&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.MyNewModule)
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/31529/badge.svg)](https://scan.coverity.com/projects/hexalith-hexalith-GitStorage)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d48f6d9ab9fb4776b6b4711fc556d1c4)](https://app.codacy.com/gh/Hexalith/Hexalith.GitStorage/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.GitStorage&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.GitStorage)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.GitStorage&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.GitStorage)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.GitStorage&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.GitStorage)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.GitStorage&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.GitStorage)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.GitStorage&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.GitStorage)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.GitStorage&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.GitStorage)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.GitStorage&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.GitStorage)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.GitStorage&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.GitStorage)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.GitStorage&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.GitStorage)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Hexalith_Hexalith.GitStorage&metric=bugs)](https://sonarcloud.io/summary/new_code?id=Hexalith_Hexalith.GitStorage)
 
-[![Build status](https://github.com/Hexalith/Hexalith.MyNewModule/actions/workflows/build-release.yml/badge.svg)](https://github.com/Hexalith/Hexalith.MyNewModule/actions)
-[![NuGet](https://img.shields.io/nuget/v/Hexalith.MyNewModule.svg)](https://www.nuget.org/packages/Hexalith.MyNewModule)
-[![Latest](https://img.shields.io/github/v/release/Hexalith/Hexalith.MyNewModule?include_prereleases&label=latest)](https://github.com/Hexalith/Hexalith.MyNewModule/pkgs/nuget/Hexalith.MyNewModule)
+[![Build status](https://github.com/Hexalith/Hexalith.GitStorage/actions/workflows/build-release.yml/badge.svg)](https://github.com/Hexalith/Hexalith.GitStorage/actions)
+[![NuGet](https://img.shields.io/nuget/v/Hexalith.GitStorage.svg)](https://www.nuget.org/packages/Hexalith.GitStorage)
+[![Latest](https://img.shields.io/github/v/release/Hexalith/Hexalith.GitStorage?include_prereleases&label=latest)](https://github.com/Hexalith/Hexalith.GitStorage/pkgs/nuget/Hexalith.GitStorage)
 
 ## Table of Contents
 
@@ -130,7 +130,7 @@ Before getting started, ensure you have the following installed:
 **Option B: Clone the Repository**
 
 ```bash
-git clone https://github.com/Hexalith/Hexalith.MyNewModule.git YourModuleName
+git clone https://github.com/Hexalith/Hexalith.GitStorage.git YourModuleName
 cd YourModuleName
 ```
 
@@ -151,8 +151,8 @@ Run the initialization script to customize the template for your module:
 This creates a module named `Hexalith.Inventory`.
 
 The initialization script will:
-- Replace all occurrences of `MyToDo` with your package name
-- Rename directories and files containing `MyToDo`
+- Replace all occurrences of `GitStorageAccount` with your package name
+- Rename directories and files containing `GitStorageAccount`
 - Initialize and update Git submodules (Hexalith.Builds and HexalithApp)
 - Set up the project structure for your new module
 
@@ -181,51 +181,51 @@ dotnet test
 ## Project Structure
 
 ```
-Hexalith.MyNewModule/
+Hexalith.GitStorage/
 ├── AspireHost/                          # .NET Aspire orchestration
 │   ├── Program.cs                       # Aspire app configuration
 │   ├── Components/                      # Aspire component configurations
 │   └── appsettings.json                # Application settings
 │
 ├── src/                                 # Source code root
-│   ├── HexalithMyNewModuleApiServerApplication.cs
-│   ├── HexalithMyNewModuleWebAppApplication.cs
-│   ├── HexalithMyNewModuleWebServerApplication.cs
+│   ├── HexalithGitStorageApiServerApplication.cs
+│   ├── HexalithGitStorageWebAppApplication.cs
+│   ├── HexalithGitStorageWebServerApplication.cs
 │   │
 │   └── libraries/                       # NuGet package projects
 │       │
 │       ├── Application/                 # Application layer
-│       │   ├── Hexalith.MyNewModule/              # Main application logic
-│       │   ├── Hexalith.MyNewModule.Abstractions/ # Interfaces & contracts
-│       │   ├── Hexalith.MyNewModule.Commands/     # Command definitions
-│       │   ├── Hexalith.MyNewModule.Projections/  # Read model projections
-│       │   └── Hexalith.MyNewModule.Requests/     # Query requests
+│       │   ├── Hexalith.GitStorage/              # Main application logic
+│       │   ├── Hexalith.GitStorage.Abstractions/ # Interfaces & contracts
+│       │   ├── Hexalith.GitStorage.Commands/     # Command definitions
+│       │   ├── Hexalith.GitStorage.Projections/  # Read model projections
+│       │   └── Hexalith.GitStorage.Requests/     # Query requests
 │       │
 │       ├── Domain/                      # Domain layer
-│       │   ├── Hexalith.MyNewModule.Aggregates/             # Domain aggregates
-│       │   ├── Hexalith.MyNewModule.Aggregates.Abstractions/# Domain helpers
-│       │   ├── Hexalith.MyNewModule.Events/                 # Domain events
-│       │   └── Hexalith.MyNewModule.Localizations/          # Resource files
+│       │   ├── Hexalith.GitStorage.Aggregates/             # Domain aggregates
+│       │   ├── Hexalith.GitStorage.Aggregates.Abstractions/# Domain helpers
+│       │   ├── Hexalith.GitStorage.Events/                 # Domain events
+│       │   └── Hexalith.GitStorage.Localizations/          # Resource files
 │       │
 │       ├── Infrastructure/              # Infrastructure layer
-│       │   ├── Hexalith.MyNewModule.ApiServer/   # REST API server
-│       │   ├── Hexalith.MyNewModule.Servers/     # Server helpers
-│       │   ├── Hexalith.MyNewModule.WebApp/      # WASM client module
-│       │   └── Hexalith.MyNewModule.WebServer/   # SSR web server module
+│       │   ├── Hexalith.GitStorage.ApiServer/   # REST API server
+│       │   ├── Hexalith.GitStorage.Servers/     # Server helpers
+│       │   ├── Hexalith.GitStorage.WebApp/      # WASM client module
+│       │   └── Hexalith.GitStorage.WebServer/   # SSR web server module
 │       │
 │       └── Presentation/                # Presentation layer
-│           ├── Hexalith.MyNewModule.UI.Components/ # Blazor components
-│           └── Hexalith.MyNewModule.UI.Pages/      # Blazor pages
+│           ├── Hexalith.GitStorage.UI.Components/ # Blazor components
+│           └── Hexalith.GitStorage.UI.Pages/      # Blazor pages
 │
 ├── test/                                # Test projects
-│   └── Hexalith.MyNewModule.Tests/     # Unit & integration tests
+│   └── Hexalith.GitStorage.Tests/     # Unit & integration tests
 │
 ├── HexalithApp/                         # Hexalith application (submodule)
 ├── Hexalith.Builds/                     # Build configurations (submodule)
 │
 ├── Directory.Build.props                # MSBuild properties
 ├── Directory.Packages.props             # Central package management
-├── Hexalith.MyNewModule.sln           # Solution file
+├── Hexalith.GitStorage.sln           # Solution file
 └── initialize.ps1                       # Initialization script
 ```
 
@@ -237,18 +237,18 @@ The domain layer contains the core business logic and is framework-agnostic.
 
 Aggregates are the core domain entities that encapsulate business rules and state changes.
 
-**Location**: `src/libraries/Domain/Hexalith.MyNewModule.Aggregates/`
+**Location**: `src/libraries/Domain/Hexalith.GitStorage.Aggregates/`
 
 ```csharp
 /// <summary>
-/// Represents a mytodo aggregate.
+/// Represents a GitStorageAccount aggregate.
 /// </summary>
-/// <param name="Id">The mytodo identifier.</param>
-/// <param name="Name">The mytodo name.</param>
-/// <param name="Comments">The mytodo description.</param>
-/// <param name="Disabled">The mytodo disabled status.</param>
+/// <param name="Id">The GitStorageAccount identifier.</param>
+/// <param name="Name">The GitStorageAccount name.</param>
+/// <param name="Comments">The GitStorageAccount description.</param>
+/// <param name="Disabled">The GitStorageAccount disabled status.</param>
 [DataContract]
-public sealed record MyToDo(
+public sealed record GitStorageAccount(
     [property: DataMember(Order = 1)] string Id,
     [property: DataMember(Order = 2)] string Name,
     [property: DataMember(Order = 3)] string? Comments,
@@ -271,42 +271,42 @@ Key features:
 
 Events represent facts that have happened in the domain.
 
-**Location**: `src/libraries/Domain/Hexalith.MyNewModule.Events/MyToDo/`
+**Location**: `src/libraries/Domain/Hexalith.GitStorage.Events/GitStorageAccount/`
 
 Available events:
-- `MyToDoAdded` - When a new module is created
-- `MyToDoDescriptionChanged` - When name or description changes
-- `MyToDoDisabled` - When the module is disabled
-- `MyToDoEnabled` - When the module is enabled
+- `GitStorageAccountAdded` - When a new module is created
+- `GitStorageAccountDescriptionChanged` - When name or description changes
+- `GitStorageAccountDisabled` - When the module is disabled
+- `GitStorageAccountEnabled` - When the module is enabled
 
 ```csharp
 /// <summary>
-/// Event raised when a new mytodo is added.
+/// Event raised when a new GitStorageAccount is added.
 /// </summary>
 [PolymorphicSerialization]
-public partial record MyToDoAdded(
+public partial record GitStorageAccountAdded(
     string Id,
     [property: DataMember(Order = 2)] string Name,
     [property: DataMember(Order = 3)] string? Comments)
-    : MyToDoEvent(Id);
+    : GitStorageAccountEvent(Id);
 ```
 
 ### Value Objects
 
 Value objects are immutable domain concepts with no identity.
 
-**Location**: `src/libraries/Domain/Hexalith.MyNewModule.Aggregates.Abstractions/ValueObjects/`
+**Location**: `src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/ValueObjects/`
 
 ### Localizations
 
 Resource files for internationalization (i18n) support.
 
-**Location**: `src/libraries/Domain/Hexalith.MyNewModule.Localizations/`
+**Location**: `src/libraries/Domain/Hexalith.GitStorage.Localizations/`
 
 Files:
-- `MyToDo.resx` - English (default)
-- `MyToDo.fr.resx` - French
-- `MyNewModuleMenu.resx` - Menu labels
+- `GitStorageAccount.resx` - English (default)
+- `GitStorageAccount.fr.resx` - French
+- `GitStorageMenu.resx` - Menu labels
 
 ## Application Layer
 
@@ -314,23 +314,23 @@ The application layer coordinates domain operations and implements use cases.
 
 ### Abstractions
 
-**Location**: `src/libraries/Application/Hexalith.MyNewModule.Abstractions/`
+**Location**: `src/libraries/Application/Hexalith.GitStorage.Abstractions/`
 
 Key files:
-- `IMyToDoModule.cs` - Module interface
-- `IMyToDoService.cs` - Service interface
-- `MyToDoPolicies.cs` - Authorization policies
-- `MyToDoRoles.cs` - Security roles
+- `IGitStorageAccountModule.cs` - Module interface
+- `IGitStorageAccountService.cs` - Service interface
+- `GitStorageAccountPolicies.cs` - Authorization policies
+- `GitStorageAccountRoles.cs` - Security roles
 
 ```csharp
 /// <summary>
-/// Defines the roles for MyToDo security.
+/// Defines the roles for GitStorageAccount security.
 /// </summary>
-public static class MyToDoRoles
+public static class GitStorageAccountRoles
 {
-    public const string Owner = nameof(MyNewModule) + nameof(Owner);
-    public const string Contributor = nameof(MyNewModule) + nameof(Contributor);
-    public const string Reader = nameof(MyNewModule) + nameof(Reader);
+    public const string Owner = nameof(GitStorage) + nameof(Owner);
+    public const string Contributor = nameof(GitStorage) + nameof(Contributor);
+    public const string Reader = nameof(GitStorage) + nameof(Reader);
 }
 ```
 
@@ -338,61 +338,61 @@ public static class MyToDoRoles
 
 Commands represent intent to change the system state.
 
-**Location**: `src/libraries/Application/Hexalith.MyNewModule.Commands/MyToDo/`
+**Location**: `src/libraries/Application/Hexalith.GitStorage.Commands/GitStorageAccount/`
 
 Available commands:
-- `AddMyToDo` - Create a new module
-- `ChangeMyToDoDescription` - Update name/description
-- `DisableMyToDo` - Disable a module
-- `EnableMyToDo` - Enable a module
+- `AddGitStorageAccount` - Create a new module
+- `ChangeGitStorageAccountDescription` - Update name/description
+- `DisableGitStorageAccount` - Disable a module
+- `EnableGitStorageAccount` - Enable a module
 
 ```csharp
 /// <summary>
-/// Command to add a new mytodo.
+/// Command to add a new GitStorageAccount.
 /// </summary>
 [PolymorphicSerialization]
-public partial record AddMyToDo(
+public partial record AddGitStorageAccount(
     string Id,
     [property: DataMember(Order = 2)] string Name,
     [property: DataMember(Order = 3)] string? Comments)
-    : MyToDoCommand(Id);
+    : GitStorageAccountCommand(Id);
 ```
 
 ### Requests (Queries)
 
 Requests represent queries for data retrieval.
 
-**Location**: `src/libraries/Application/Hexalith.MyNewModule.Requests/MyToDo/`
+**Location**: `src/libraries/Application/Hexalith.GitStorage.Requests/GitStorageAccount/`
 
 Available requests:
-- `GetMyToDoDetails` - Get full details of a module
-- `GetMyToDoSummaries` - Get list of module summaries
-- `GetMyToDoIds` - Get list of all module IDs
-- `GetMyToDoExports` - Export module data
+- `GetGitStorageAccountDetails` - Get full details of a module
+- `GetGitStorageAccountSummaries` - Get list of module summaries
+- `GetGitStorageAccountIds` - Get list of all module IDs
+- `GetGitStorageAccountExports` - Export module data
 
 ### View Models
 
 View models for presenting data to the UI.
 
-- `MyToDoDetailsViewModel` - Full module details
-- `MyToDoSummaryViewModel` - Summary for lists
+- `GitStorageAccountDetailsViewModel` - Full module details
+- `GitStorageAccountSummaryViewModel` - Summary for lists
 
 ### Projections
 
 Projections handle event processing to update read models.
 
-**Location**: `src/libraries/Application/Hexalith.MyNewModule.Projections/`
+**Location**: `src/libraries/Application/Hexalith.GitStorage.Projections/`
 
 ```csharp
-public static class MyToDoProjectionHelper
+public static class GitStorageAccountProjectionHelper
 {
-    public static IServiceCollection AddMyToDoProjectionHandlers(
+    public static IServiceCollection AddGitStorageAccountProjectionHandlers(
         this IServiceCollection services)
         => services
-            .AddScoped<IProjectionUpdateHandler<MyToDoAdded>, 
-                MyToDoAddedOnSummaryProjectionHandler>()
-            .AddScoped<IProjectionUpdateHandler<MyToDoDescriptionChanged>, 
-                MyToDoDescriptionChangedOnSummaryProjectionHandler>()
+            .AddScoped<IProjectionUpdateHandler<GitStorageAccountAdded>, 
+                GitStorageAccountAddedOnSummaryProjectionHandler>()
+            .AddScoped<IProjectionUpdateHandler<GitStorageAccountDescriptionChanged>, 
+                GitStorageAccountDescriptionChangedOnSummaryProjectionHandler>()
             // ... more handlers
 }
 ```
@@ -403,7 +403,7 @@ The infrastructure layer contains technical implementations and hosting concerns
 
 ### API Server Module
 
-**Location**: `src/libraries/Infrastructure/Hexalith.MyNewModule.ApiServer/`
+**Location**: `src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/`
 
 Provides:
 - REST API controllers
@@ -412,26 +412,26 @@ Provides:
 - Integration event handling
 
 ```csharp
-public sealed class HexalithMyNewModuleApiServerModule : 
-    IApiServerApplicationModule, IMyToDoModule
+public sealed class HexalithGitStorageApiServerModule : 
+    IApiServerApplicationModule, IGitStorageAccountModule
 {
     public static void AddServices(IServiceCollection services, 
         IConfiguration configuration)
     {
         // Register serialization mappers
-        HexalithMyNewModuleEventsSerialization.RegisterPolymorphicMappers();
-        HexalithMyNewModuleCommandsSerialization.RegisterPolymorphicMappers();
+        HexalithGitStorageEventsSerialization.RegisterPolymorphicMappers();
+        HexalithGitStorageCommandsSerialization.RegisterPolymorphicMappers();
         
         // Add module services
-        services.AddMyToDo();
-        services.AddMyToDoProjectionActorFactories();
+        services.AddGitStorageAccount();
+        services.AddGitStorageAccountProjectionActorFactories();
     }
 
     public static void RegisterActors(object actorCollection)
     {
         var actorRegistrations = (ActorRegistrationCollection)actorCollection;
         actorRegistrations.RegisterActor<DomainAggregateActor>(
-            MyToDoDomainHelper.MyToDoAggregateName.ToAggregateActorName());
+            GitStorageAccountDomainHelper.GitStorageAccountAggregateName.ToAggregateActorName());
         // ... more actor registrations
     }
 }
@@ -439,13 +439,13 @@ public sealed class HexalithMyNewModuleApiServerModule :
 
 ### Web Server Module
 
-**Location**: `src/libraries/Infrastructure/Hexalith.MyNewModule.WebServer/`
+**Location**: `src/libraries/Infrastructure/Hexalith.GitStorage.WebServer/`
 
 Provides server-side rendering (SSR) support for Blazor.
 
 ### Web App Module
 
-**Location**: `src/libraries/Infrastructure/Hexalith.MyNewModule.WebApp/`
+**Location**: `src/libraries/Infrastructure/Hexalith.GitStorage.WebApp/`
 
 Provides WebAssembly (WASM) client support for Blazor.
 
@@ -455,45 +455,45 @@ The presentation layer contains Blazor UI components and pages.
 
 ### UI Components
 
-**Location**: `src/libraries/Presentation/Hexalith.MyNewModule.UI.Components/`
+**Location**: `src/libraries/Presentation/Hexalith.GitStorage.UI.Components/`
 
 Reusable Blazor components:
-- `MyToDoIdField.razor` - ID input field
-- `MyToDoSummaryGrid.razor` - Data grid for summaries
+- `GitStorageAccountIdField.razor` - ID input field
+- `GitStorageAccountSummaryGrid.razor` - Data grid for summaries
 
 ### UI Pages
 
-**Location**: `src/libraries/Presentation/Hexalith.MyNewModule.UI.Pages/`
+**Location**: `src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/`
 
 Blazor pages:
 - `Home.razor` - Module home page
-- `MyToDoIndex.razor` - List/index page
-- `MyToDoDetails.razor` - Add/edit page
+- `GitStorageAccountIndex.razor` - List/index page
+- `GitStorageAccountDetails.razor` - Add/edit page
 
 **Index Page Example:**
 
 ```razor
-@page "/MyToDo/MyToDo"
+@page "/GitStorageAccount/GitStorageAccount"
 @rendermode InteractiveAuto
 
 <HexEntityIndexPage 
     OnLoadData="LoadSummaries"
     OnImport="ImportAsync"
     OnExport="ExportAsync"
-    AddPagePath="/MyToDo/Add/MyToDo"
+    AddPagePath="/GitStorageAccount/Add/GitStorageAccount"
     Title="@Labels.ListTitle">
-    <MyToDoSummaryGrid Items="_summariesQuery" 
-        EntityDetailsPath="/MyToDo/MyToDo" 
+    <GitStorageAccountSummaryGrid Items="_summariesQuery" 
+        EntityDetailsPath="/GitStorageAccount/GitStorageAccount" 
         OnDisabledChanged="OnDisabledChangedAsync" />
 </HexEntityIndexPage>
 ```
 
 ### Edit View Model
 
-**Location**: `src/libraries/Presentation/Hexalith.MyNewModule.UI.Pages/MyToDo/`
+**Location**: `src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/GitStorageAccount/`
 
 ```csharp
-public sealed class MyToDoEditViewModel : IIdDescription, IEntityViewModel
+public sealed class GitStorageAccountEditViewModel : IIdDescription, IEntityViewModel
 {
     public string Id { get; set; }
     public string Name { get; set; }
@@ -514,7 +514,7 @@ public sealed class MyToDoEditViewModel : IIdDescription, IEntityViewModel
 
 ### Test Project
 
-**Location**: `test/Hexalith.MyNewModule.Tests/`
+**Location**: `test/Hexalith.GitStorage.Tests/`
 
 The project uses:
 - **xUnit** - Testing framework
@@ -525,32 +525,32 @@ The project uses:
 
 ```
 test/
-└── Hexalith.MyNewModule.Tests/
+└── Hexalith.GitStorage.Tests/
     ├── Domains/
     │   ├── Aggregates/    # Aggregate tests
     │   ├── Commands/      # Command tests
     │   └── Events/        # Event tests
-    └── Hexalith.MyNewModule.Tests.csproj
+    └── Hexalith.GitStorage.Tests.csproj
 ```
 
 ### Writing Tests
 
 ```csharp
-public class MyToDoAggregateTests
+public class GitStorageAccountAggregateTests
 {
     [Fact]
-    public void Apply_MyToDoAdded_ShouldInitializeAggregate()
+    public void Apply_GitStorageAccountAdded_ShouldInitializeAggregate()
     {
         // Arrange
-        var aggregate = new MyToDo();
-        var added = new MyToDoAdded("test-id", "Test Name", "Comments");
+        var aggregate = new GitStorageAccount();
+        var added = new GitStorageAccountAdded("test-id", "Test Name", "Comments");
 
         // Act
         var result = aggregate.Apply(added);
 
         // Assert
         result.Succeeded.ShouldBeTrue();
-        var newAggregate = result.Aggregate as MyToDo;
+        var newAggregate = result.Aggregate as GitStorageAccount;
         newAggregate.ShouldNotBeNull();
         newAggregate.Id.ShouldBe("test-id");
         newAggregate.Name.ShouldBe("Test Name");
@@ -568,7 +568,7 @@ dotnet test
 dotnet test --collect:"XPlat Code Coverage"
 
 # Run specific test project
-dotnet test test/Hexalith.MyNewModule.Tests/
+dotnet test test/Hexalith.GitStorage.Tests/
 ```
 
 ## Configuration
@@ -597,11 +597,11 @@ Build configuration is defined in `Directory.Build.props`:
 ```xml
 <Project>
   <PropertyGroup>
-    <Product>Hexalith.MyNewModule</Product>
-    <RepositoryUrl>https://github.com/Hexalith/Hexalith.MyNewModule.git</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/Hexalith/Hexalith.MyNewModule</PackageProjectUrl>
+    <Product>Hexalith.GitStorage</Product>
+    <RepositoryUrl>https://github.com/Hexalith/Hexalith.GitStorage.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Hexalith/Hexalith.GitStorage</PackageProjectUrl>
     <PackageTags>hexalith;</PackageTags>
-    <Description>Hexalith MyNewModule</Description>
+    <Description>Hexalith GitStorage</Description>
   </PropertyGroup>
 </Project>
 ```
@@ -631,7 +631,7 @@ HexalithDistributedApplication app = new(args);
 
 if (app.IsProjectEnabled<Projects.HexalithApp_WebServer>())
 {
-    app.AddProject<Projects.HexalithApp_WebServer>("MyNewModuleweb")
+    app.AddProject<Projects.HexalithApp_WebServer>("GitStorageweb")
         .WithEnvironmentFromConfiguration("APP_API_TOKEN")
         .WithEnvironmentFromConfiguration("Hexalith__IdentityStores__Microsoft__Id")
         // ... more configuration
@@ -639,7 +639,7 @@ if (app.IsProjectEnabled<Projects.HexalithApp_WebServer>())
 
 if (app.IsProjectEnabled<Projects.HexalithApp_ApiServer>())
 {
-    app.AddProject<Projects.HexalithApp_ApiServer>("MyNewModuleapi")
+    app.AddProject<Projects.HexalithApp_ApiServer>("GitStorageapi")
         // ... configuration
 }
 
@@ -674,9 +674,9 @@ Components/
 │   ├── Integration/
 │   ├── Production/
 │   └── Staging/
-├── MyNewModuleApi/
+├── GitStorageApi/
 │   └── Development/
-└── MyNewModuleWeb/
+└── GitStorageWeb/
     └── Development/
 ```
 
@@ -684,12 +684,12 @@ Components/
 
 ### 1. Create a New Feature
 
-1. **Define domain events** in `Domain/Hexalith.MyNewModule.Events/`
-2. **Update aggregate** in `Domain/Hexalith.MyNewModule.Aggregates/`
-3. **Create commands** in `Application/Hexalith.MyNewModule.Commands/`
-4. **Add request handlers** in `Application/Hexalith.MyNewModule.Projections/`
-5. **Create/update UI** in `Presentation/Hexalith.MyNewModule.UI.Pages/`
-6. **Write tests** in `test/Hexalith.MyNewModule.Tests/`
+1. **Define domain events** in `Domain/Hexalith.GitStorage.Events/`
+2. **Update aggregate** in `Domain/Hexalith.GitStorage.Aggregates/`
+3. **Create commands** in `Application/Hexalith.GitStorage.Commands/`
+4. **Add request handlers** in `Application/Hexalith.GitStorage.Projections/`
+5. **Create/update UI** in `Presentation/Hexalith.GitStorage.UI.Pages/`
+6. **Write tests** in `test/Hexalith.GitStorage.Tests/`
 
 ### 2. Adding a New Entity
 
@@ -753,5 +753,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Support
 
 - **Discord**: [Join our community](https://discordapp.com/channels/1102166958918610994/1102166958918610997)
-- **Issues**: [GitHub Issues](https://github.com/Hexalith/Hexalith.MyNewModule/issues)
-- **Documentation**: [Wiki](https://github.com/Hexalith/Hexalith.MyNewModule/wiki)
+- **Issues**: [GitHub Issues](https://github.com/Hexalith/Hexalith.GitStorage/issues)
+- **Documentation**: [Wiki](https://github.com/Hexalith/Hexalith.GitStorage/wiki)

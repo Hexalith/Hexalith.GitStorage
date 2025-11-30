@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\Hexalith.GitStorage.Commands\Hexalith.GitStorage.Commands.csproj" />
+    <ProjectReference Include="..\..\Application\Hexalith.GitStorage\Hexalith.GitStorage.csproj" />
+    <ProjectReference Include="..\Hexalith.GitStorage.UI.Components\Hexalith.GitStorage.UI.Components.csproj" />
+  </ItemGroup>
+
+</Project>

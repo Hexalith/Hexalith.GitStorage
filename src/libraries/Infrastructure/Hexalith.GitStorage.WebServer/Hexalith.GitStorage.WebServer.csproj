@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Hexalith.Application.Organizations" />
+        <PackageReference Include="Hexalith.Infrastructure.ClientAppOnServer" />
+        <PackageReference Include="Hexalith.Infrastructure.DaprRuntime" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\Application\Hexalith.GitStorage.Abstractions\Hexalith.GitStorage.Abstractions.csproj" />
+      <ProjectReference Include="..\..\Application\Hexalith.GitStorage\Hexalith.GitStorage.csproj" />
+      <ProjectReference Include="..\..\Presentation\Hexalith.GitStorage.UI.Pages\Hexalith.GitStorage.UI.Pages.csproj" />
+      <ProjectReference Include="..\Hexalith.GitStorage.Servers\Hexalith.GitStorage.Servers.csproj" />
+    </ItemGroup>
+</Project>

@@ -1,11 +1,11 @@
 {
-  "name": "hexalith-mynewmodule",
+  "name": "hexalith-GitStorage",
   "version": "0.0.0-development",
   "private": true,
-  "description": "Hexalith MyNewModule libraries",
+  "description": "Hexalith GitStorage libraries",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Hexalith/Hexalith.MyNewModule.git"
+    "url": "https://github.com/Hexalith/Hexalith.GitStorage.git"
   },
   "release": {
     "branches": [ "main" ]

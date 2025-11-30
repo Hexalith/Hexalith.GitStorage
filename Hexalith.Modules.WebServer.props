@@ -1,14 +1,14 @@
 <Project>
   <PropertyGroup>
-    <HexalithAppName>MyNewModule</HexalithAppName>
+    <HexalithAppName>GitStorage</HexalithAppName>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="$(MSBuildThisFileDirectory)src\libraries\Application\Hexalith.MyNewModule\Hexalith.MyNewModule.csproj" />
-    <ProjectReference Include="$(MSBuildThisFileDirectory)src\libraries\Infrastructure\Hexalith.MyNewModule.WebApp\Hexalith.MyNewModule.WebApp.csproj" />
-    <ProjectReference Include="$(MSBuildThisFileDirectory)src\libraries\Infrastructure\Hexalith.MyNewModule.WebServer\Hexalith.MyNewModule.WebServer.csproj" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)src\libraries\Application\Hexalith.GitStorage\Hexalith.GitStorage.csproj" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)src\libraries\Infrastructure\Hexalith.GitStorage.WebApp\Hexalith.GitStorage.WebApp.csproj" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)src\libraries\Infrastructure\Hexalith.GitStorage.WebServer\Hexalith.GitStorage.WebServer.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)src/HexalithMyNewModuleWebServerApplication.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)src/HexalithGitStorageWebServerApplication.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Hexalith.Security.WebServer" />

@@ -1,14 +1,14 @@
 # Source Code Directory
 
-This directory contains the main source code for the Hexalith MyToDo project.
+This directory contains the main source code for the Hexalith GitStorageAccount project.
 
 ## Directory Structure
 
 ```
 src/
-├── HexalithMyNewModuleApiServerApplication.cs  # API Server application definition
-├── HexalithMyNewModuleWebAppApplication.cs     # WebAssembly client application definition
-├── HexalithMyNewModuleWebServerApplication.cs  # Web Server application definition
+├── HexalithGitStorageApiServerApplication.cs  # API Server application definition
+├── HexalithGitStorageWebAppApplication.cs     # WebAssembly client application definition
+├── HexalithGitStorageWebServerApplication.cs  # Web Server application definition
 │
 └── libraries/                                    # NuGet package projects
     ├── Application/                              # Application layer (CQRS)
@@ -21,42 +21,42 @@ src/
 
 ### API Server Application
 
-The `HexalithMyNewModuleApiServerApplication.cs` defines the API server configuration:
+The `HexalithGitStorageApiServerApplication.cs` defines the API server configuration:
 
 ```csharp
-public class HexalithMyNewModuleApiServerApplication : HexalithApiServerApplication
+public class HexalithGitStorageApiServerApplication : HexalithApiServerApplication
 {
     public override IEnumerable<Type> ApiServerModules => [
         typeof(HexalithUIComponentsApiServerModule),
         typeof(HexalithSecurityApiServerModule),
-        typeof(HexalithMyNewModuleApiServerModule)
+        typeof(HexalithGitStorageApiServerModule)
     ];
     
-    public override string Id => $"{HexalithMyNewModuleInformation.Id}.{ApplicationType}";
-    public override string Name => $"{HexalithMyNewModuleInformation.Name} {ApplicationType}";
+    public override string Id => $"{HexalithGitStorageInformation.Id}.{ApplicationType}";
+    public override string Name => $"{HexalithGitStorageInformation.Name} {ApplicationType}";
 }
 ```
 
 ### Web Server Application
 
-The `HexalithMyNewModuleWebServerApplication.cs` defines the server-side rendered web application:
+The `HexalithGitStorageWebServerApplication.cs` defines the server-side rendered web application:
 
 ```csharp
-public class HexalithMyNewModuleWebServerApplication : HexalithWebServerApplication
+public class HexalithGitStorageWebServerApplication : HexalithWebServerApplication
 {
-    public override Type WebAppApplicationType => typeof(HexalithMyNewModuleWebAppApplication);
+    public override Type WebAppApplicationType => typeof(HexalithGitStorageWebAppApplication);
     
     public override IEnumerable<Type> WebServerModules => [
         typeof(HexalithUIComponentsWebServerModule),
         typeof(HexalithSecurityWebServerModule),
-        typeof(HexalithMyToDoWebServerModule)
+        typeof(HexalithGitStorageAccountWebServerModule)
     ];
 }
 ```
 
 ### WebApp Application
 
-The `HexalithMyNewModuleWebAppApplication.cs` defines the WebAssembly client application for interactive client-side rendering.
+The `HexalithGitStorageWebAppApplication.cs` defines the WebAssembly client application for interactive client-side rendering.
 
 ## Layer Dependencies
 
@@ -84,7 +84,7 @@ dotnet restore
 dotnet build
 
 # Build specific project
-dotnet build libraries/Application/Hexalith.MyNewModule/
+dotnet build libraries/Application/Hexalith.GitStorage/
 ```
 
 ## Adding New Projects
@@ -92,7 +92,7 @@ dotnet build libraries/Application/Hexalith.MyNewModule/
 When adding new projects to the `libraries/` directory:
 
 1. Create the project in the appropriate layer folder
-2. Follow the naming convention: `Hexalith.MyNewModule.{Purpose}`
+2. Follow the naming convention: `Hexalith.GitStorage.{Purpose}`
 3. Add project reference to the solution file
 4. Update `Directory.Build.props` if needed
 5. Add package reference to `Directory.Packages.props` if using new NuGet packages

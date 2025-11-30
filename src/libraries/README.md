@@ -9,36 +9,36 @@ The libraries follow a clean architecture approach with four main layers:
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                   Presentation                          │
-│  (Hexalith.MyNewModule.UI.Components)                 │
-│  (Hexalith.MyNewModule.UI.Pages)                      │
+│  (Hexalith.GitStorage.UI.Components)                 │
+│  (Hexalith.GitStorage.UI.Pages)                      │
 └─────────────────────────────────────────────────────────┘
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────┐
 │                   Infrastructure                        │
-│  (Hexalith.MyNewModule.ApiServer)                     │
-│  (Hexalith.MyNewModule.WebServer)                     │
-│  (Hexalith.MyNewModule.WebApp)                        │
-│  (Hexalith.MyNewModule.Servers)                       │
+│  (Hexalith.GitStorage.ApiServer)                     │
+│  (Hexalith.GitStorage.WebServer)                     │
+│  (Hexalith.GitStorage.WebApp)                        │
+│  (Hexalith.GitStorage.Servers)                       │
 └─────────────────────────────────────────────────────────┘
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────┐
 │                    Application                          │
-│  (Hexalith.MyNewModule)                               │
-│  (Hexalith.MyNewModule.Abstractions)                  │
-│  (Hexalith.MyNewModule.Commands)                      │
-│  (Hexalith.MyNewModule.Requests)                      │
-│  (Hexalith.MyNewModule.Projections)                   │
+│  (Hexalith.GitStorage)                               │
+│  (Hexalith.GitStorage.Abstractions)                  │
+│  (Hexalith.GitStorage.Commands)                      │
+│  (Hexalith.GitStorage.Requests)                      │
+│  (Hexalith.GitStorage.Projections)                   │
 └─────────────────────────────────────────────────────────┘
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────┐
 │                      Domain                             │
-│  (Hexalith.MyNewModule.Aggregates)                    │
-│  (Hexalith.MyNewModule.Aggregates.Abstractions)       │
-│  (Hexalith.MyNewModule.Events)                        │
-│  (Hexalith.MyNewModule.Localizations)                 │
+│  (Hexalith.GitStorage.Aggregates)                    │
+│  (Hexalith.GitStorage.Aggregates.Abstractions)       │
+│  (Hexalith.GitStorage.Events)                        │
+│  (Hexalith.GitStorage.Localizations)                 │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -50,10 +50,10 @@ The domain layer contains the core business logic and is completely independent 
 
 | Project | Description |
 |---------|-------------|
-| `Hexalith.MyNewModule.Aggregates` | Domain aggregate implementations with event sourcing |
-| `Hexalith.MyNewModule.Aggregates.Abstractions` | Domain helpers, enums, and value objects |
-| `Hexalith.MyNewModule.Events` | Domain event definitions |
-| `Hexalith.MyNewModule.Localizations` | Localization resource files |
+| `Hexalith.GitStorage.Aggregates` | Domain aggregate implementations with event sourcing |
+| `Hexalith.GitStorage.Aggregates.Abstractions` | Domain helpers, enums, and value objects |
+| `Hexalith.GitStorage.Events` | Domain event definitions |
+| `Hexalith.GitStorage.Localizations` | Localization resource files |
 
 ### Application Layer (`Application/`)
 
@@ -61,11 +61,11 @@ The application layer implements use cases and orchestrates domain operations.
 
 | Project | Description |
 |---------|-------------|
-| `Hexalith.MyNewModule` | Main application logic, command handlers, event handlers |
-| `Hexalith.MyNewModule.Abstractions` | Module interfaces, policies, roles, service contracts |
-| `Hexalith.MyNewModule.Commands` | Command definitions for write operations |
-| `Hexalith.MyNewModule.Requests` | Query/request definitions and view models |
-| `Hexalith.MyNewModule.Projections` | Projection handlers for updating read models |
+| `Hexalith.GitStorage` | Main application logic, command handlers, event handlers |
+| `Hexalith.GitStorage.Abstractions` | Module interfaces, policies, roles, service contracts |
+| `Hexalith.GitStorage.Commands` | Command definitions for write operations |
+| `Hexalith.GitStorage.Requests` | Query/request definitions and view models |
+| `Hexalith.GitStorage.Projections` | Projection handlers for updating read models |
 
 ### Infrastructure Layer (`Infrastructure/`)
 
@@ -73,10 +73,10 @@ The infrastructure layer provides technical implementations for hosting and inte
 
 | Project | Description |
 |---------|-------------|
-| `Hexalith.MyNewModule.ApiServer` | REST API controllers, Dapr actor registration |
-| `Hexalith.MyNewModule.WebServer` | Server-side Blazor hosting |
-| `Hexalith.MyNewModule.WebApp` | WebAssembly client module |
-| `Hexalith.MyNewModule.Servers` | Shared server utilities |
+| `Hexalith.GitStorage.ApiServer` | REST API controllers, Dapr actor registration |
+| `Hexalith.GitStorage.WebServer` | Server-side Blazor hosting |
+| `Hexalith.GitStorage.WebApp` | WebAssembly client module |
+| `Hexalith.GitStorage.Servers` | Shared server utilities |
 
 ### Presentation Layer (`Presentation/`)
 
@@ -84,43 +84,43 @@ The presentation layer contains all UI-related code.
 
 | Project | Description |
 |---------|-------------|
-| `Hexalith.MyNewModule.UI.Components` | Reusable Blazor components |
-| `Hexalith.MyNewModule.UI.Pages` | Blazor pages and view models |
+| `Hexalith.GitStorage.UI.Components` | Reusable Blazor components |
+| `Hexalith.GitStorage.UI.Pages` | Blazor pages and view models |
 
 ## Package Dependencies
 
 ### Domain Layer Dependencies
 
 ```
-Hexalith.MyNewModule.Aggregates
-├── Hexalith.MyNewModule.Aggregates.Abstractions
-└── Hexalith.MyNewModule.Events
+Hexalith.GitStorage.Aggregates
+├── Hexalith.GitStorage.Aggregates.Abstractions
+└── Hexalith.GitStorage.Events
 
-Hexalith.MyNewModule.Events
-└── Hexalith.MyNewModule.Aggregates.Abstractions
+Hexalith.GitStorage.Events
+└── Hexalith.GitStorage.Aggregates.Abstractions
 
-Hexalith.MyNewModule.Localizations
+Hexalith.GitStorage.Localizations
 └── (no internal dependencies)
 ```
 
 ### Application Layer Dependencies
 
 ```
-Hexalith.MyNewModule
-├── Hexalith.MyNewModule.Abstractions
-├── Hexalith.MyNewModule.Aggregates
-├── Hexalith.MyNewModule.Commands
-├── Hexalith.MyNewModule.Events
-├── Hexalith.MyNewModule.Projections
-└── Hexalith.MyNewModule.Requests
+Hexalith.GitStorage
+├── Hexalith.GitStorage.Abstractions
+├── Hexalith.GitStorage.Aggregates
+├── Hexalith.GitStorage.Commands
+├── Hexalith.GitStorage.Events
+├── Hexalith.GitStorage.Projections
+└── Hexalith.GitStorage.Requests
 
-Hexalith.MyNewModule.Commands
-├── Hexalith.MyNewModule.Aggregates.Abstractions
-└── Hexalith.MyNewModule.Abstractions
+Hexalith.GitStorage.Commands
+├── Hexalith.GitStorage.Aggregates.Abstractions
+└── Hexalith.GitStorage.Abstractions
 
-Hexalith.MyNewModule.Requests
-├── Hexalith.MyNewModule.Aggregates.Abstractions
-└── Hexalith.MyNewModule.Abstractions
+Hexalith.GitStorage.Requests
+├── Hexalith.GitStorage.Aggregates.Abstractions
+└── Hexalith.GitStorage.Abstractions
 ```
 
 ## Building Packages
