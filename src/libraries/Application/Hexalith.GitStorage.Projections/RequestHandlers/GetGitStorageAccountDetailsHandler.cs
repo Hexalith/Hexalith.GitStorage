@@ -23,8 +23,8 @@ public class GetGitStorageAccountDetailsHandler : RequestHandlerBase<GetGitStora
     /// <summary>
     /// Initializes a new instance of the <see cref="GetGitStorageAccountDetailsHandler"/> class.
     /// </summary>
-    /// <param name="factory">The projection GitStorageAccount.</param>
-    /// <exception cref="ArgumentNullException">Thrown when projectionGitStorageAccount is null.</exception>
+    /// <param name="factory">The GitStorageAccount projection factory.</param>
+    /// <exception cref="ArgumentNullException">Thrown when factory is null.</exception>
     public GetGitStorageAccountDetailsHandler(IProjectionFactory<GitStorageAccountDetailsViewModel> factory)
     {
         ArgumentNullException.ThrowIfNull(factory);

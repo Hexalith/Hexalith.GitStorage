@@ -10,19 +10,19 @@ using Hexalith.GitStorage.Aggregates;
 using Hexalith.PolymorphicSerializations;
 
 /// <summary>
-/// Represents a base class for document commands.
+/// Represents a base class for GitStorageAccount requests.
 /// </summary>
-/// <param name="Id">The aggregate ID of the document command.</param>
+/// <param name="Id">The aggregate ID of the GitStorageAccount request.</param>
 [PolymorphicSerialization]
 public abstract partial record GitStorageAccountRequest([property: DataMember(Order = 1)] string Id)
 {
     /// <summary>
-    /// Gets the aggregate ID of the document command.
+    /// Gets the aggregate ID of the GitStorageAccount request.
     /// </summary>
     public string AggregateId => Id;
 
     /// <summary>
-    /// Gets the aggregate name of the document command.
+    /// Gets the aggregate name of the GitStorageAccount request.
     /// </summary>
     public static string AggregateName => GitStorageAccountDomainHelper.GitStorageAccountAggregateName;
 }

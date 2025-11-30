@@ -5,8 +5,8 @@
 
 namespace Hexalith.GitStorage.ApiServer.Controllers;
 
-using Hexalith.Infrastructure.WebApis.Buses;
 using Hexalith.GitStorage.Aggregates;
+using Hexalith.Infrastructure.WebApis.Buses;
 
 /// <summary>
 /// Class CustomerEventsBusTopicAttribute. This class cannot be inherited.

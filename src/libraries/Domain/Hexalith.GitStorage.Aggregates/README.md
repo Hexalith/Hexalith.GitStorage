@@ -96,20 +96,20 @@ public class GitStorageAccountAddedValidator : AbstractValidator<GitStorageAccou
 
 ```csharp
 // Create new aggregate from Added event
-var addedEvent = new GitStorageAccountAdded("mod-001", "My Module", "Description");
-var aggregate = new GitStorageAccount();
-var result = aggregate.Apply(addedEvent);
+GitStorageAccountAdded addedEvent = new("mod-001", "My Module", "Description");
+GitStorageAccount aggregate = new();
+ApplyResult result = aggregate.Apply(addedEvent);
 
-if (result.Succeeded)
+if (!result.Failed)
 {
-    var newAggregate = result.Aggregate as GitStorageAccount;
+    GitStorageAccount newAggregate = (GitStorageAccount)result.Aggregate!;
     // newAggregate.Id == "mod-001"
     // newAggregate.Name == "My Module"
-}
 
-// Apply subsequent events
-var changeEvent = new GitStorageAccountDescriptionChanged("mod-001", "Updated Name", "New Description");
-var updateResult = newAggregate.Apply(changeEvent);
+    // Apply subsequent events
+    GitStorageAccountDescriptionChanged changeEvent = new("mod-001", "Updated Name", "New Description");
+    ApplyResult updateResult = newAggregate.Apply(changeEvent);
+}
 ```
 
 ## Testing

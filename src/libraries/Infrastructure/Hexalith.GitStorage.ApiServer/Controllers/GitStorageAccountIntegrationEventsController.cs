@@ -10,9 +10,9 @@ using Dapr;
 using Hexalith.Application.Events;
 using Hexalith.Application.Projections;
 using Hexalith.Application.States;
+using Hexalith.GitStorage.Aggregates;
 using Hexalith.Infrastructure.WebApis.Buses;
 using Hexalith.Infrastructure.WebApis.Controllers;
-using Hexalith.GitStorage.Aggregates;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

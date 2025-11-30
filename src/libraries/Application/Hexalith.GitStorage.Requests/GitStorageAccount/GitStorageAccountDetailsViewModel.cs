@@ -10,12 +10,12 @@ using Hexalith.Domains.ValueObjects;
 using Hexalith.Extensions.Helpers;
 
 /// <summary>
-/// Represents the details of a warehouse.
+/// Represents the details of a GitStorageAccount.
 /// </summary>
-/// <param name="Id">The warehouse identifier.</param>
-/// <param name="Name">The warehouse name.</param>
-/// <param name="Comments">The warehouse description.</param>
-/// <param name="Disabled">The warehouse disabled status.</param>
+/// <param name="Id">The GitStorageAccount identifier.</param>
+/// <param name="Name">The GitStorageAccount name.</param>
+/// <param name="Comments">The GitStorageAccount description.</param>
+/// <param name="Disabled">The GitStorageAccount disabled status.</param>
 [DataContract]
 public sealed record GitStorageAccountDetailsViewModel(
     [property: DataMember(Order = 1)] string Id,
@@ -27,16 +27,16 @@ public sealed record GitStorageAccountDetailsViewModel(
     string IIdDescription.Description => Name;
 
     /// <summary>
-    /// Gets an empty warehouse details view model.
+    /// Gets an empty GitStorageAccount details view model.
     /// </summary>
-    /// <returns>An empty warehouse details view model.</returns>
+    /// <returns>An empty GitStorageAccount details view model.</returns>
     public static GitStorageAccountDetailsViewModel Empty => new(string.Empty, string.Empty, string.Empty, false);
 
     /// <summary>
-    /// Creates a new warehouse details view model.
+    /// Creates a new GitStorageAccount details view model.
     /// </summary>
-    /// <param name="id">The warehouse identifier.</param>
-    /// <returns>A new warehouse details view model.</returns>
+    /// <param name="id">The GitStorageAccount identifier.</param>
+    /// <returns>A new GitStorageAccount details view model.</returns>
     public static GitStorageAccountDetailsViewModel Create(string? id)
     => new(string.IsNullOrWhiteSpace(id) ? UniqueIdHelper.GenerateUniqueStringId() : id, string.Empty, string.Empty, false);
 }

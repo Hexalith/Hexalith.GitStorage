@@ -140,14 +140,14 @@ public partial record GetGitStorageAccountDetails(
 public void Apply_GitStorageAccountAdded_ShouldInitializeAggregate()
 {
     // Arrange
-    var aggregate = new GitStorageAccount();
-    var added = new GitStorageAccountAdded("test-id", "Test Name", null);
+    GitStorageAccount aggregate = new();
+    GitStorageAccountAdded added = new("test-id", "Test Name", null);
 
     // Act
-    var result = aggregate.Apply(added);
+    ApplyResult result = aggregate.Apply(added);
 
     // Assert
-    result.Succeeded.ShouldBeTrue();
+    result.Failed.ShouldBeFalse();
     result.Aggregate.ShouldBeOfType<GitStorageAccount>()
         .Id.ShouldBe("test-id");
 }

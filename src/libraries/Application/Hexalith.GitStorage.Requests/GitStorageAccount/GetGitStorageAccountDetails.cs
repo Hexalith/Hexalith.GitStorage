@@ -10,10 +10,10 @@ using Hexalith.Application.Requests;
 using Hexalith.PolymorphicSerializations;
 
 /// <summary>
-/// Represents a request to get the details of a warehouse by its ID.
+/// Represents a request to get the details of a GitStorageAccount by its ID.
 /// </summary>
-/// <param name="Id">The ID of the warehouse.</param>
-/// <param name="Result">The warehouse details view model result.</param>
+/// <param name="Id">The ID of the GitStorageAccount.</param>
+/// <param name="Result">The GitStorageAccount details view model result.</param>
 [PolymorphicSerialization]
 public partial record GetGitStorageAccountDetails(string Id, [property: DataMember(Order = 2)] GitStorageAccountDetailsViewModel? Result = null)
     : GitStorageAccountRequest(Id), IRequest

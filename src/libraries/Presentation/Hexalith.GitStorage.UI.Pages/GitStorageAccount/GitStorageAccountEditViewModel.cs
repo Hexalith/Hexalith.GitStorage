@@ -95,36 +95,36 @@ public sealed class GitStorageAccountEditViewModel : IIdDescription, IEntityView
     /// <returns>A task that represents the asynchronous save operation.</returns>
     internal async Task SaveAsync(ClaimsPrincipal user, ICommandService commandService, bool create, CancellationToken cancellationToken)
     {
-        GitStorageAccountCommand GitStorageCommand;
+        GitStorageAccountCommand gitStorageCommand;
         if (create)
         {
-            GitStorageCommand = new AddGitStorageAccount(
+            gitStorageCommand = new AddGitStorageAccount(
                         Id!,
                         Name!,
                         Comments);
-            await commandService.SubmitCommandAsync(user, GitStorageCommand, cancellationToken).ConfigureAwait(false);
+            await commandService.SubmitCommandAsync(user, gitStorageCommand, cancellationToken).ConfigureAwait(false);
             return;
         }
 
         if (DescriptionChanged)
         {
-            GitStorageCommand = new ChangeGitStorageAccountDescription(
+            gitStorageCommand = new ChangeGitStorageAccountDescription(
             Id!,
             Name!,
             Comments);
-            await commandService.SubmitCommandAsync(user, GitStorageCommand, cancellationToken).ConfigureAwait(false);
+            await commandService.SubmitCommandAsync(user, gitStorageCommand, cancellationToken).ConfigureAwait(false);
         }
 
         if (Disabled != Original.Disabled && Disabled)
         {
-            GitStorageCommand = new DisableGitStorageAccount(Id);
-            await commandService.SubmitCommandAsync(user, GitStorageCommand, cancellationToken).ConfigureAwait(false);
+            gitStorageCommand = new DisableGitStorageAccount(Id);
+            await commandService.SubmitCommandAsync(user, gitStorageCommand, cancellationToken).ConfigureAwait(false);
         }
 
         if (Disabled != Original.Disabled && !Disabled)
         {
-            GitStorageCommand = new EnableGitStorageAccount(Id);
-            await commandService.SubmitCommandAsync(user, GitStorageCommand, cancellationToken).ConfigureAwait(false);
+            gitStorageCommand = new EnableGitStorageAccount(Id);
+            await commandService.SubmitCommandAsync(user, gitStorageCommand, cancellationToken).ConfigureAwait(false);
         }
     }
 }

@@ -12,7 +12,6 @@ using Dapr.Actors.Runtime;
 
 using Hexalith.Application.Modules.Modules;
 using Hexalith.Extensions.Configuration;
-using Hexalith.Infrastructure.CosmosDb.Configurations;
 using Hexalith.GitStorage.CommandHandlers;
 using Hexalith.GitStorage.Commands.Extensions;
 using Hexalith.GitStorage.EventHandlers;
@@ -23,6 +22,7 @@ using Hexalith.GitStorage.Requests.Extensions;
 using Hexalith.GitStorage.Servers.Helpers;
 using Hexalith.GitStorage.UI.Pages.Modules;
 using Hexalith.GitStorage.WebServer.Controllers;
+using Hexalith.Infrastructure.CosmosDb.Configurations;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
