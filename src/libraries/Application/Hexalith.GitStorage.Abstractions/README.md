@@ -1,6 +1,6 @@
 # Hexalith.GitStorage.Abstractions
 
-This project contains the interfaces, contracts, and shared definitions for the GitStorageAccount application layer.
+This project contains the interfaces, contracts, and shared definitions for the GitStorage application layer. It provides the foundation for managing Git storage providers (GitHub and Forgejo), organizations, and repositories.
 
 ## Overview
 
@@ -41,20 +41,34 @@ This interface is implemented by:
 - `HexalithGitStorageWebAppModule`
 - `HexalithGitStorageWebServerModule`
 
-### Service Interface
+### Service Interfaces
 
 **IGitStorageAccountService.cs**
 
-Service contract for GitStorageAccount operations:
+Service contract for Git storage account operations:
 
 ```csharp
 public interface IGitStorageAccountService
 {
-    Task DoSomethingAsync(CancellationToken cancellationToken);
+    Task<IEnumerable<Organization>> GetOrganizationsAsync(string accountId, CancellationToken cancellationToken);
+    Task<IEnumerable<Repository>> GetRepositoriesAsync(string accountId, string organizationName, CancellationToken cancellationToken);
+    Task CreateRepositoryAsync(string accountId, string organizationName, CreateRepositoryRequest request, CancellationToken cancellationToken);
 }
 ```
 
-Extend this interface as needed for your module's specific services.
+**IGitProviderAdapter.cs**
+
+Provider-specific adapter interface for GitHub and Forgejo:
+
+```csharp
+public interface IGitProviderAdapter
+{
+    GitProviderType ProviderType { get; }
+    Task<bool> TestConnectionAsync(string baseUrl, string token, CancellationToken cancellationToken);
+    Task<IEnumerable<Organization>> GetOrganizationsAsync(CancellationToken cancellationToken);
+    Task<IEnumerable<Repository>> GetRepositoriesAsync(string organizationName, CancellationToken cancellationToken);
+}
+```
 
 ### Security
 

@@ -1,6 +1,6 @@
 # Hexalith.GitStorage.Requests
 
-This project contains the request (query) definitions and view models for the GitStorageAccount bounded context.
+This project contains the request (query) definitions and view models for the GitStorage bounded context, enabling queries for Git storage accounts, organizations, and repositories.
 
 ## Overview
 
@@ -12,11 +12,11 @@ Requests represent queries for data retrieval in the CQRS pattern. They are hand
 
 | Request | Description | Returns |
 |---------|-------------|---------|
-| `GetGitStorageAccountDetails` | Get full details of a single module | `GitStorageAccountDetailsViewModel` |
-| `GetGitStorageAccountSummaries` | Get paginated list of module summaries | `IEnumerable<GitStorageAccountSummaryViewModel>` |
-| `GetGitStorageAccountIds` | Get list of all module IDs | `IEnumerable<string>` |
-| `GetGitStorageAccountExports` | Export full module data | `IEnumerable<GitStorageAccount>` |
-| `GetGitStorageAccountIdDescription` | Get ID/Description pairs for dropdowns | `IEnumerable<IdDescription>` |
+| `GetGitStorageAccountDetails` | Get full details of a storage account | `GitStorageAccountDetailsViewModel` |
+| `GetGitStorageAccountSummaries` | Get paginated list of account summaries | `IEnumerable<GitStorageAccountSummaryViewModel>` |
+| `GetGitStorageAccountIds` | Get list of all account IDs | `IEnumerable<string>` |
+| `GetOrganizations` | Get organizations for an account | `IEnumerable<OrganizationViewModel>` |
+| `GetRepositories` | Get repositories for an organization | `IEnumerable<RepositoryViewModel>` |
 
 ## Request Definitions
 
@@ -48,34 +48,27 @@ public partial record GetGitStorageAccountSummaries() : GitStorageAccountRequest
 
 ### GitStorageAccountDetailsViewModel
 
-Full details view model for detail pages:
+Full details view model for account detail pages:
 
 ```csharp
 [DataContract]
 public sealed record GitStorageAccountDetailsViewModel(
     [property: DataMember(Order = 1)] string Id,
     [property: DataMember(Order = 2)] string Name,
-    [property: DataMember(Order = 3)] string? Comments,
-    [property: DataMember(Order = 5)] bool Disabled) : IIdDescription
-{
-    public static GitStorageAccountDetailsViewModel Empty 
-        => new(string.Empty, string.Empty, string.Empty, false);
-        
-    public static GitStorageAccountDetailsViewModel Create(string? id)
-        => new(
-            string.IsNullOrWhiteSpace(id) ? UniqueIdHelper.GenerateUniqueStringId() : id, 
-            string.Empty, 
-            string.Empty, 
-            false);
-}
+    [property: DataMember(Order = 3)] GitProviderType ProviderType,
+    [property: DataMember(Order = 4)] string BaseUrl,
+    [property: DataMember(Order = 5)] string? Comments,
+    [property: DataMember(Order = 6)] bool Disabled) : IIdDescription;
 ```
 
 | Property | Type | Description |
 |----------|------|-------------|
 | `Id` | `string` | Unique identifier |
 | `Name` | `string` | Display name |
+| `ProviderType` | `GitProviderType` | GitHub or Forgejo |
+| `BaseUrl` | `string` | API base URL |
 | `Comments` | `string?` | Optional description |
-| `Disabled` | `bool` | Whether the module is disabled |
+| `Disabled` | `bool` | Whether the account is disabled |
 
 ### GitStorageAccountSummaryViewModel
 
@@ -86,7 +79,34 @@ Lightweight view model for list/grid displays:
 public sealed record GitStorageAccountSummaryViewModel(
     [property: DataMember(Order = 1)] string Id,
     [property: DataMember(Order = 2)] string Name,
-    [property: DataMember(Order = 3)] bool Disabled) : IIdDescription;
+    [property: DataMember(Order = 3)] GitProviderType ProviderType,
+    [property: DataMember(Order = 4)] bool Disabled) : IIdDescription;
+```
+
+### OrganizationViewModel
+
+View model for organization data:
+
+```csharp
+[DataContract]
+public sealed record OrganizationViewModel(
+    [property: DataMember(Order = 1)] string Name,
+    [property: DataMember(Order = 2)] string? Description,
+    [property: DataMember(Order = 3)] string AvatarUrl);
+```
+
+### RepositoryViewModel
+
+View model for repository data:
+
+```csharp
+[DataContract]
+public sealed record RepositoryViewModel(
+    [property: DataMember(Order = 1)] string Name,
+    [property: DataMember(Order = 2)] string? Description,
+    [property: DataMember(Order = 3)] bool IsPrivate,
+    [property: DataMember(Order = 4)] string DefaultBranch,
+    [property: DataMember(Order = 5)] string CloneUrl);
 ```
 
 ## Request Handlers

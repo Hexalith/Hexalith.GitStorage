@@ -1,6 +1,6 @@
 # Hexalith.GitStorage.Projections
 
-This project contains the projection handlers and request handlers for maintaining read models in the GitStorageAccount bounded context.
+This project contains the projection handlers and request handlers for maintaining read models in the GitStorage bounded context, supporting Git storage accounts, organizations, and repositories.
 
 ## Overview
 

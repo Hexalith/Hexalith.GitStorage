@@ -1,6 +1,6 @@
 # Hexalith.GitStorage.Aggregates.Abstractions
 
-This project contains domain helper classes, enums, and value objects for the GitStorageAccount bounded context.
+This project contains domain helper classes, enums, and value objects for the GitStorage bounded context, supporting Git storage providers (GitHub and Forgejo), organizations, and repositories.
 
 ## Overview
 
@@ -54,28 +54,47 @@ actorRegistrations.RegisterActor<DomainAggregateActor>(
 
 ## Enums
 
-Add enumeration types for domain concepts:
+### GitProviderType
+
+Enumeration for supported Git providers:
 
 ```csharp
 /// <summary>
-/// Represents the status of a module.
+/// Represents the type of Git provider.
 /// </summary>
-public enum GitStorageAccountStatus
+public enum GitProviderType
 {
     /// <summary>
-    /// Module is active and available.
+    /// GitHub (cloud or enterprise).
     /// </summary>
-    Active = 0,
-    
+    GitHub = 0,
+
     /// <summary>
-    /// Module is temporarily suspended.
+    /// Forgejo (self-hosted Git service).
     /// </summary>
-    Suspended = 1,
-    
+    Forgejo = 1
+}
+```
+
+### RepositoryVisibility
+
+Enumeration for repository visibility:
+
+```csharp
+/// <summary>
+/// Represents the visibility of a repository.
+/// </summary>
+public enum RepositoryVisibility
+{
     /// <summary>
-    /// Module has been archived.
+    /// Repository is publicly accessible.
     /// </summary>
-    Archived = 2
+    Public = 0,
+
+    /// <summary>
+    /// Repository is private to the organization.
+    /// </summary>
+    Private = 1
 }
 ```
 

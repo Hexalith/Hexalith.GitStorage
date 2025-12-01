@@ -1,6 +1,6 @@
 # Hexalith.GitStorage.UI.Components
 
-This project contains reusable Blazor UI components for the GitStorageAccount bounded context.
+This project contains reusable Blazor UI components for the GitStorage bounded context, supporting management of Git storage providers (GitHub and Forgejo), organizations, and repositories.
 
 ## Overview
 
@@ -30,13 +30,14 @@ Hexalith.GitStorage.UI.Components/
 
 ### GitStorageAccountIdField
 
-An input field component for selecting or entering a GitStorageAccount ID:
+An input field component for selecting or entering a Git storage account ID:
 
 ```razor
 <GitStorageAccountIdField @bind-Value="@SelectedId" />
 ```
 
 **Parameters:**
+
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `Value` | `string?` | The selected ID value |
@@ -46,16 +47,17 @@ An input field component for selecting or entering a GitStorageAccount ID:
 
 ### GitStorageAccountSummaryGrid
 
-A data grid component for displaying module summaries:
+A data grid component for displaying storage account summaries:
 
 ```razor
-<GitStorageAccountSummaryGrid 
-    Items="@_summariesQuery" 
-    EntityDetailsPath="/GitStorageAccount/GitStorageAccount" 
+<GitStorageAccountSummaryGrid
+    Items="@_summariesQuery"
+    EntityDetailsPath="/GitStorage/Account"
     OnDisabledChanged="OnDisabledChangedAsync" />
 ```
 
 **Parameters:**
+
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `Items` | `IQueryable<GitStorageAccountSummaryViewModel>?` | Data source |
@@ -63,11 +65,48 @@ A data grid component for displaying module summaries:
 | `OnDisabledChanged` | `EventCallback<string>` | Callback when disable toggled |
 
 **Features:**
+
 - Sortable columns
 - Filterable data
 - Pagination
 - Row selection
 - Action buttons
+
+### ProviderTypeSelector
+
+A selector component for choosing the Git provider type:
+
+```razor
+<ProviderTypeSelector @bind-Value="@ProviderType" />
+```
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `Value` | `GitProviderType` | The selected provider type |
+| `ValueChanged` | `EventCallback<GitProviderType>` | Callback when value changes |
+
+### OrganizationSelector
+
+A component for selecting organizations from a Git provider:
+
+```razor
+<OrganizationSelector
+    AccountId="@AccountId"
+    @bind-SelectedOrganization="@SelectedOrg" />
+```
+
+### RepositoryList
+
+A component for displaying repositories in an organization:
+
+```razor
+<RepositoryList
+    AccountId="@AccountId"
+    OrganizationName="@OrgName"
+    OnRepositorySelected="HandleSelection" />
+```
 
 ## Global Imports
 

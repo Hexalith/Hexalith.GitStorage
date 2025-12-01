@@ -1,6 +1,6 @@
 # Hexalith.GitStorage
 
-A comprehensive template repository for creating new Hexalith modules following Domain-Driven Design (DDD), CQRS (Command Query Responsibility Segregation), and Event Sourcing architectural patterns.
+A comprehensive module for managing Git storage providers including GitHub and Forgejo. This module enables organizations and repositories to be created, updated, and managed through a unified API following Domain-Driven Design (DDD), CQRS (Command Query Responsibility Segregation), and Event Sourcing architectural patterns.
 
 ## Build Status
 
@@ -44,14 +44,27 @@ A comprehensive template repository for creating new Hexalith modules following 
 
 ## Overview
 
-This repository provides a production-ready template for creating new Hexalith modules. It implements a clean architecture with clear separation of concerns across multiple layers:
+Hexalith.GitStorage provides a unified service layer for managing Git storage providers. It abstracts the differences between GitHub and Forgejo APIs, allowing applications to:
 
-- **Domain Layer**: Contains domain aggregates, events, and value objects
+- **Manage Git Storage Accounts**: Configure and manage connections to GitHub and Forgejo instances
+- **Manage Organizations**: Create, update, and configure organizations across providers
+- **Manage Repositories**: Create, update, configure, and manage repositories with full lifecycle support
+
+The module implements a clean architecture with clear separation of concerns:
+
+- **Domain Layer**: Contains domain aggregates, events, and value objects for Git entities
 - **Application Layer**: Contains commands, command handlers, requests, and projections
-- **Infrastructure Layer**: Contains API servers, web servers, and integration services
+- **Infrastructure Layer**: Contains API servers, web servers, and provider integrations
 - **Presentation Layer**: Contains Blazor UI components and pages
 
 The module follows CQRS and Event Sourcing patterns, using Dapr for distributed application runtime and Azure Cosmos DB for persistence.
+
+### Supported Providers
+
+| Provider | Features | Authentication |
+|----------|----------|----------------|
+| **GitHub** | Full API support for organizations and repositories | Personal Access Token, OAuth App, GitHub App |
+| **Forgejo** | Full API support for organizations and repositories | Personal Access Token, OAuth2 |
 
 ## Architecture
 
@@ -233,6 +246,16 @@ Hexalith.GitStorage/
 
 The domain layer contains the core business logic and is framework-agnostic.
 
+### Domain Entities
+
+The module manages three main domain entities:
+
+| Entity | Description |
+|--------|-------------|
+| **GitStorageAccount** | Represents a connection to a Git provider (GitHub or Forgejo) |
+| **Organization** | Represents an organization within a Git provider |
+| **Repository** | Represents a Git repository within an organization |
+
 ### Aggregates
 
 Aggregates are the core domain entities that encapsulate business rules and state changes.
@@ -241,18 +264,22 @@ Aggregates are the core domain entities that encapsulate business rules and stat
 
 ```csharp
 /// <summary>
-/// Represents a GitStorageAccount aggregate.
+/// Represents a Git storage account aggregate for managing provider connections.
 /// </summary>
-/// <param name="Id">The GitStorageAccount identifier.</param>
-/// <param name="Name">The GitStorageAccount name.</param>
-/// <param name="Comments">The GitStorageAccount description.</param>
-/// <param name="Disabled">The GitStorageAccount disabled status.</param>
+/// <param name="Id">The account identifier.</param>
+/// <param name="Name">The account display name.</param>
+/// <param name="ProviderType">The provider type (GitHub or Forgejo).</param>
+/// <param name="BaseUrl">The base URL for the provider API.</param>
+/// <param name="Comments">Optional description.</param>
+/// <param name="Disabled">Whether the account is disabled.</param>
 [DataContract]
 public sealed record GitStorageAccount(
     [property: DataMember(Order = 1)] string Id,
     [property: DataMember(Order = 2)] string Name,
-    [property: DataMember(Order = 3)] string? Comments,
-    [property: DataMember(Order = 7)] bool Disabled) : IDomainAggregate
+    [property: DataMember(Order = 3)] GitProviderType ProviderType,
+    [property: DataMember(Order = 4)] string BaseUrl,
+    [property: DataMember(Order = 5)] string? Comments,
+    [property: DataMember(Order = 6)] bool Disabled) : IDomainAggregate
 {
     public ApplyResult Apply(object domainEvent)
     {
@@ -262,6 +289,7 @@ public sealed record GitStorageAccount(
 ```
 
 Key features:
+
 - Implements `IDomainAggregate` interface
 - Uses C# records for immutability
 - Primary constructors for clean initialization
@@ -271,23 +299,39 @@ Key features:
 
 Events represent facts that have happened in the domain.
 
-**Location**: `src/libraries/Domain/Hexalith.GitStorage.Events/GitStorageAccount/`
+**Location**: `src/libraries/Domain/Hexalith.GitStorage.Events/`
 
-Available events:
-- `GitStorageAccountAdded` - When a new module is created
-- `GitStorageAccountDescriptionChanged` - When name or description changes
-- `GitStorageAccountDisabled` - When the module is disabled
-- `GitStorageAccountEnabled` - When the module is enabled
+#### GitStorageAccount Events
+
+- `GitStorageAccountAdded` - When a new provider connection is created
+- `GitStorageAccountDescriptionChanged` - When account details are updated
+- `GitStorageAccountDisabled` - When an account is disabled
+- `GitStorageAccountEnabled` - When an account is enabled
+
+#### Organization Events
+
+- `OrganizationAdded` - When a new organization is registered
+- `OrganizationUpdated` - When organization details are updated
+- `OrganizationRemoved` - When an organization is removed
+
+#### Repository Events
+
+- `RepositoryCreated` - When a new repository is created
+- `RepositoryUpdated` - When repository settings are changed
+- `RepositoryArchived` - When a repository is archived
+- `RepositoryDeleted` - When a repository is deleted
 
 ```csharp
 /// <summary>
-/// Event raised when a new GitStorageAccount is added.
+/// Event raised when a new Git storage account is added.
 /// </summary>
 [PolymorphicSerialization]
 public partial record GitStorageAccountAdded(
     string Id,
     [property: DataMember(Order = 2)] string Name,
-    [property: DataMember(Order = 3)] string? Comments)
+    [property: DataMember(Order = 3)] GitProviderType ProviderType,
+    [property: DataMember(Order = 4)] string BaseUrl,
+    [property: DataMember(Order = 5)] string? Comments)
     : GitStorageAccountEvent(Id);
 ```
 
@@ -297,6 +341,10 @@ Value objects are immutable domain concepts with no identity.
 
 **Location**: `src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/ValueObjects/`
 
+- `GitProviderType` - Enum for provider types (GitHub, Forgejo)
+- `RepositoryVisibility` - Enum for repository visibility (Public, Private)
+- `OrganizationSettings` - Configuration for organizations
+
 ### Localizations
 
 Resource files for internationalization (i18n) support.
@@ -304,6 +352,7 @@ Resource files for internationalization (i18n) support.
 **Location**: `src/libraries/Domain/Hexalith.GitStorage.Localizations/`
 
 Files:
+
 - `GitStorageAccount.resx` - English (default)
 - `GitStorageAccount.fr.resx` - French
 - `GitStorageMenu.resx` - Menu labels
@@ -338,23 +387,39 @@ public static class GitStorageAccountRoles
 
 Commands represent intent to change the system state.
 
-**Location**: `src/libraries/Application/Hexalith.GitStorage.Commands/GitStorageAccount/`
+**Location**: `src/libraries/Application/Hexalith.GitStorage.Commands/`
 
-Available commands:
-- `AddGitStorageAccount` - Create a new module
-- `ChangeGitStorageAccountDescription` - Update name/description
-- `DisableGitStorageAccount` - Disable a module
-- `EnableGitStorageAccount` - Enable a module
+#### GitStorageAccount Commands
+
+- `AddGitStorageAccount` - Create a new provider connection
+- `ChangeGitStorageAccountDescription` - Update account details
+- `DisableGitStorageAccount` - Disable an account
+- `EnableGitStorageAccount` - Enable an account
+
+#### Organization Commands
+
+- `CreateOrganization` - Create a new organization
+- `UpdateOrganization` - Update organization settings
+- `DeleteOrganization` - Remove an organization
+
+#### Repository Commands
+
+- `CreateRepository` - Create a new repository
+- `UpdateRepository` - Update repository settings
+- `ArchiveRepository` - Archive a repository
+- `DeleteRepository` - Delete a repository
 
 ```csharp
 /// <summary>
-/// Command to add a new GitStorageAccount.
+/// Command to add a new Git storage account.
 /// </summary>
 [PolymorphicSerialization]
 public partial record AddGitStorageAccount(
     string Id,
     [property: DataMember(Order = 2)] string Name,
-    [property: DataMember(Order = 3)] string? Comments)
+    [property: DataMember(Order = 3)] GitProviderType ProviderType,
+    [property: DataMember(Order = 4)] string BaseUrl,
+    [property: DataMember(Order = 5)] string? Comments)
     : GitStorageAccountCommand(Id);
 ```
 
@@ -362,20 +427,32 @@ public partial record AddGitStorageAccount(
 
 Requests represent queries for data retrieval.
 
-**Location**: `src/libraries/Application/Hexalith.GitStorage.Requests/GitStorageAccount/`
+**Location**: `src/libraries/Application/Hexalith.GitStorage.Requests/`
 
-Available requests:
-- `GetGitStorageAccountDetails` - Get full details of a module
-- `GetGitStorageAccountSummaries` - Get list of module summaries
-- `GetGitStorageAccountIds` - Get list of all module IDs
-- `GetGitStorageAccountExports` - Export module data
+#### GitStorageAccount Requests
+
+- `GetGitStorageAccountDetails` - Get full details of an account
+- `GetGitStorageAccountSummaries` - Get list of account summaries
+- `GetGitStorageAccountIds` - Get list of all account IDs
+
+#### Organization Requests
+
+- `GetOrganizations` - List organizations for an account
+- `GetOrganizationDetails` - Get organization details
+
+#### Repository Requests
+
+- `GetRepositories` - List repositories for an organization
+- `GetRepositoryDetails` - Get repository details
 
 ### View Models
 
 View models for presenting data to the UI.
 
-- `GitStorageAccountDetailsViewModel` - Full module details
-- `GitStorageAccountSummaryViewModel` - Summary for lists
+- `GitStorageAccountDetailsViewModel` - Full account details
+- `GitStorageAccountSummaryViewModel` - Account summary for lists
+- `OrganizationViewModel` - Organization details
+- `RepositoryViewModel` - Repository details
 
 ### Projections
 
@@ -406,10 +483,11 @@ The infrastructure layer contains technical implementations and hosting concerns
 **Location**: `src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/`
 
 Provides:
-- REST API controllers
-- Dapr actor registrations
-- Service registrations
-- Integration event handling
+
+- REST API controllers for Git storage operations
+- Dapr actor registrations for event sourcing
+- GitHub and Forgejo API integrations
+- Service registrations and configuration
 
 ```csharp
 public sealed class HexalithGitStorageApiServerModule : 
@@ -458,32 +536,37 @@ The presentation layer contains Blazor UI components and pages.
 **Location**: `src/libraries/Presentation/Hexalith.GitStorage.UI.Components/`
 
 Reusable Blazor components:
-- `GitStorageAccountIdField.razor` - ID input field
-- `GitStorageAccountSummaryGrid.razor` - Data grid for summaries
+
+- `GitStorageAccountIdField.razor` - Account ID input field
+- `GitStorageAccountSummaryGrid.razor` - Data grid for accounts
+- `OrganizationSelector.razor` - Organization selection component
+- `RepositoryList.razor` - Repository listing component
+- `ProviderTypeSelector.razor` - GitHub/Forgejo provider selector
 
 ### UI Pages
 
 **Location**: `src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/`
 
 Blazor pages:
-- `Home.razor` - Module home page
-- `GitStorageAccountIndex.razor` - List/index page
-- `GitStorageAccountDetails.razor` - Add/edit page
 
-**Index Page Example:**
+- `Home.razor` - Module home page
+- `GitStorageAccountIndex.razor` - Account list page
+- `GitStorageAccountDetails.razor` - Account add/edit page
+- `OrganizationIndex.razor` - Organization list page
+- `RepositoryIndex.razor` - Repository list page
 
 ```razor
-@page "/GitStorageAccount/GitStorageAccount"
+@page "/GitStorage/Accounts"
 @rendermode InteractiveAuto
 
-<HexEntityIndexPage 
+<HexEntityIndexPage
     OnLoadData="LoadSummaries"
     OnImport="ImportAsync"
     OnExport="ExportAsync"
-    AddPagePath="/GitStorageAccount/Add/GitStorageAccount"
+    AddPagePath="/GitStorage/Add/Account"
     Title="@Labels.ListTitle">
-    <GitStorageAccountSummaryGrid Items="_summariesQuery" 
-        EntityDetailsPath="/GitStorageAccount/GitStorageAccount" 
+    <GitStorageAccountSummaryGrid Items="_summariesQuery"
+        EntityDetailsPath="/GitStorage/Account"
         OnDisabledChanged="OnDisabledChangedAsync" />
 </HexEntityIndexPage>
 ```
@@ -497,12 +580,14 @@ public sealed class GitStorageAccountEditViewModel : IIdDescription, IEntityView
 {
     public string Id { get; set; }
     public string Name { get; set; }
+    public GitProviderType ProviderType { get; set; }
+    public string BaseUrl { get; set; }
     public string? Comments { get; set; }
     public bool Disabled { get; set; }
     public bool HasChanges => /* change detection logic */;
 
-    internal async Task SaveAsync(ClaimsPrincipal user, 
-        ICommandService commandService, bool create, 
+    internal async Task SaveAsync(ClaimsPrincipal user,
+        ICommandService commandService, bool create,
         CancellationToken cancellationToken)
     {
         // Command submission logic
@@ -543,7 +628,12 @@ public class GitStorageAccountAggregateTests
     {
         // Arrange
         var aggregate = new GitStorageAccount();
-        var added = new GitStorageAccountAdded("test-id", "Test Name", "Comments");
+        var added = new GitStorageAccountAdded(
+            "github-main",
+            "GitHub Main",
+            GitProviderType.GitHub,
+            "https://api.github.com",
+            "Primary GitHub account");
 
         // Act
         var result = aggregate.Apply(added);
@@ -552,8 +642,8 @@ public class GitStorageAccountAggregateTests
         result.Succeeded.ShouldBeTrue();
         var newAggregate = result.Aggregate as GitStorageAccount;
         newAggregate.ShouldNotBeNull();
-        newAggregate.Id.ShouldBe("test-id");
-        newAggregate.Name.ShouldBe("Test Name");
+        newAggregate.Id.ShouldBe("github-main");
+        newAggregate.ProviderType.ShouldBe(GitProviderType.GitHub);
     }
 }
 ```
@@ -573,172 +663,78 @@ dotnet test test/Hexalith.GitStorage.Tests/
 
 ## Configuration
 
-### Central Package Management
-
-Package versions are managed centrally in `Directory.Packages.props`:
-
-```xml
-<Project>
-  <PropertyGroup>
-    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageVersion Include="Hexalith.Application" Version="1.71.1" />
-    <PackageVersion Include="Hexalith.Infrastructure.DaprRuntime" Version="1.71.1" />
-    <!-- ... more packages -->
-  </ItemGroup>
-</Project>
-```
-
-### Build Properties
-
-Build configuration is defined in `Directory.Build.props`:
-
-```xml
-<Project>
-  <PropertyGroup>
-    <Product>Hexalith.GitStorage</Product>
-    <RepositoryUrl>https://github.com/Hexalith/Hexalith.GitStorage.git</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/Hexalith/Hexalith.GitStorage</PackageProjectUrl>
-    <PackageTags>hexalith;</PackageTags>
-    <Description>Hexalith GitStorage</Description>
-  </PropertyGroup>
-</Project>
-```
-
 ### Application Settings
 
-**API Server** (`HexalithApp/src/HexalithApp.ApiServer/appsettings.json`):
-- CosmosDB connection settings
-- Dapr configuration
-- Logging settings
+```json
+{
+  "GitStorage": {
+    "GitHub": {
+      "BaseUrl": "https://api.github.com",
+      "Token": "your-github-token"
+    },
+    "Forgejo": {
+      "BaseUrl": "https://your-forgejo-instance.com/api/v1",
+      "Token": "your-forgejo-token"
+    }
+  }
+}
+```
 
-**Web Server** (`HexalithApp/src/HexalithApp.WebServer/appsettings.json`):
-- Identity provider settings
-- Email server configuration
-- Session settings
+### User Secrets
+
+For local development, use user secrets to store sensitive configuration:
+
+```bash
+cd AspireHost
+dotnet user-secrets set "GitStorage:GitHub:Token" "your-github-token"
+dotnet user-secrets set "GitStorage:Forgejo:Url" "https://your-forgejo-instance.com"
+dotnet user-secrets set "GitStorage:Forgejo:Token" "your-forgejo-token"
+```
+
+### Central Package Management
+
+Package versions are managed centrally in `Directory.Packages.props`.
 
 ## Running with .NET Aspire
 
-### Aspire Host
-
-**Location**: `AspireHost/`
-
-The Aspire host orchestrates all application components:
-
-```csharp
-HexalithDistributedApplication app = new(args);
-
-if (app.IsProjectEnabled<Projects.HexalithApp_WebServer>())
-{
-    app.AddProject<Projects.HexalithApp_WebServer>("GitStorageweb")
-        .WithEnvironmentFromConfiguration("APP_API_TOKEN")
-        .WithEnvironmentFromConfiguration("Hexalith__IdentityStores__Microsoft__Id")
-        // ... more configuration
-}
-
-if (app.IsProjectEnabled<Projects.HexalithApp_ApiServer>())
-{
-    app.AddProject<Projects.HexalithApp_ApiServer>("GitStorageapi")
-        // ... configuration
-}
-
-await app.Builder.Build().RunAsync();
-```
-
-### Running the Application
-
-1. **Start the Aspire host:**
+### Start the Application
 
 ```bash
 cd AspireHost
 dotnet run
 ```
 
-2. **Access the dashboard:**
+### Access the Dashboard
 
 Open the Aspire dashboard URL shown in the console (typically `https://localhost:17225`).
 
-3. **Access the application:**
+### Access the Application
+
 - Web Server: `https://localhost:5001`
 - API Server: `https://localhost:5002`
 
-### Environment-Specific Configuration
-
-Configuration files are organized by environment in `AspireHost/Components/`:
-
-```
-Components/
-├── Common/
-│   ├── Development/
-│   ├── Integration/
-│   ├── Production/
-│   └── Staging/
-├── GitStorageApi/
-│   └── Development/
-└── GitStorageWeb/
-    └── Development/
-```
-
 ## Development Workflow
 
-### 1. Create a New Feature
+### Adding a New Provider
 
-1. **Define domain events** in `Domain/Hexalith.GitStorage.Events/`
-2. **Update aggregate** in `Domain/Hexalith.GitStorage.Aggregates/`
-3. **Create commands** in `Application/Hexalith.GitStorage.Commands/`
-4. **Add request handlers** in `Application/Hexalith.GitStorage.Projections/`
-5. **Create/update UI** in `Presentation/Hexalith.GitStorage.UI.Pages/`
-6. **Write tests** in `test/Hexalith.GitStorage.Tests/`
+1. Implement the provider adapter in Infrastructure layer
+1. Add provider-specific configuration
+1. Register the provider in service collection
+1. Add UI components for provider-specific features
 
-### 2. Adding a New Entity
+### Adding a New Entity
 
 1. Create the aggregate record
-2. Define domain events (Added, Updated, Deleted, etc.)
-3. Create commands for each operation
-4. Add request definitions and view models
-5. Create projection handlers
-6. Register in the module's `AddServices` method
-7. Create UI components and pages
-8. Add localization resources
-
-### 3. Code Style
-
-The project uses:
-- StyleCop for code analysis
-- Global configuration in `Hexalith.globalconfig`
-- XML documentation for public APIs
-
-### 4. Branching Strategy
-
-- `main` - Production-ready code
-- `develop` - Integration branch
-- `feature/*` - Feature branches
-- `bugfix/*` - Bug fix branches
+1. Define domain events
+1. Create commands for each operation
+1. Add request definitions and view models
+1. Create projection handlers
+1. Create UI components and pages
+1. Add localization resources
 
 ## Contributing
 
-### Prerequisites
-
-1. Fork the repository
-2. Clone your fork
-3. Set up the development environment
-
-### Submitting Changes
-
-1. Create a feature branch
-2. Make your changes
-3. Write/update tests
-4. Ensure all tests pass
-5. Submit a pull request
-
-### Code Review Checklist
-
-- [ ] Code follows project conventions
-- [ ] Tests are included and passing
-- [ ] Documentation is updated
-- [ ] No breaking changes (or documented if necessary)
-- [ ] XML documentation for public APIs
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ## Related Repositories
 

@@ -1,6 +1,6 @@
 # Hexalith.GitStorage.WebServer
 
-This project provides the server-side Blazor hosting module for the GitStorageAccount bounded context.
+This project provides the server-side Blazor hosting module for the GitStorage bounded context, enabling management of Git storage providers (GitHub and Forgejo), organizations, and repositories.
 
 ## Overview
 

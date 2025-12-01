@@ -1,6 +1,6 @@
 # Hexalith.GitStorage.WebApp
 
-This project provides the WebAssembly (WASM) client module for the GitStorageAccount bounded context.
+This project provides the WebAssembly (WASM) client module for the GitStorage bounded context, enabling client-side management of Git storage providers (GitHub and Forgejo), organizations, and repositories.
 
 ## Overview
 

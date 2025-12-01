@@ -1,6 +1,6 @@
 # Source Code Directory
 
-This directory contains the main source code for the Hexalith GitStorageAccount project.
+This directory contains the main source code for the Hexalith.GitStorage project - a unified service for managing Git storage providers (GitHub and Forgejo) including organizations and repositories.
 
 ## Directory Structure
 

@@ -1,6 +1,6 @@
 # Hexalith.GitStorage.Tests
 
-This project contains unit and integration tests for the GitStorageAccount solution.
+This project contains unit and integration tests for the GitStorage solution, covering Git storage accounts, organizations, and repository management for GitHub and Forgejo providers.
 
 ## Overview
 
@@ -77,15 +77,20 @@ public class GitStorageAccountTests
     public void Constructor_WithValidEvent_ShouldCreateAggregate()
     {
         // Arrange
-        var added = new GitStorageAccountAdded("test-id", "Test Name", "Comments");
-        
+        var added = new GitStorageAccountAdded(
+            "github-main",
+            "GitHub Main",
+            GitProviderType.GitHub,
+            "https://api.github.com",
+            "Primary GitHub account");
+
         // Act
         var aggregate = new GitStorageAccount(added);
-        
+
         // Assert
-        aggregate.Id.ShouldBe("test-id");
-        aggregate.Name.ShouldBe("Test Name");
-        aggregate.Comments.ShouldBe("Comments");
+        aggregate.Id.ShouldBe("github-main");
+        aggregate.Name.ShouldBe("GitHub Main");
+        aggregate.ProviderType.ShouldBe(GitProviderType.GitHub);
         aggregate.Disabled.ShouldBeFalse();
     }
 

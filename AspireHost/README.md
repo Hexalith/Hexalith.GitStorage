@@ -1,6 +1,6 @@
 # AspireHost
 
-This project contains the .NET Aspire orchestration for the GitStorageAccount distributed application.
+This project contains the .NET Aspire orchestration for the GitStorage distributed application, which provides a unified service for managing Git storage providers (GitHub and Forgejo), organizations, and repositories.
 
 ## Overview
 

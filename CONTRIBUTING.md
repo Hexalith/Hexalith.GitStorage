@@ -1,6 +1,6 @@
 # Contributing to Hexalith.GitStorage
 
-Thank you for considering contributing to Hexalith.GitStorage! This document provides guidelines and instructions for contributing.
+Thank you for considering contributing to Hexalith.GitStorage! This module provides a unified API for managing Git storage providers (GitHub and Forgejo), enabling organizations and repositories to be created and managed. This document provides guidelines and instructions for contributing.
 
 ## Table of Contents
 
@@ -95,20 +95,22 @@ dotnet run
 
 ```csharp
 /// <summary>
-/// Represents a module configuration.
+/// Represents a Git storage account configuration.
 /// </summary>
 /// <param name="Id">The unique identifier.</param>
 /// <param name="Name">The display name.</param>
-/// <param name="IsActive">Whether the configuration is active.</param>
-public record ModuleConfiguration(
+/// <param name="ProviderType">The Git provider type (GitHub or Forgejo).</param>
+/// <param name="BaseUrl">The base URL for the provider API.</param>
+public record GitStorageAccountConfiguration(
     string Id,
     string Name,
-    bool IsActive)
+    GitProviderType ProviderType,
+    string BaseUrl)
 {
     /// <summary>
     /// Gets an empty configuration.
     /// </summary>
-    public static ModuleConfiguration Empty => new(string.Empty, string.Empty, false);
+    public static GitStorageAccountConfiguration Empty => new(string.Empty, string.Empty, GitProviderType.GitHub, string.Empty);
 }
 ```
 
@@ -254,13 +256,21 @@ public void Apply_GitStorageAccountAdded_ShouldInitializeAggregate()
 {
     // Arrange
     var aggregate = new GitStorageAccount();
-    var added = new GitStorageAccountAdded("id", "name", "comments");
+    var added = new GitStorageAccountAdded(
+        "github-main",
+        "GitHub Main",
+        GitProviderType.GitHub,
+        "https://api.github.com",
+        "Primary GitHub account");
 
     // Act
     var result = aggregate.Apply(added);
 
     // Assert
     result.Succeeded.ShouldBeTrue();
+    var newAggregate = result.Aggregate as GitStorageAccount;
+    newAggregate.ShouldNotBeNull();
+    newAggregate.ProviderType.ShouldBe(GitProviderType.GitHub);
 }
 ```
 

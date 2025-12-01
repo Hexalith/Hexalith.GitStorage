@@ -1,6 +1,6 @@
 # Hexalith.GitStorage.Servers
 
-This project provides shared server utilities and services for the GitStorageAccount bounded context.
+This project provides shared server utilities and services for the GitStorage bounded context, including integrations with GitHub and Forgejo APIs.
 
 ## Overview
 
