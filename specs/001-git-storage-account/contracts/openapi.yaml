@@ -1,0 +1,379 @@
+openapi: 3.1.0
+info:
+  title: Hexalith GitStorage - Git Storage Account API
+  description: API for managing Git Storage Account entities in the Hexalith GitStorage module
+  version: 1.0.0
+  contact:
+    name: ITANEO
+    url: https://www.itaneo.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: /api
+    description: API base path
+
+tags:
+  - name: GitStorageAccount
+    description: Operations for managing Git Storage Accounts
+
+paths:
+  /GitStorageAccount:
+    post:
+      tags:
+        - GitStorageAccount
+      summary: Execute a GitStorageAccount command
+      description: |
+        Executes a command against the GitStorageAccount aggregate.
+        Supported commands: AddGitStorageAccount, ChangeGitStorageAccountDescription,
+        EnableGitStorageAccount, DisableGitStorageAccount
+      operationId: executeGitStorageAccountCommand
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/AddGitStorageAccount'
+                - $ref: '#/components/schemas/ChangeGitStorageAccountDescription'
+                - $ref: '#/components/schemas/EnableGitStorageAccount'
+                - $ref: '#/components/schemas/DisableGitStorageAccount'
+            examples:
+              addAccount:
+                summary: Add a new account
+                value:
+                  $type: AddGitStorageAccount
+                  id: "github-main"
+                  name: "GitHub Main Repository"
+                  comments: "Primary GitHub repository for production"
+              changeDescription:
+                summary: Update account description
+                value:
+                  $type: ChangeGitStorageAccountDescription
+                  id: "github-main"
+                  name: "GitHub Primary Repository"
+                  comments: "Updated description"
+              enableAccount:
+                summary: Enable a disabled account
+                value:
+                  $type: EnableGitStorageAccount
+                  id: "github-main"
+              disableAccount:
+                summary: Disable an account
+                value:
+                  $type: DisableGitStorageAccount
+                  id: "github-main"
+      responses:
+        '202':
+          description: Command accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandResult'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationProblemDetails'
+        '401':
+          description: Unauthorized - authentication required
+        '403':
+          description: Forbidden - Admin role required
+        '409':
+          description: Conflict - aggregate already exists or version mismatch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+
+    get:
+      tags:
+        - GitStorageAccount
+      summary: Get paginated list of Git Storage Account summaries
+      description: Returns a paginated list of Git Storage Account summaries for administrative browsing
+      operationId: getGitStorageAccountSummaries
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: skip
+          in: query
+          description: Number of records to skip
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: take
+          in: query
+          description: Number of records to return
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: List of account summaries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GitStorageAccountSummaryViewModel'
+        '401':
+          description: Unauthorized - authentication required
+        '403':
+          description: Forbidden - Admin role required
+
+  /GitStorageAccount/{id}:
+    get:
+      tags:
+        - GitStorageAccount
+      summary: Get Git Storage Account details
+      description: Returns full details for a specific Git Storage Account
+      operationId: getGitStorageAccountDetails
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique identifier of the Git Storage Account
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        '200':
+          description: Account details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitStorageAccountDetailsViewModel'
+        '401':
+          description: Unauthorized - authentication required
+        '403':
+          description: Forbidden - Admin role required
+        '404':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+
+  /GitStorageAccount/ids:
+    get:
+      tags:
+        - GitStorageAccount
+      summary: Get all Git Storage Account IDs
+      description: Returns a list of all Git Storage Account identifiers (for dropdowns/selection)
+      operationId: getGitStorageAccountIds
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of account IDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          description: Unauthorized - authentication required
+        '403':
+          description: Forbidden - Admin role required
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token with Admin role claim
+
+  schemas:
+    # Commands
+    AddGitStorageAccount:
+      type: object
+      required:
+        - $type
+        - id
+        - name
+      properties:
+        $type:
+          type: string
+          const: AddGitStorageAccount
+          description: Polymorphic type discriminator
+        id:
+          type: string
+          minLength: 1
+          description: Unique identifier for the account (user-provided)
+          example: "github-main"
+        name:
+          type: string
+          minLength: 1
+          description: Human-readable display name
+          example: "GitHub Main Repository"
+        comments:
+          type: string
+          nullable: true
+          description: Optional description or notes
+          example: "Primary repository for production deployments"
+
+    ChangeGitStorageAccountDescription:
+      type: object
+      required:
+        - $type
+        - id
+        - name
+      properties:
+        $type:
+          type: string
+          const: ChangeGitStorageAccountDescription
+          description: Polymorphic type discriminator
+        id:
+          type: string
+          minLength: 1
+          description: Identifier of the account to update
+          example: "github-main"
+        name:
+          type: string
+          minLength: 1
+          description: Updated display name
+          example: "GitHub Primary Repository"
+        comments:
+          type: string
+          nullable: true
+          description: Updated description or notes
+          example: "Updated description"
+
+    EnableGitStorageAccount:
+      type: object
+      required:
+        - $type
+        - id
+      properties:
+        $type:
+          type: string
+          const: EnableGitStorageAccount
+          description: Polymorphic type discriminator
+        id:
+          type: string
+          minLength: 1
+          description: Identifier of the account to enable
+          example: "github-main"
+
+    DisableGitStorageAccount:
+      type: object
+      required:
+        - $type
+        - id
+      properties:
+        $type:
+          type: string
+          const: DisableGitStorageAccount
+          description: Polymorphic type discriminator
+        id:
+          type: string
+          minLength: 1
+          description: Identifier of the account to disable
+          example: "github-main"
+
+    # View Models
+    GitStorageAccountDetailsViewModel:
+      type: object
+      required:
+        - id
+        - name
+        - disabled
+      properties:
+        id:
+          type: string
+          description: Account identifier
+          example: "github-main"
+        name:
+          type: string
+          description: Display name
+          example: "GitHub Main Repository"
+        comments:
+          type: string
+          nullable: true
+          description: Optional description
+          example: "Primary repository for production"
+        disabled:
+          type: boolean
+          description: Whether the account is disabled
+          example: false
+
+    GitStorageAccountSummaryViewModel:
+      type: object
+      required:
+        - id
+        - name
+        - disabled
+      properties:
+        id:
+          type: string
+          description: Account identifier
+          example: "github-main"
+        name:
+          type: string
+          description: Display name
+          example: "GitHub Main Repository"
+        disabled:
+          type: boolean
+          description: Whether the account is disabled
+          example: false
+
+    # Response Types
+    CommandResult:
+      type: object
+      properties:
+        aggregateId:
+          type: string
+          description: The aggregate identifier
+        success:
+          type: boolean
+          description: Whether the command was accepted
+        message:
+          type: string
+          nullable: true
+          description: Optional status message
+
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          description: A URI reference identifying the problem type
+        title:
+          type: string
+          description: A short summary of the problem type
+        status:
+          type: integer
+          description: The HTTP status code
+        detail:
+          type: string
+          description: A detailed explanation specific to this occurrence
+        instance:
+          type: string
+          description: A URI reference identifying the specific occurrence
+
+    ValidationProblemDetails:
+      allOf:
+        - $ref: '#/components/schemas/ProblemDetails'
+        - type: object
+          properties:
+            errors:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  type: string
+              description: Validation errors keyed by field name
+
+security:
+  - bearerAuth: []

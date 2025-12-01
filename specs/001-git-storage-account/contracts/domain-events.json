@@ -1,0 +1,131 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GitStorageAccount Domain Events",
+  "description": "JSON schemas for GitStorageAccount domain events used in event sourcing",
+  "definitions": {
+    "GitStorageAccountAdded": {
+      "type": "object",
+      "description": "Event emitted when a new GitStorageAccount is created",
+      "required": ["$type", "id", "name"],
+      "properties": {
+        "$type": {
+          "type": "string",
+          "const": "GitStorageAccountAdded",
+          "description": "Polymorphic type discriminator"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique identifier for the account"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable display name"
+        },
+        "comments": {
+          "type": ["string", "null"],
+          "description": "Optional description or notes"
+        }
+      },
+      "additionalProperties": false,
+      "examples": [
+        {
+          "$type": "GitStorageAccountAdded",
+          "id": "github-main",
+          "name": "GitHub Main Repository",
+          "comments": "Primary repository for production"
+        }
+      ]
+    },
+    "GitStorageAccountDescriptionChanged": {
+      "type": "object",
+      "description": "Event emitted when a GitStorageAccount's name or comments are updated",
+      "required": ["$type", "id", "name"],
+      "properties": {
+        "$type": {
+          "type": "string",
+          "const": "GitStorageAccountDescriptionChanged",
+          "description": "Polymorphic type discriminator"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Identifier of the updated account"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Updated display name"
+        },
+        "comments": {
+          "type": ["string", "null"],
+          "description": "Updated description or notes"
+        }
+      },
+      "additionalProperties": false,
+      "examples": [
+        {
+          "$type": "GitStorageAccountDescriptionChanged",
+          "id": "github-main",
+          "name": "GitHub Primary Repository",
+          "comments": "Updated description for the primary repository"
+        }
+      ]
+    },
+    "GitStorageAccountEnabled": {
+      "type": "object",
+      "description": "Event emitted when a disabled GitStorageAccount is re-enabled",
+      "required": ["$type", "id"],
+      "properties": {
+        "$type": {
+          "type": "string",
+          "const": "GitStorageAccountEnabled",
+          "description": "Polymorphic type discriminator"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Identifier of the enabled account"
+        }
+      },
+      "additionalProperties": false,
+      "examples": [
+        {
+          "$type": "GitStorageAccountEnabled",
+          "id": "github-main"
+        }
+      ]
+    },
+    "GitStorageAccountDisabled": {
+      "type": "object",
+      "description": "Event emitted when a GitStorageAccount is disabled (soft-delete)",
+      "required": ["$type", "id"],
+      "properties": {
+        "$type": {
+          "type": "string",
+          "const": "GitStorageAccountDisabled",
+          "description": "Polymorphic type discriminator"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Identifier of the disabled account"
+        }
+      },
+      "additionalProperties": false,
+      "examples": [
+        {
+          "$type": "GitStorageAccountDisabled",
+          "id": "github-main"
+        }
+      ]
+    }
+  },
+  "oneOf": [
+    { "$ref": "#/definitions/GitStorageAccountAdded" },
+    { "$ref": "#/definitions/GitStorageAccountDescriptionChanged" },
+    { "$ref": "#/definitions/GitStorageAccountEnabled" },
+    { "$ref": "#/definitions/GitStorageAccountDisabled" }
+  ]
+}
