@@ -17,9 +17,9 @@
 
 **Purpose**: Project initialization for GitOrganization entity
 
-- [ ] T001 [P] Create GitOrganizationDomainHelper.cs with aggregate name constant in src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/GitOrganizationDomainHelper.cs
-- [ ] T002 [P] Create GitOrganizationOrigin enum in src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/Enums/GitOrganizationOrigin.cs
-- [ ] T003 [P] Create GitOrganizationSyncStatus enum in src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/Enums/GitOrganizationSyncStatus.cs
+- [X] T001 [P] Create GitOrganizationDomainHelper.cs with aggregate name constant in src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/GitOrganizationDomainHelper.cs
+- [X] T002 [P] Create GitOrganizationOrigin enum in src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/Enums/GitOrganizationOrigin.cs
+- [X] T003 [P] Create GitOrganizationSyncStatus enum in src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/Enums/GitOrganizationSyncStatus.cs
 
 ---
 
@@ -31,33 +31,34 @@
 
 ### Domain Events (Required by all stories)
 
-- [ ] T004 [P] Create GitOrganizationEvent base record in src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationEvent.cs
-- [ ] T005 [P] Create GitOrganizationAdded event in src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationAdded.cs
-- [ ] T006 [P] Create GitOrganizationSynced event in src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationSynced.cs
-- [ ] T007 [P] Create GitOrganizationDescriptionChanged event in src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationDescriptionChanged.cs
-- [ ] T008 [P] Create GitOrganizationMarkedNotFound event in src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationMarkedNotFound.cs
-- [ ] T009 [P] Create GitOrganizationDisabled event in src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationDisabled.cs
-- [ ] T010 [P] Create GitOrganizationEnabled event in src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationEnabled.cs
+- [X] T004 [P] Create GitOrganizationEvent base record in src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationEvent.cs
+- [X] T005 [P] Create GitOrganizationAdded event in src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationAdded.cs
+- [X] T006 [P] Create GitOrganizationSynced event in src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationSynced.cs
+- [X] T007 [P] Create GitOrganizationDescriptionChanged event in src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationDescriptionChanged.cs
+- [X] T008 [P] Create GitOrganizationMarkedNotFound event in src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationMarkedNotFound.cs
+- [X] T009 [P] Create GitOrganizationDisabled event in src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationDisabled.cs
+- [X] T010 [P] Create GitOrganizationEnabled event in src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationEnabled.cs
 
 ### Aggregate (Required by all stories)
 
-- [ ] T011 Create GitOrganization aggregate with Apply methods for all events in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitOrganization.cs
-- [ ] T012 Create GitOrganizationValidator for organization name validation in src/libraries/Domain/Hexalith.GitStorage.Aggregates/Validators/GitOrganizationValidator.cs
+- [X] T011 Create GitOrganization aggregate with Apply methods for all events in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitOrganization.cs
+- [X] T012 Create GitOrganizationValidator for organization name validation in src/libraries/Domain/Hexalith.GitStorage.Aggregates/Validators/GitOrganizationValidator.cs
 
 ### Base Command and Request (Required by all stories)
 
-- [ ] T013 [P] Create GitOrganizationCommand base record in src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/GitOrganizationCommand.cs
-- [ ] T014 [P] Create GitOrganizationRequest base record in src/libraries/Application/Hexalith.GitStorage.Requests/GitOrganization/GitOrganizationRequest.cs
+- [X] T013 [P] Create GitOrganizationCommand base record in src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/GitOrganizationCommand.cs
+- [X] T014 [P] Create GitOrganizationRequest base record in src/libraries/Application/Hexalith.GitStorage.Requests/GitOrganization/GitOrganizationRequest.cs
 
 ### View Models (Required for queries)
 
-- [ ] T015 [P] Create GitOrganizationDetailsViewModel in src/libraries/Application/Hexalith.GitStorage.Requests/GitOrganization/GitOrganizationDetailsViewModel.cs
-- [ ] T016 [P] Create GitOrganizationSummaryViewModel in src/libraries/Application/Hexalith.GitStorage.Requests/GitOrganization/GitOrganizationSummaryViewModel.cs
+- [X] T015 [P] Create GitOrganizationDetailsViewModel in src/libraries/Application/Hexalith.GitStorage.Requests/GitOrganization/GitOrganizationDetailsViewModel.cs
+- [X] T016 [P] Create GitOrganizationSummaryViewModel in src/libraries/Application/Hexalith.GitStorage.Requests/GitOrganization/GitOrganizationSummaryViewModel.cs
 
 ### Provider Abstraction (Required for remote operations)
 
-- [ ] T017 Create IGitProviderAdapter interface with methods for ListOrganizationsAsync, CreateOrganizationAsync, UpdateOrganizationAsync; include credential validation that throws GitProviderAuthenticationException on invalid/expired credentials in src/libraries/Infrastructure/Hexalith.GitStorage.Abstractions/IGitProviderAdapter.cs
-- [ ] T018 Create GitOrganizationDto for adapter responses in src/libraries/Infrastructure/Hexalith.GitStorage.Abstractions/GitOrganizationDto.cs
+- [X] T017 Create IGitProviderAdapter interface with methods for ListOrganizationsAsync, CreateOrganizationAsync, UpdateOrganizationAsync; include credential validation that throws GitProviderAuthenticationException on invalid/expired credentials in src/libraries/Application/Hexalith.GitStorage.Abstractions/IGitProviderAdapter.cs
+- [X] T018 Create GitOrganizationDto for adapter responses in src/libraries/Application/Hexalith.GitStorage.Abstractions/GitOrganizationDto.cs
+- [ ] T018b [P] Create GitOrganizationAuthorizationPolicy requiring Admin role for all GitOrganization operations; apply `[Authorize(Roles = "Admin")]` to all GitOrganization endpoints in src/libraries/Infrastructure/Hexalith.GitStorage.Servers/Authorization/GitOrganizationAuthorizationPolicy.cs
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 
@@ -71,16 +72,16 @@
 
 ### Implementation for User Story 1
 
-- [ ] T019 [US1] Create SyncGitOrganizations command in src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/SyncGitOrganizations.cs
+- [X] T019 [US1] Create SyncGitOrganizations command in src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/SyncGitOrganizations.cs
   > **Note**: This is a bulk operation command. AggregateId is the GitStorageAccountId being synced. Handler iterates remote orgs and emits individual GitOrganizationSynced/GitOrganizationMarkedNotFound events per organization.
-- [ ] T020 [US1] Implement SyncGitOrganizationsHandler command handler with optimistic concurrency check (prevent concurrent syncs for same GitStorageAccountId) in src/libraries/Application/Hexalith.GitStorage/CommandHandlers/SyncGitOrganizationsHandler.cs
-- [ ] T021 [US1] Create GetGitOrganizationSummaries request in src/libraries/Application/Hexalith.GitStorage.Requests/GitOrganization/GetGitOrganizationSummaries.cs
-- [ ] T022 [US1] Implement GitOrganizationSyncedOnGitOrganizationDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Details/GitOrganizationSyncedOnGitOrganizationDetailsProjectionHandler.cs
-- [ ] T023 [US1] Implement GitOrganizationSyncedOnGitOrganizationSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Summaries/GitOrganizationSyncedOnGitOrganizationSummaryProjectionHandler.cs
-- [ ] T024 [US1] Implement GitOrganizationMarkedNotFoundOnGitOrganizationDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Details/GitOrganizationMarkedNotFoundOnGitOrganizationDetailsProjectionHandler.cs
-- [ ] T025 [US1] Implement GitOrganizationMarkedNotFoundOnGitOrganizationSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Summaries/GitOrganizationMarkedNotFoundOnGitOrganizationSummaryProjectionHandler.cs
-- [ ] T026 [US1] Create POST /git-storage-accounts/{id}/sync-organizations endpoint in GitOrganizationWebApiHelpers in src/libraries/Infrastructure/Hexalith.GitStorage.Servers/Helpers/GitOrganizationWebApiHelpers.cs
-- [ ] T027 [US1] Implement GitOrganizationIntegrationEventsController for sync command in src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationIntegrationEventsController.cs
+- [ ] T020 [US1] Implement SyncGitOrganizationsHandler command handler using Dapr distributed lock (actor or state lock) to prevent concurrent syncs for same GitStorageAccountId; lock key pattern: `sync-lock:{GitStorageAccountId}` in src/libraries/Application/Hexalith.GitStorage/CommandHandlers/SyncGitOrganizationsHandler.cs
+- [X] T021 [US1] Create GetGitOrganizationSummaries request in src/libraries/Application/Hexalith.GitStorage.Requests/GitOrganization/GetGitOrganizationSummaries.cs
+- [X] T022 [US1] Implement GitOrganizationSyncedOnGitOrganizationDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Details/GitOrganizationSyncedOnGitOrganizationDetailsProjectionHandler.cs
+- [X] T023 [US1] Implement GitOrganizationSyncedOnGitOrganizationSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Summaries/GitOrganizationSyncedOnGitOrganizationSummaryProjectionHandler.cs
+- [X] T024 [US1] Implement GitOrganizationMarkedNotFoundOnGitOrganizationDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Details/GitOrganizationMarkedNotFoundOnGitOrganizationDetailsProjectionHandler.cs
+- [X] T025 [US1] Implement GitOrganizationMarkedNotFoundOnGitOrganizationSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Summaries/GitOrganizationMarkedNotFoundOnGitOrganizationSummaryProjectionHandler.cs
+- [X] T026 [US1] Create POST /git-storage-accounts/{id}/sync-organizations endpoint in GitOrganizationWebApiHelpers in src/libraries/Infrastructure/Hexalith.GitStorage.Servers/Helpers/GitOrganizationWebApiHelpers.cs
+- [X] T027 [US1] Implement GitOrganizationIntegrationEventsController for sync command in src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationIntegrationEventsController.cs
 
 **Checkpoint**: User Story 1 complete - administrators can sync organizations from Git Storage Account
 
@@ -94,13 +95,13 @@
 
 ### Implementation for User Story 2
 
-- [ ] T028 [US2] Create AddGitOrganization command in src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/AddGitOrganization.cs
-- [ ] T029 [US2] Implement AddGitOrganizationHandler command handler in src/libraries/Application/Hexalith.GitStorage/CommandHandlers/AddGitOrganizationHandler.cs
-- [ ] T030 [US2] Implement GitOrganizationAddedOnGitOrganizationDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Details/GitOrganizationAddedOnGitOrganizationDetailsProjectionHandler.cs
-- [ ] T031 [US2] Implement GitOrganizationAddedOnGitOrganizationSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Summaries/GitOrganizationAddedOnGitOrganizationSummaryProjectionHandler.cs
+- [X] T028 [US2] Create AddGitOrganization command in src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/AddGitOrganization.cs
+- [X] T029 [US2] Implement AddGitOrganizationHandler command handler in src/libraries/Application/Hexalith.GitStorage/CommandHandlers/GitOrganizationCommandHandlerHelper.cs
+- [X] T030 [US2] Implement GitOrganizationAddedOnGitOrganizationDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Details/GitOrganizationAddedOnGitOrganizationDetailsProjectionHandler.cs
+- [X] T031 [US2] Implement GitOrganizationAddedOnGitOrganizationSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Summaries/GitOrganizationAddedOnGitOrganizationSummaryProjectionHandler.cs
 - [ ] T032 [US2] Create GitOrganizationAddedEventHandler to create organization on remote via IGitProviderAdapter in src/libraries/Application/Hexalith.GitStorage/EventHandlers/GitOrganizationAddedEventHandler.cs
-- [ ] T033 [US2] Add POST /git-organizations endpoint to GitOrganizationWebApiHelpers in src/libraries/Infrastructure/Hexalith.GitStorage.Servers/Helpers/GitOrganizationWebApiHelpers.cs
-- [ ] T034 [US2] Add create organization endpoint to GitOrganizationIntegrationEventsController in src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationIntegrationEventsController.cs
+- [X] T033 [US2] Add POST /git-organizations endpoint to GitOrganizationWebApiHelpers in src/libraries/Infrastructure/Hexalith.GitStorage.Servers/Helpers/GitOrganizationWebApiHelpers.cs
+- [X] T034 [US2] Add create organization endpoint to GitOrganizationIntegrationEventsController in src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationIntegrationEventsController.cs
 
 **Checkpoint**: User Story 2 complete - administrators can create organizations via API
 
@@ -114,9 +115,11 @@
 
 ### Implementation for User Story 3
 
-- [ ] T035 [US3] Create GetGitOrganizationDetails request in src/libraries/Application/Hexalith.GitStorage.Requests/GitOrganization/GetGitOrganizationDetails.cs
-- [ ] T036 [US3] Add GET /git-organizations/{id} endpoint to GitOrganizationWebApiHelpers in src/libraries/Infrastructure/Hexalith.GitStorage.Servers/Helpers/GitOrganizationWebApiHelpers.cs
-- [ ] T037 [US3] Add get organization details endpoint to GitOrganizationIntegrationEventsController in src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationIntegrationEventsController.cs
+- [X] T035 [US3] Create GetGitOrganizationDetails request in src/libraries/Application/Hexalith.GitStorage.Requests/GitOrganization/GetGitOrganizationDetails.cs
+- [X] T035b [US3] Implement GetGitOrganizationDetailsHandler request handler in src/libraries/Application/Hexalith.GitStorage.Projections/RequestHandlers/GetGitOrganizationDetailsHandler.cs
+- [X] T035c [US5] Implement GetGitOrganizationSummariesHandler request handler in src/libraries/Application/Hexalith.GitStorage.Projections/Helpers/GitOrganizationProjectionHelper.cs (via GetFilteredCollectionHandler)
+- [X] T036 [US3] Add GET /git-organizations/{id} endpoint to GitOrganizationWebApiHelpers in src/libraries/Infrastructure/Hexalith.GitStorage.Servers/Helpers/GitOrganizationWebApiHelpers.cs
+- [X] T037 [US3] Add get organization details endpoint to GitOrganizationIntegrationEventsController in src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationIntegrationEventsController.cs
 
 **Checkpoint**: User Story 3 complete - administrators can view organization details
 
@@ -130,12 +133,12 @@
 
 ### Implementation for User Story 4
 
-- [ ] T038 [US4] Create ChangeGitOrganizationDescription command in src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/ChangeGitOrganizationDescription.cs
-- [ ] T039 [US4] Implement ChangeGitOrganizationDescriptionHandler command handler in src/libraries/Application/Hexalith.GitStorage/CommandHandlers/ChangeGitOrganizationDescriptionHandler.cs
-- [ ] T040 [US4] Implement GitOrganizationDescriptionChangedOnGitOrganizationDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Details/GitOrganizationDescriptionChangedOnGitOrganizationDetailsProjectionHandler.cs
+- [X] T038 [US4] Create ChangeGitOrganizationDescription command in src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/ChangeGitOrganizationDescription.cs
+- [X] T039 [US4] Implement ChangeGitOrganizationDescriptionHandler command handler in src/libraries/Application/Hexalith.GitStorage/CommandHandlers/GitOrganizationCommandHandlerHelper.cs
+- [X] T040 [US4] Implement GitOrganizationDescriptionChangedOnGitOrganizationDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Details/GitOrganizationDescriptionChangedOnGitOrganizationDetailsProjectionHandler.cs
 - [ ] T041 [US4] Create GitOrganizationDescriptionChangedEventHandler to sync changes to remote via IGitProviderAdapter in src/libraries/Application/Hexalith.GitStorage/EventHandlers/GitOrganizationDescriptionChangedEventHandler.cs
-- [ ] T042 [US4] Add PATCH /git-organizations/{id} endpoint to GitOrganizationWebApiHelpers in src/libraries/Infrastructure/Hexalith.GitStorage.Servers/Helpers/GitOrganizationWebApiHelpers.cs
-- [ ] T043 [US4] Add update organization endpoint to GitOrganizationIntegrationEventsController in src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationIntegrationEventsController.cs
+- [X] T042 [US4] Add PATCH /git-organizations/{id} endpoint to GitOrganizationWebApiHelpers in src/libraries/Infrastructure/Hexalith.GitStorage.Servers/Helpers/GitOrganizationWebApiHelpers.cs
+- [X] T043 [US4] Add update organization endpoint to GitOrganizationIntegrationEventsController in src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationIntegrationEventsController.cs
 
 **Checkpoint**: User Story 4 complete - administrators can update organizations
 
@@ -149,8 +152,8 @@
 
 ### Implementation for User Story 5
 
-- [ ] T044 [US5] Add GET /git-organizations endpoint with pagination and filtering to GitOrganizationWebApiHelpers in src/libraries/Infrastructure/Hexalith.GitStorage.Servers/Helpers/GitOrganizationWebApiHelpers.cs
-- [ ] T045 [US5] Add list organizations endpoint to GitOrganizationIntegrationEventsController in src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationIntegrationEventsController.cs
+- [X] T044 [US5] Add GET /git-organizations endpoint with pagination and filtering to GitOrganizationWebApiHelpers in src/libraries/Infrastructure/Hexalith.GitStorage.Servers/Helpers/GitOrganizationWebApiHelpers.cs
+- [X] T045 [US5] Add list organizations endpoint to GitOrganizationIntegrationEventsController in src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationIntegrationEventsController.cs
 
 **Checkpoint**: User Story 5 complete - administrators can list and filter organizations
 
@@ -160,17 +163,17 @@
 
 **Purpose**: Enable/Disable functionality as specified in data model
 
-- [ ] T046 [P] Create DisableGitOrganization command in src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/DisableGitOrganization.cs
-- [ ] T047 [P] Create EnableGitOrganization command in src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/EnableGitOrganization.cs
-- [ ] T048 Implement DisableGitOrganizationHandler command handler in src/libraries/Application/Hexalith.GitStorage/CommandHandlers/DisableGitOrganizationHandler.cs
-- [ ] T049 Implement EnableGitOrganizationHandler command handler in src/libraries/Application/Hexalith.GitStorage/CommandHandlers/EnableGitOrganizationHandler.cs
-- [ ] T050 [P] Implement GitOrganizationDisabledOnGitOrganizationDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Details/GitOrganizationDisabledOnGitOrganizationDetailsProjectionHandler.cs
-- [ ] T051 [P] Implement GitOrganizationDisabledOnGitOrganizationSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Summaries/GitOrganizationDisabledOnGitOrganizationSummaryProjectionHandler.cs
-- [ ] T052 [P] Implement GitOrganizationEnabledOnGitOrganizationDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Details/GitOrganizationEnabledOnGitOrganizationDetailsProjectionHandler.cs
-- [ ] T053 [P] Implement GitOrganizationEnabledOnGitOrganizationSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Summaries/GitOrganizationEnabledOnGitOrganizationSummaryProjectionHandler.cs
-- [ ] T054 Add POST /git-organizations/{id}/disable endpoint to GitOrganizationWebApiHelpers in src/libraries/Infrastructure/Hexalith.GitStorage.Servers/Helpers/GitOrganizationWebApiHelpers.cs
-- [ ] T055 Add POST /git-organizations/{id}/enable endpoint to GitOrganizationWebApiHelpers in src/libraries/Infrastructure/Hexalith.GitStorage.Servers/Helpers/GitOrganizationWebApiHelpers.cs
-- [ ] T056 Add disable/enable endpoints to GitOrganizationIntegrationEventsController in src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationIntegrationEventsController.cs
+- [X] T046 [P] Create DisableGitOrganization command in src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/DisableGitOrganization.cs
+- [X] T047 [P] Create EnableGitOrganization command in src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/EnableGitOrganization.cs
+- [X] T048 Implement DisableGitOrganizationHandler command handler in src/libraries/Application/Hexalith.GitStorage/CommandHandlers/GitOrganizationCommandHandlerHelper.cs
+- [X] T049 Implement EnableGitOrganizationHandler command handler in src/libraries/Application/Hexalith.GitStorage/CommandHandlers/GitOrganizationCommandHandlerHelper.cs
+- [X] T050 [P] Implement GitOrganizationDisabledOnGitOrganizationDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Details/GitOrganizationDisabledOnGitOrganizationDetailsProjectionHandler.cs
+- [X] T051 [P] Implement GitOrganizationDisabledOnGitOrganizationSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Summaries/GitOrganizationDisabledOnGitOrganizationSummaryProjectionHandler.cs
+- [X] T052 [P] Implement GitOrganizationEnabledOnGitOrganizationDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Details/GitOrganizationEnabledOnGitOrganizationDetailsProjectionHandler.cs
+- [X] T053 [P] Implement GitOrganizationEnabledOnGitOrganizationSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Summaries/GitOrganizationEnabledOnGitOrganizationSummaryProjectionHandler.cs
+- [X] T054 Add POST /git-organizations/{id}/disable endpoint to GitOrganizationWebApiHelpers in src/libraries/Infrastructure/Hexalith.GitStorage.Servers/Helpers/GitOrganizationWebApiHelpers.cs
+- [X] T055 Add POST /git-organizations/{id}/enable endpoint to GitOrganizationWebApiHelpers in src/libraries/Infrastructure/Hexalith.GitStorage.Servers/Helpers/GitOrganizationWebApiHelpers.cs
+- [X] T056 Add disable/enable endpoints to GitOrganizationIntegrationEventsController in src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationIntegrationEventsController.cs
 
 **Checkpoint**: All CRUD and lifecycle operations available
 
@@ -180,14 +183,15 @@
 
 **Purpose**: Final integration, registration, and validation
 
-- [ ] T057 Register GitOrganization aggregate in domain module registration in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitStorageAggregatesModule.cs
-- [ ] T058 Register GitOrganization events in event module registration in src/libraries/Domain/Hexalith.GitStorage.Events/GitStorageEventsModule.cs
-- [ ] T059 Register GitOrganization commands in command module registration in src/libraries/Application/Hexalith.GitStorage.Commands/GitStorageCommandsModule.cs
-- [ ] T060 Register GitOrganization requests in request module registration in src/libraries/Application/Hexalith.GitStorage.Requests/GitStorageRequestsModule.cs
-- [ ] T061 Register GitOrganization projection handlers in projections module in src/libraries/Application/Hexalith.GitStorage.Projections/GitStorageProjectionsModule.cs
-- [ ] T062 Register GitOrganization command handlers in Hexalith.GitStorage module in src/libraries/Application/Hexalith.GitStorage/GitStorageModule.cs
-- [ ] T063 Register GitOrganization event handlers in Hexalith.GitStorage module in src/libraries/Application/Hexalith.GitStorage/GitStorageModule.cs
-- [ ] T064 Build solution and verify no compilation errors with dotnet build
+- [ ] T056b Create GitOrganizationEventHandlerHelper for event handler registration in src/libraries/Application/Hexalith.GitStorage/EventHandlers/GitOrganizationEventHandlerHelper.cs
+- [X] T057 Register GitOrganization aggregate in HexalithGitStorageApiServerModule.cs (AddGitOrganizationAggregateProviders)
+- [X] T058 Register GitOrganization events via HexalithGitStorageEventsSerialization.RegisterPolymorphicMappers() in module
+- [X] T059 Register GitOrganization commands via HexalithGitStorageCommandsSerialization.RegisterPolymorphicMappers() in module
+- [X] T060 Register GitOrganization requests via HexalithGitStorageRequestsSerialization.RegisterPolymorphicMappers() in module
+- [X] T061 Register GitOrganization projection handlers in GitOrganizationProjectionHelper.cs and HexalithGitStorageApiServerModule.cs
+- [X] T062 Create GitOrganizationCommandHandlerHelper and register all GitOrganization command handlers in src/libraries/Application/Hexalith.GitStorage/CommandHandlers/GitOrganizationCommandHandlerHelper.cs
+- [X] T063 Register GitOrganization actors in HexalithGitStorageApiServerModule.RegisterActors method
+- [X] T064 Build solution and verify no compilation errors with dotnet build
 - [ ] T065 Run quickstart.md validation scenarios manually
 
 ---
@@ -196,11 +200,11 @@
 
 **Purpose**: Satisfy Constitution Principle VI - Test-First Development
 
-- [ ] T066 [P] Create GitOrganizationAggregateTests with Apply method tests for all events in tests/Hexalith.GitStorage.UnitTests/GitOrganization/GitOrganizationAggregateTests.cs
-- [ ] T067 [P] Create GitOrganizationEventsSerializationTests for JSON round-trip tests in tests/Hexalith.GitStorage.UnitTests/GitOrganization/GitOrganizationEventsSerializationTests.cs
-- [ ] T068 [P] Create GitOrganizationCommandsValidationTests for command validation in tests/Hexalith.GitStorage.UnitTests/GitOrganization/GitOrganizationCommandsValidationTests.cs
+- [X] T066 [P] Create GitOrganizationAggregateTests with Apply method tests for all events in test/Hexalith.GitStorage.Tests/Domains/Aggregates/GitOrganizationTests.cs
+- [X] T067 [P] Create GitOrganizationEventsSerializationTests for JSON round-trip tests in test/Hexalith.GitStorage.Tests/Domains/Events/GitOrganizationEventTests.cs
+- [X] T068 [P] Create GitOrganizationCommandsValidationTests for command validation in test/Hexalith.GitStorage.Tests/Domains/Commands/GitOrganizationCommandTests.cs
 
-**Checkpoint**: All constitution-mandated tests in place
+**Checkpoint**: All constitution-mandated tests in place (56 tests passing)
 
 ---
 
@@ -237,12 +241,14 @@
 ### Parallel Opportunities
 
 **Phase 1 (Setup)**:
-```
+
+```text
 T001 || T002 || T003  (all different files)
 ```
 
 **Phase 2 (Foundational)**:
-```
+
+```text
 T004 || T005 || T006 || T007 || T008 || T009 || T010  (all event files)
 Then: T011 (aggregate needs events)
 Then: T012 (validator)

@@ -15,10 +15,13 @@ using Hexalith.Extensions.Configuration;
 using Hexalith.GitStorage;
 using Hexalith.GitStorage.Aggregates;
 using Hexalith.GitStorage.ApiServer.Controllers;
+using Hexalith.GitStorage.CommandHandlers;
 using Hexalith.GitStorage.Commands.Extensions;
 using Hexalith.GitStorage.Events.Extensions;
 using Hexalith.GitStorage.Helpers;
+using Hexalith.GitStorage.Projections.Helpers;
 using Hexalith.GitStorage.Requests.Extensions;
+using Hexalith.GitStorage.Requests.GitOrganization;
 using Hexalith.GitStorage.Requests.GitStorageAccount;
 using Hexalith.GitStorage.Servers.Helpers;
 using Hexalith.Infrastructure.CosmosDb.Configurations;
@@ -81,9 +84,12 @@ public sealed class HexalithGitStorageApiServerModule : IApiServerApplicationMod
 
         // Add command handlers
         _ = services.AddGitStorageAccount();
+        _ = services.AddGitOrganizationCommandHandlers();
+        _ = services.AddGitOrganizationAggregateProviders();
 
         // Add projection handlers and actor factories for event processing
         _ = services.AddGitStorageAccountProjectionActorFactories();
+        _ = services.AddGitOrganizationProjectionActorFactories();
 
         _ = services
          .AddControllers()
@@ -104,11 +110,19 @@ public sealed class HexalithGitStorageApiServerModule : IApiServerApplicationMod
             throw new ArgumentException($"{nameof(RegisterActors)} parameter must be an {nameof(ActorRegistrationCollection)}. Actual type : {actorCollection.GetType().Name}.", nameof(actorCollection));
         }
 
+        // GitStorageAccount actors
         actorRegistrations.RegisterActor<DomainAggregateActor>(GitStorageAccountDomainHelper.GitStorageAccountAggregateName.ToAggregateActorName());
         actorRegistrations.RegisterProjectionActor<GitStorageAccount>();
         actorRegistrations.RegisterProjectionActor<GitStorageAccountSummaryViewModel>();
         actorRegistrations.RegisterProjectionActor<GitStorageAccountDetailsViewModel>();
         actorRegistrations.RegisterActor<SequentialStringListActor>(IIdCollectionFactory.GetAggregateCollectionName(GitStorageAccountDomainHelper.GitStorageAccountAggregateName));
+
+        // GitOrganization actors
+        actorRegistrations.RegisterActor<DomainAggregateActor>(GitOrganizationDomainHelper.GitOrganizationAggregateName.ToAggregateActorName());
+        actorRegistrations.RegisterProjectionActor<GitOrganization>();
+        actorRegistrations.RegisterProjectionActor<GitOrganizationSummaryViewModel>();
+        actorRegistrations.RegisterProjectionActor<GitOrganizationDetailsViewModel>();
+        actorRegistrations.RegisterActor<SequentialStringListActor>(IIdCollectionFactory.GetAggregateCollectionName(GitOrganizationDomainHelper.GitOrganizationAggregateName));
     }
 
     /// <inheritdoc/>
