@@ -36,6 +36,14 @@ public static class GitStorageMenu
                             30,
                             GitStorageAccountRoles.Reader,
                             []),
+                        new MenuItemInformation(
+                            Labels.GitOrganizationMenuItem,
+                            "GitOrganization/GitOrganization",
+                            new IconInformation("Organization", 20, IconStyle.Regular, IconSource.Fluent, IconLibraryName),
+                            false,
+                            40,
+                            GitStorageAccountRoles.Reader,
+                            []),
                     ]);
 
     private static string IconLibraryName

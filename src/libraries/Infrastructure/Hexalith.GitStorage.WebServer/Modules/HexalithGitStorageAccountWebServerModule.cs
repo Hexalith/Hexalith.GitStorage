@@ -83,7 +83,8 @@ public sealed class HexalithGitStorageAccountWebServerModule : IWebServerApplica
             .AddGitStorageAccountEventValidators()
             .AddGitStorageAccountProjectionActorFactories()
             .AddGitStorageAccountRequestHandlers()
-            .AddGitStorageAccountProjections();
+            .AddGitStorageAccountProjections()
+            .AddGitOrganizationProjectionActorFactories();
 
         HexalithGitStorageEventsSerialization.RegisterPolymorphicMappers();
         HexalithGitStorageCommandsSerialization.RegisterPolymorphicMappers();

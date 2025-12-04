@@ -1,0 +1,63 @@
+@page "/GitOrganization/{Id}"
+@rendermode InteractiveAuto
+
+<FluentStack Orientation="Orientation.Vertical" Style="padding: 1rem;">
+    <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center">
+        <FluentButton Appearance="Appearance.Lightweight"
+                      IconStart="@(new Icons.Regular.Size20.ArrowLeft())"
+                      OnClick="@(() => NavigationManager.NavigateTo("/GitOrganization/GitOrganization"))" />
+        <FluentLabel Typo="Typography.PageTitle">@string.Format(Labels.Title, _data?.Name ?? Id)</FluentLabel>
+    </FluentStack>
+    @if (_data is not null)
+    {
+        <FluentCard>
+            <FluentStack Orientation="Orientation.Vertical">
+                <FluentTextField Label="@Labels.Id" Value="@_data.Id" ReadOnly="true" />
+                <FluentTextField Label="@Labels.Name" Value="@_data.Name" ReadOnly="true" />
+                <FluentTextField Label="Account" Value="@_data.GitStorageAccountName" ReadOnly="true" />
+                <FluentTextField Label="Description" Value="@_data.Description" ReadOnly="true" />
+                <FluentTextField Label="Status" Value="@_data.SyncStatus.ToString()" ReadOnly="true" />
+                <FluentTextField Label="Origin" Value="@_data.Origin.ToString()" ReadOnly="true" />
+                <FluentTextField Label="Remote ID" Value="@_data.RemoteId" ReadOnly="true" />
+                <FluentTextField Label="Last Synced" Value="@_data.LastSyncedAt?.ToString()" ReadOnly="true" />
+                <FluentCheckbox Label="Disabled" Value="@_data.Disabled" ReadOnly="true" />
+            </FluentStack>
+        </FluentCard>
+    }
+</FluentStack>
+
+@code {
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthenticationStateTask { get; set; }
+
+    [Parameter]
+    public string? Id { get; set; }
+
+    private ClaimsPrincipal? _user;
+    private GitOrganizationDetailsViewModel? _data;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (AuthenticationStateTask is not null)
+        {
+            var authState = await AuthenticationStateTask;
+            if (!authState.User.Identity?.IsAuthenticated == true)
+            {
+                NavigationManager.NavigateTo(Application.LoginPath);
+            }
+            _user = authState.User;
+        }
+        await OnLoadDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private async Task OnLoadDataAsync()
+    {
+        if (_user is null || Id is null)
+        {
+            return;
+        }
+        var details = await RequestService.SubmitAsync(_user, new GetGitOrganizationDetails(Id), CancellationToken.None);
+        _data = details.Result;
+    }
+}

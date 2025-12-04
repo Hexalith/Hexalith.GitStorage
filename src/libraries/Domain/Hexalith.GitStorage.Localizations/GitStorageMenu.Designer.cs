@@ -61,6 +61,15 @@ namespace Hexalith.GitStorage.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Git Organizations.
+        /// </summary>
+        public static string GitOrganizationMenuItem {
+            get {
+                return ResourceManager.GetString("GitOrganizationMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Git Accounts.
         /// </summary>
         public static string GitStorageAccountMenuItem {

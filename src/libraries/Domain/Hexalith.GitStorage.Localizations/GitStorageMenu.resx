@@ -123,4 +123,7 @@
   <data name="GitStorageMenuItem" xml:space="preserve">
     <value>Git Storage</value>
   </data>
+  <data name="GitOrganizationMenuItem" xml:space="preserve">
+    <value>Git Organizations</value>
+  </data>
 </root>
