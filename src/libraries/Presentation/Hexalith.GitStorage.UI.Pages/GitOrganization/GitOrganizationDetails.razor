@@ -14,13 +14,13 @@
             <FluentStack Orientation="Orientation.Vertical">
                 <FluentTextField Label="@Labels.Id" Value="@_data.Id" ReadOnly="true" />
                 <FluentTextField Label="@Labels.Name" Value="@_data.Name" ReadOnly="true" />
-                <FluentTextField Label="Account" Value="@_data.GitStorageAccountName" ReadOnly="true" />
-                <FluentTextField Label="Description" Value="@_data.Description" ReadOnly="true" />
-                <FluentTextField Label="Status" Value="@_data.SyncStatus.ToString()" ReadOnly="true" />
-                <FluentTextField Label="Origin" Value="@_data.Origin.ToString()" ReadOnly="true" />
-                <FluentTextField Label="Remote ID" Value="@_data.RemoteId" ReadOnly="true" />
-                <FluentTextField Label="Last Synced" Value="@_data.LastSyncedAt?.ToString()" ReadOnly="true" />
-                <FluentCheckbox Label="Disabled" Value="@_data.Disabled" ReadOnly="true" />
+                <FluentTextField Label="@Labels.Account" Value="@_data.GitStorageAccountName" ReadOnly="true" />
+                <FluentTextField Label="@Labels.Description" Value="@_data.Description" ReadOnly="true" />
+                <FluentTextField Label="@Labels.SyncStatus" Value="@_data.SyncStatus.ToString()" ReadOnly="true" />
+                <FluentTextField Label="@Labels.Origin" Value="@_data.Origin.ToString()" ReadOnly="true" />
+                <FluentTextField Label="@Labels.RemoteId" Value="@_data.RemoteId" ReadOnly="true" />
+                <FluentTextField Label="@Labels.LastSynced" Value="@_data.LastSyncedAt?.ToString()" ReadOnly="true" />
+                <FluentCheckbox Label="@Labels.Disabled" Value="@_data.Disabled" ReadOnly="true" />
             </FluentStack>
         </FluentCard>
     }

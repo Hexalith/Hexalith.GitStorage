@@ -9,7 +9,10 @@
       "Bash(dotnet build:*)",
       "Bash(dotnet test:*)",
       "Bash(dir /b /s \"D:\\Hexalith.GitStorage\\specs\\002-git-organization\\contracts\")",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(git -C \"/d/Hexalith.GitStorage\" config --file .gitmodules --get-regexp path)"
     ],
     "deny": [],
     "ask": []

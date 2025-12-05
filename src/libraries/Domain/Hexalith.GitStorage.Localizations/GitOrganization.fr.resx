@@ -85,4 +85,25 @@
   <data name="Title" xml:space="preserve">
     <value>Organisations Git {0}</value>
   </data>
+  <data name="Account" xml:space="preserve">
+    <value>Compte</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="SyncStatus" xml:space="preserve">
+    <value>Statut</value>
+  </data>
+  <data name="Origin" xml:space="preserve">
+    <value>Origine</value>
+  </data>
+  <data name="RemoteId" xml:space="preserve">
+    <value>ID distant</value>
+  </data>
+  <data name="LastSynced" xml:space="preserve">
+    <value>Dernière synchronisation</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Désactivé</value>
+  </data>
 </root>
