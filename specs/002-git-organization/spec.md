@@ -100,7 +100,7 @@ As a system administrator, I need to browse a list of all Git Organizations so t
 
 - **FR-001**: System MUST allow synchronization of organizations from a Git Storage Account to the local database.
 - **FR-002**: System MUST allow creation of new organizations via the application API, which creates the organization on the remote Git Server (GitHub or Forgejo) and stores it locally.
-- **FR-003**: System MUST validate organization names against Git Server naming conventions (alphanumeric, hyphens, underscores; no spaces or special characters).
+- **FR-003**: System MUST validate organization names against Git Server naming conventions: alphanumeric characters and hyphens only; maximum 39 characters; cannot start with hyphen; cannot contain consecutive hyphens; must be unique within Git Storage Account.
 - **FR-004**: System MUST associate each Git Organization with exactly one Git Storage Account.
 - **FR-005**: System MUST track the origin of each organization (synced from remote vs. created via application).
 - **FR-006**: System MUST track sync status for each organization (last synced timestamp, sync errors if any).
@@ -109,7 +109,7 @@ As a system administrator, I need to browse a list of all Git Organizations so t
 - **FR-009**: System MUST provide a paginated list of Git Organization summaries with filtering by Git Storage Account.
 - **FR-010**: System MUST emit domain events when organizations are synced, created, updated, or flagged as removed from remote.
 - **FR-011**: System MUST prevent creation of duplicate organizations (same name within the same Git Storage Account).
-- **FR-012**: System MUST enforce role-based authorization requiring Admin role for all organization operations (sync, create, view, update).
+- **FR-012**: System MUST enforce role-based authorization using GitStorage roles: Owner role required for create/update/disable/enable/sync operations; Contributor and Reader roles may view organization details and list.
 - **FR-013**: System MUST gracefully handle remote Git Server unavailability; event handlers fail and retry is delegated to the messaging infrastructure (Dapr).
 - **FR-014**: System MUST NOT hard-delete organizations; organizations removed from remote are flagged but retained for audit purposes.
 - **FR-015**: System MUST support soft-delete (disable) of organizations locally; soft-deleted organizations are flagged as Disabled but no changes are propagated to the remote Git Server.

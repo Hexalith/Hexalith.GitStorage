@@ -5,35 +5,35 @@
 
 ## Summary
 
-Implement a GitOrganization entity following DDD/CQRS/Event Sourcing patterns to manage organizations on Git servers (GitHub, Forgejo). The entity supports synchronization from remote Git Storage Accounts, creation via application API (with remote provisioning), CRUD operations, and Blazor UI. Organizations have a composite key `{GitStorageAccountId}-{OrganizationName}`, track origin (synced vs. created), sync status, and support soft-delete.
+Implement the GitOrganization entity following DDD/CQRS/Event Sourcing patterns. Organizations can be synchronized from remote Git servers (GitHub/Forgejo) or created via the application API with automatic provisioning on the remote server. The implementation follows the existing GitStorageAccount patterns with dual initialization events, soft-delete support, and role-based authorization.
 
 ## Technical Context
 
-**Language/Version**: .NET 10 / C# 13 (use latest language features)
-**Primary Dependencies**: Hexalith framework, Dapr, FluentValidation, System.Text.Json
+**Language/Version**: .NET 10 / C# 13
+**Primary Dependencies**: Hexalith Framework, Dapr, FluentValidation, Blazor InteractiveAuto
 **Storage**: Azure Cosmos DB (event store), Redis (state/cache via Dapr)
 **Testing**: xUnit + Shouldly + Moq
-**Target Platform**: Linux server (containerized), Blazor InteractiveAuto (SSR + WebAssembly)
-**Project Type**: DDD/CQRS/Event Sourcing modular architecture
-**Performance Goals**: Sync ≤30s for 100 orgs, CRUD ≤10s, reads ≤1s (per spec SC-001 to SC-003)
-**Constraints**: Event immutability, no hard-delete, soft-delete only, infrastructure-managed retry (Dapr)
-**Scale/Scope**: Multiple Git Storage Accounts with 100+ organizations each
+**Target Platform**: Linux server (Docker/Kubernetes), WebAssembly (Blazor client)
+**Project Type**: Web application (Hexalith modular architecture)
+**Performance Goals**: Sync 100 organizations < 30 seconds, CRUD operations < 10 seconds (per SC-001, SC-002)
+**Constraints**: Event sourced aggregate, immutable events, role-based authorization
+**Scale/Scope**: Supports multiple Git Storage Accounts with thousands of organizations each
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-| Principle | Status | Notes |
-|-----------|--------|-------|
-| I. Domain-Driven Design First | ✅ PASS | Business logic in aggregate, domain events, value objects (enums) |
-| II. CQRS Separation (NON-NEGOTIABLE) | ✅ PASS | Separate Commands/Requests, projections for reads |
-| III. Event Sourcing Compliance | ✅ PASS | Immutable events with `[PolymorphicSerialization]`, deterministic Apply |
-| IV. Clean Architecture Layers | ✅ PASS | Domain → Application → Infrastructure → Presentation flow |
-| V. Code Quality Standards (NON-NEGOTIABLE) | ✅ PASS | Copyright headers, file-scoped namespaces, primary constructors, XML docs |
-| VI. Test-First Development | ✅ PASS | Unit tests for aggregate, event serialization |
-| VII. Provider Abstraction | ✅ PASS | `IGitProviderAdapter` interface abstracts GitHub/Forgejo |
+| Principle | Status | Evidence |
+|-----------|--------|----------|
+| I. DDD First | ✅ PASS | GitOrganization aggregate encapsulates business rules; events represent facts (GitOrganizationAdded, GitOrganizationSynced) |
+| II. CQRS Separation | ✅ PASS | Commands (AddGitOrganization) and Requests (GetGitOrganizationDetails) are strictly separated; projections for read models |
+| III. Event Sourcing | ✅ PASS | All state changes via immutable events with [PolymorphicSerialization] and DataMember ordering |
+| IV. Clean Architecture | ✅ PASS | Layer dependencies flow inward: UI → Infrastructure → Application → Domain |
+| V. Code Quality | ✅ PASS | Following copyright headers, file-scoped namespaces, primary constructors, XML docs |
+| VI. Test-First | ✅ PASS | Test patterns defined: aggregate tests, serialization tests, handler tests |
+| VII. Provider Abstraction | ✅ PASS | IGitProviderAdapter interface for GitHub/Forgejo; no provider code in Domain/Application |
 
-**Pre-Design Gate Result**: ✅ ALL PASSED - Proceed to Phase 0
+**Gate Result**: PASS - No violations. Proceeding with implementation.
 
 ## Project Structure
 
@@ -42,12 +42,12 @@ Implement a GitOrganization entity following DDD/CQRS/Event Sourcing patterns to
 ```text
 specs/002-git-organization/
 ├── plan.md              # This file
-├── research.md          # Phase 0 output - Architecture decisions
-├── data-model.md        # Phase 1 output - Entity definitions
-├── quickstart.md        # Phase 1 output - Implementation guide
-├── contracts/           # Phase 1 output - API contracts
-│   └── api.yaml         # OpenAPI 3.0 specification
-└── tasks.md             # Phase 2 output (/speckit.tasks command)
+├── research.md          # Phase 0 output - architecture decisions
+├── data-model.md        # Phase 1 output - entity definitions
+├── quickstart.md        # Phase 1 output - implementation guide
+├── contracts/           # Phase 1 output - OpenAPI specification
+│   └── api.yaml         # REST API contract
+└── tasks.md             # Phase 2 output (/speckit.tasks)
 ```
 
 ### Source Code (repository root)
@@ -55,23 +55,22 @@ specs/002-git-organization/
 ```text
 src/libraries/
 ├── Domain/
-│   ├── Hexalith.GitStorage.Events/
-│   │   └── GitOrganization/
-│   │       ├── GitOrganizationEvent.cs           # Base event
-│   │       ├── GitOrganizationAdded.cs           # Initialization (API create)
-│   │       ├── GitOrganizationSynced.cs          # Initialization (sync)
-│   │       ├── GitOrganizationDescriptionChanged.cs
-│   │       ├── GitOrganizationDisabled.cs
-│   │       ├── GitOrganizationEnabled.cs
-│   │       └── GitOrganizationMarkedNotFound.cs
 │   ├── Hexalith.GitStorage.Aggregates/
-│   │   ├── GitOrganization.cs                    # Aggregate
-│   │   └── GitOrganizationValidator.cs
-│   └── Hexalith.GitStorage.Aggregates.Abstractions/
-│       ├── GitOrganizationDomainHelper.cs
-│       └── Enums/
-│           ├── GitOrganizationOrigin.cs
-│           └── GitOrganizationSyncStatus.cs
+│   │   └── GitOrganization.cs                    # Aggregate root
+│   ├── Hexalith.GitStorage.Aggregates.Abstractions/
+│   │   ├── Enums/
+│   │   │   ├── GitOrganizationOrigin.cs          # Origin enum
+│   │   │   └── GitOrganizationSyncStatus.cs      # Sync status enum
+│   │   └── GitOrganizationDomainHelper.cs        # Domain helper
+│   └── Hexalith.GitStorage.Events/
+│       └── GitOrganization/
+│           ├── GitOrganizationEvent.cs           # Base event
+│           ├── GitOrganizationAdded.cs           # API creation event
+│           ├── GitOrganizationSynced.cs          # Sync discovery event
+│           ├── GitOrganizationDescriptionChanged.cs
+│           ├── GitOrganizationMarkedNotFound.cs
+│           ├── GitOrganizationDisabled.cs
+│           └── GitOrganizationEnabled.cs
 ├── Application/
 │   ├── Hexalith.GitStorage.Commands/
 │   │   └── GitOrganization/
@@ -80,81 +79,57 @@ src/libraries/
 │   │       ├── ChangeGitOrganizationDescription.cs
 │   │       ├── DisableGitOrganization.cs
 │   │       ├── EnableGitOrganization.cs
-│   │       └── SyncGitOrganizations.cs           # Bulk sync trigger
+│   │       └── SyncGitOrganizations.cs
 │   ├── Hexalith.GitStorage.Requests/
 │   │   └── GitOrganization/
 │   │       ├── GitOrganizationRequest.cs         # Base request
 │   │       ├── GetGitOrganizationDetails.cs
 │   │       ├── GetGitOrganizationSummaries.cs
-│   │       └── ViewModels/
-│   │           ├── GitOrganizationDetailsViewModel.cs
-│   │           └── GitOrganizationSummaryViewModel.cs
-│   ├── Hexalith.GitStorage.Projections/
-│   │   ├── ProjectionHandlers/
-│   │   │   ├── GitOrganizationDetailsProjectionHandler.cs
-│   │   │   └── GitOrganizationSummaryProjectionHandler.cs
-│   │   └── RequestHandlers/
-│   │       └── GetGitOrganizationDetailsHandler.cs
-│   ├── Hexalith.GitStorage.Abstractions/
-│   │   ├── Services/
-│   │   │   └── IGitProviderAdapter.cs
-│   │   └── Models/
-│   │       └── GitOrganizationDto.cs
-│   └── Hexalith.GitStorage/
-│       ├── CommandHandlers/
-│       │   └── GitOrganizationCommandHandlerHelper.cs
-│       └── EventHandlers/
-│           └── GitOrganizationEventHandlerHelper.cs
+│   │       ├── GitOrganizationDetailsViewModel.cs
+│   │       └── GitOrganizationSummaryViewModel.cs
+│   └── Hexalith.GitStorage.Projections/
+│       └── GitOrganization/
+│           ├── GitOrganizationDetailsProjectionHandler.cs
+│           └── GitOrganizationSummaryProjectionHandler.cs
 └── Presentation/
     ├── Hexalith.GitStorage.UI.Components/
-    │   └── GitOrganization/
+    │   └── GitOrganizations/
     │       ├── GitOrganizationCard.razor
-    │       └── GitOrganizationForm.razor
+    │       ├── GitOrganizationForm.razor
+    │       └── GitOrganizationList.razor
     └── Hexalith.GitStorage.UI.Pages/
-        └── GitOrganization/
-            ├── GitOrganizationEditViewModel.cs
-            ├── GitOrganizationEditValidation.cs
-            ├── GitOrganizationListPage.razor
-            ├── GitOrganizationDetailsPage.razor
-            ├── GitOrganizationCreatePage.razor
-            └── GitOrganizationEditPage.razor
+        └── GitOrganizations/
+            ├── GitOrganizationsPage.razor
+            └── GitOrganizationDetailsPage.razor
 
-tests/
+test/
 └── Hexalith.GitStorage.UnitTests/
-    ├── Aggregates/
-    │   └── GitOrganizationTests.cs
-    ├── Events/
-    │   └── GitOrganizationEventsSerializationTests.cs
-    └── Commands/
-        └── GitOrganizationCommandsTests.cs
+    └── GitOrganization/
+        ├── GitOrganizationAggregateTests.cs
+        ├── GitOrganizationEventSerializationTests.cs
+        ├── GitOrganizationCommandValidationTests.cs
+        └── GitOrganizationProjectionTests.cs
 ```
 
-**Structure Decision**: Follows established Hexalith.GitStorage layer structure from feature 001 (GitStorageAccount). Domain events → Aggregate → Commands → Requests → Projections → UI Pages.
+**Structure Decision**: Following existing Hexalith module architecture with clean separation between Domain, Application, and Presentation layers. Entity creation follows the order defined in the constitution: Events → Aggregate → Commands → Requests → Projections → UI.
 
 ## Complexity Tracking
 
-> No constitution violations. Standard DDD/CQRS/ES implementation following existing patterns.
+No complexity violations detected. All patterns follow established Hexalith conventions:
 
-| Aspect | Complexity | Justification |
-|--------|------------|---------------|
-| Composite Key | LOW | `{GitStorageAccountId}-{OrganizationName}` pattern from spec |
-| Dual Initialization | MEDIUM | Two init events (Added vs Synced) - required by spec FR-005 |
-| Provider Abstraction | LOW | Reuses existing `IGitProviderAdapter` interface |
-| Sync Logic | MEDIUM | Event handler calls remote, infrastructure retry |
+- Single aggregate (GitOrganization) - no unnecessary abstractions
+- Standard CQRS/ES event flow - matching GitStorageAccount pattern
+- Provider abstraction reuses existing IGitProviderAdapter interface
 
-## Implementation Phases
+## Generated Artifacts
 
-### Phase 0: Research (Completed)
+| Artifact | Path | Status |
+|----------|------|--------|
+| Research | [research.md](research.md) | ✅ Complete |
+| Data Model | [data-model.md](data-model.md) | ✅ Complete |
+| API Contracts | [contracts/api.yaml](contracts/api.yaml) | ✅ Complete |
+| Quickstart | [quickstart.md](quickstart.md) | ✅ Complete |
 
-- Architecture decisions documented in [research.md](research.md)
-- All "NEEDS CLARIFICATION" items resolved via spec clarifications
+## Next Steps
 
-### Phase 1: Design & Contracts (Current)
-
-- Entity model in [data-model.md](data-model.md)
-- API contracts in [contracts/api.yaml](contracts/api.yaml)
-- Implementation guide in [quickstart.md](quickstart.md)
-
-### Phase 2: Task Generation
-
-- Run `/speckit.tasks` to generate [tasks.md](tasks.md)
+Run `/speckit.tasks` to generate the implementation task list from this plan.
