@@ -5,6 +5,7 @@
 
 namespace Hexalith.GitStorage.UI.Pages.GitStorageAccount;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 
 using Hexalith.Application.Commands;
@@ -108,6 +109,8 @@ public sealed class GitStorageAccountEditViewModel : IIdDescription, IEntityView
     /// <summary>
     /// Gets or sets the base URL of the Git server API.
     /// </summary>
+    [SuppressMessage("Design", "CA1056:URI-like properties should not be strings", Justification = "N/A")]
+    [SuppressMessage("Design", "CA1054:URI-like parameters should not be strings", Justification = "N/A")]
     public string? ServerUrl { get; set; }
 
     /// <inheritdoc/>

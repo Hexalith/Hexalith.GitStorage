@@ -5,6 +5,7 @@
 
 namespace Hexalith.GitStorage.WebServer.Controllers;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
@@ -17,6 +18,8 @@ using Hexalith.GitStorage.Aggregates.Enums;
 /// <param name="AccessToken">The authentication token for the Git server API.</param>
 /// <param name="ProviderType">The type of Git server platform.</param>
 [DataContract]
+[SuppressMessage("Design", "CA1056:URI-like properties should not be strings", Justification = "N/A")]
+[SuppressMessage("Design", "CA1054:URI-like parameters should not be strings", Justification = "N/A")]
 public record ChangeApiCredentialsRequest(
     [property: DataMember(Order = 1)] string ServerUrl,
     [property: DataMember(Order = 2)] string AccessToken,

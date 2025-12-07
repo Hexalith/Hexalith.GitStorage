@@ -5,6 +5,7 @@
 
 namespace Hexalith.GitStorage.Events.GitStorageAccount;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
 using Hexalith.GitStorage.Aggregates.Enums;
@@ -18,6 +19,8 @@ using Hexalith.PolymorphicSerializations;
 /// <param name="AccessToken">The authentication token for the Git server API.</param>
 /// <param name="ProviderType">The type of Git server platform.</param>
 [PolymorphicSerialization]
+[SuppressMessage("Design", "CA1056:URI-like properties should not be strings", Justification = "N/A")]
+[SuppressMessage("Design", "CA1054:URI-like parameters should not be strings", Justification = "N/A")]
 public partial record GitStorageAccountApiCredentialsChanged(
     string Id,
     [property: DataMember(Order = 2)] string ServerUrl,
