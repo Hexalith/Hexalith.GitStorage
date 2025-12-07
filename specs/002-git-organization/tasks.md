@@ -72,8 +72,8 @@ Following Hexalith module architecture:
 ### Implementation for User Story 1
 
 - [X] T020 [US1] Create SyncGitOrganizations command in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/SyncGitOrganizations.cs`
-- [ ] T021 [US1] Create SyncGitOrganizationsValidator in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/SyncGitOrganizationsValidator.cs`
-- [ ] T022 [US1] Add ListOrganizationsAsync to IGitProviderAdapter in `src/libraries/Application/Hexalith.GitStorage.Abstractions/IGitProviderAdapter.cs`
+- [X] T021 [US1] Create SyncGitOrganizationsValidator in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/SyncGitOrganizationsValidator.cs`
+- [X] T022 [US1] Add ListOrganizationsAsync to IGitProviderAdapter in `src/libraries/Application/Hexalith.GitStorage.Abstractions/IGitProviderAdapter.cs`
 - [ ] T023 [US1] Implement GitHub adapter ListOrganizationsAsync in `src/libraries/Infrastructure/Hexalith.GitStorage.GitHub/GitHubProviderAdapter.cs`
 - [ ] T024 [US1] Implement Forgejo adapter ListOrganizationsAsync in `src/libraries/Infrastructure/Hexalith.GitStorage.Forgejo/ForgejoProviderAdapter.cs`
 - [ ] T025 [US1] Create SyncGitOrganizationsHandler to orchestrate sync in `src/libraries/Application/Hexalith.GitStorage.Handlers/GitOrganization/SyncGitOrganizationsHandler.cs`
@@ -97,14 +97,14 @@ Following Hexalith module architecture:
 ### Implementation for User Story 2
 
 - [X] T029 [US2] Create AddGitOrganization command in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/AddGitOrganization.cs`
-- [ ] T030 [US2] Create AddGitOrganizationValidator in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/AddGitOrganizationValidator.cs`
-- [ ] T030a [US2] Create GitOrganizationNameValidator for FR-003 naming rules (alphanumeric + hyphens, max 39 chars, no leading/consecutive hyphens) in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/GitOrganizationNameValidator.cs`
-- [ ] T031 [US2] Add CreateOrganizationAsync to IGitProviderAdapter in `src/libraries/Application/Hexalith.GitStorage.Abstractions/IGitProviderAdapter.cs`
+- [X] T030 [US2] Create AddGitOrganizationValidator in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/AddGitOrganizationValidator.cs`
+- [X] T030a [US2] Create GitOrganizationNameValidator for FR-003 naming rules in `src/libraries/Domain/Hexalith.GitStorage.Aggregates/Validators/GitOrganizationValidator.cs`
+- [X] T031 [US2] Add CreateOrganizationAsync to IGitProviderAdapter in `src/libraries/Application/Hexalith.GitStorage.Abstractions/IGitProviderAdapter.cs`
 - [ ] T032 [US2] Implement GitHub adapter CreateOrganizationAsync in `src/libraries/Infrastructure/Hexalith.GitStorage.GitHub/GitHubProviderAdapter.cs`
 - [ ] T033 [US2] Implement Forgejo adapter CreateOrganizationAsync in `src/libraries/Infrastructure/Hexalith.GitStorage.Forgejo/ForgejoProviderAdapter.cs`
 - [ ] T034 [US2] Create GitOrganizationAddedHandler to trigger remote creation in `src/libraries/Application/Hexalith.GitStorage.Handlers/GitOrganization/GitOrganizationAddedHandler.cs`
 - [ ] T035 [US2] Register AddGitOrganization command handler in DI `src/libraries/Infrastructure/Hexalith.GitStorage.DaprRuntime.Abstractions/Helpers/GitStorageCommandsHelper.cs`
-- [ ] T036 [US2] Add POST /git-organizations endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationsController.cs`
+- [X] T036 [US2] Add POST /git-organizations endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.WebServer/Controllers/GitOrganizationsController.cs`
 
 ### Tests for User Story 2
 
@@ -124,10 +124,10 @@ Following Hexalith module architecture:
 ### Implementation for User Story 3
 
 - [X] T039 [US3] Create GetGitOrganizationDetails request in `src/libraries/Application/Hexalith.GitStorage.Requests/GitOrganization/GetGitOrganizationDetails.cs`
-- [ ] T040 [US3] Create GitOrganizationDetailsProjectionHandler in `src/libraries/Application/Hexalith.GitStorage.Projections/GitOrganization/GitOrganizationDetailsProjectionHandler.cs`
-- [ ] T041 [US3] Create GetGitOrganizationDetailsHandler in `src/libraries/Application/Hexalith.GitStorage.Handlers/GitOrganization/GetGitOrganizationDetailsHandler.cs`
-- [ ] T042 [US3] Register GetGitOrganizationDetails request handler in DI `src/libraries/Infrastructure/Hexalith.GitStorage.DaprRuntime.Abstractions/Helpers/GitStorageRequestsHelper.cs`
-- [ ] T043 [US3] Add GET /git-organizations/{id} endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationsController.cs`
+- [X] T040 [US3] Create GitOrganizationDetailsProjectionHandlers in `src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Details/`
+- [X] T041 [US3] Create GetGitOrganizationDetailsHandler in `src/libraries/Application/Hexalith.GitStorage.Projections/RequestHandlers/GetGitOrganizationDetailsHandler.cs`
+- [X] T042 [US3] Register GetGitOrganizationDetails request handler in `src/libraries/Application/Hexalith.GitStorage.Projections/Helpers/GitOrganizationProjectionHelper.cs`
+- [X] T043 [US3] Add GET /git-organizations/{id} endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.WebServer/Controllers/GitOrganizationsController.cs`
 - [ ] T044 [US3] Create GitOrganizationDetailsPage.razor in `src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/GitOrganizations/GitOrganizationDetailsPage.razor`
 - [ ] T045 [US3] Create GitOrganizationCard.razor component in `src/libraries/Presentation/Hexalith.GitStorage.UI.Components/GitOrganizations/GitOrganizationCard.razor`
 
@@ -151,22 +151,22 @@ Following Hexalith module architecture:
 - [X] T048 [US4] Create ChangeGitOrganizationDescription command in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/ChangeGitOrganizationDescription.cs`
 - [X] T049 [P] [US4] Create DisableGitOrganization command in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/DisableGitOrganization.cs`
 - [X] T050 [P] [US4] Create EnableGitOrganization command in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/EnableGitOrganization.cs`
-- [ ] T051 [US4] Create ChangeGitOrganizationDescriptionValidator in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/ChangeGitOrganizationDescriptionValidator.cs`
-- [ ] T052 [US4] Add UpdateOrganizationAsync to IGitProviderAdapter in `src/libraries/Application/Hexalith.GitStorage.Abstractions/IGitProviderAdapter.cs`
+- [X] T051 [US4] Create ChangeGitOrganizationDescriptionValidator in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/ChangeGitOrganizationDescriptionValidator.cs`
+- [X] T052 [US4] Add UpdateOrganizationAsync to IGitProviderAdapter in `src/libraries/Application/Hexalith.GitStorage.Abstractions/IGitProviderAdapter.cs`
 - [ ] T053 [US4] Implement GitHub adapter UpdateOrganizationAsync in `src/libraries/Infrastructure/Hexalith.GitStorage.GitHub/GitHubProviderAdapter.cs`
 - [ ] T054 [US4] Implement Forgejo adapter UpdateOrganizationAsync in `src/libraries/Infrastructure/Hexalith.GitStorage.Forgejo/ForgejoProviderAdapter.cs`
 - [ ] T055 [US4] Create GitOrganizationDescriptionChangedHandler for remote sync in `src/libraries/Application/Hexalith.GitStorage.Handlers/GitOrganization/GitOrganizationDescriptionChangedHandler.cs`
 - [ ] T056 [US4] Register update/disable/enable command handlers in DI `src/libraries/Infrastructure/Hexalith.GitStorage.DaprRuntime.Abstractions/Helpers/GitStorageCommandsHelper.cs`
-- [ ] T057 [US4] Add PATCH /git-organizations/{id} endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationsController.cs`
-- [ ] T058 [US4] Add POST /git-organizations/{id}/disable endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationsController.cs`
-- [ ] T059 [US4] Add POST /git-organizations/{id}/enable endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationsController.cs`
+- [X] T057 [US4] Add PATCH /git-organizations/{id} endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.WebServer/Controllers/GitOrganizationsController.cs`
+- [X] T058 [US4] Add POST /git-organizations/{id}/disable endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.WebServer/Controllers/GitOrganizationsController.cs`
+- [X] T059 [US4] Add POST /git-organizations/{id}/enable endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.WebServer/Controllers/GitOrganizationsController.cs`
 - [ ] T060 [US4] Create GitOrganizationForm.razor component in `src/libraries/Presentation/Hexalith.GitStorage.UI.Components/GitOrganizations/GitOrganizationForm.razor`
 
 ### Tests for User Story 4
 
 - [ ] T061 [P] [US4] Create ChangeGitOrganizationDescription aggregate apply tests in `test/Hexalith.GitStorage.UnitTests/GitOrganization/GitOrganizationAggregateTests.cs`
 - [ ] T062 [P] [US4] Create Disable/Enable aggregate apply tests in `test/Hexalith.GitStorage.UnitTests/GitOrganization/GitOrganizationAggregateTests.cs`
-- [ ] T063 [P] [US4] Create command validator tests in `test/Hexalith.GitStorage.UnitTests/GitOrganization/GitOrganizationCommandValidatorTests.cs`
+- [X] T063 [P] [US4] Create command validator tests in `test/Hexalith.GitStorage.Tests/Domains/Commands/GitOrganizationValidatorTests.cs`
 
 **Checkpoint**: At this point, User Story 4 should be fully functional - update, disable, and enable organizations
 
@@ -181,10 +181,10 @@ Following Hexalith module architecture:
 ### Implementation for User Story 5
 
 - [X] T064 [US5] Create GetGitOrganizationSummaries request in `src/libraries/Application/Hexalith.GitStorage.Requests/GitOrganization/GetGitOrganizationSummaries.cs`
-- [ ] T065 [US5] Create GitOrganizationSummaryProjectionHandler in `src/libraries/Application/Hexalith.GitStorage.Projections/GitOrganization/GitOrganizationSummaryProjectionHandler.cs`
-- [ ] T066 [US5] Create GetGitOrganizationSummariesHandler in `src/libraries/Application/Hexalith.GitStorage.Handlers/GitOrganization/GetGitOrganizationSummariesHandler.cs`
-- [ ] T067 [US5] Register GetGitOrganizationSummaries request handler in DI `src/libraries/Infrastructure/Hexalith.GitStorage.DaprRuntime.Abstractions/Helpers/GitStorageRequestsHelper.cs`
-- [ ] T068 [US5] Add GET /git-organizations endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationsController.cs`
+- [X] T065 [US5] Create GitOrganizationSummaryProjectionHandlers in `src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Summaries/`
+- [X] T066 [US5] Create GetGitOrganizationSummariesHandler in `src/libraries/Application/Hexalith.GitStorage.Projections/Helpers/GitOrganizationProjectionHelper.cs`
+- [X] T067 [US5] Register GetGitOrganizationSummaries request handler in `src/libraries/Application/Hexalith.GitStorage.Projections/Helpers/GitOrganizationProjectionHelper.cs`
+- [X] T068 [US5] Add GET /git-organizations endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.WebServer/Controllers/GitOrganizationsController.cs`
 - [ ] T069 [US5] Create GitOrganizationsPage.razor in `src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/GitOrganizations/GitOrganizationsPage.razor`
 - [ ] T070 [US5] Create GitOrganizationList.razor component in `src/libraries/Presentation/Hexalith.GitStorage.UI.Components/GitOrganizations/GitOrganizationList.razor`
 - [ ] T071 [US5] Add GitOrganizations menu item to navigation `src/libraries/Presentation/Hexalith.GitStorage.UI.Components/Menu/GitStorageMenu.razor`
@@ -202,9 +202,9 @@ Following Hexalith module architecture:
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T074 [P] Add authorization policies to all endpoints in `src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitOrganizationsController.cs`
+- [X] T074 [P] Add authorization policies to all endpoints in `src/libraries/Infrastructure/Hexalith.GitStorage.WebServer/Controllers/GitOrganizationsController.cs`
 - [ ] T075 [P] Add logging for all GitOrganization operations in handlers
-- [ ] T076 [P] Register GitOrganization projections in module startup `src/libraries/Infrastructure/Hexalith.GitStorage.DaprRuntime.Abstractions/Helpers/GitStorageProjectionsHelper.cs`
+- [X] T076 [P] Register GitOrganization projections in `src/libraries/Application/Hexalith.GitStorage.Projections/Helpers/GitOrganizationProjectionHelper.cs`
 - [ ] T077 Run quickstart.md validation - verify all code samples compile
 - [X] T078 Run dotnet build to verify no compilation errors
 - [X] T079 Run dotnet test to verify all tests pass
