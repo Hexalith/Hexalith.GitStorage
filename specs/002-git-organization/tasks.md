@@ -1,4 +1,4 @@
-# Tasks: GitOrganization Entity
+# Tasks: GitOrganization Entity with Visibility Property
 
 **Input**: Design documents from `/specs/002-git-organization/`
 **Prerequisites**: plan.md, spec.md, research.md, data-model.md, contracts/
@@ -6,6 +6,8 @@
 **Tests**: Tests are included as this is a DDD/CQRS/Event Sourcing implementation requiring validation of aggregate behavior and event serialization.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
+
+**Key Enhancement**: Add `Visibility` property (Public | Private | Internal) to the existing GitOrganization implementation.
 
 ## Format: `[ID] [P?] [Story] Description`
 
@@ -29,10 +31,13 @@ Following Hexalith module architecture:
 
 - [X] T001 [P] Create GitOrganizationOrigin enum in `src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/Enums/GitOrganizationOrigin.cs`
 - [X] T002 [P] Create GitOrganizationSyncStatus enum in `src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/Enums/GitOrganizationSyncStatus.cs`
+- [ ] T002a [P] Create GitOrganizationVisibility enum (Public/Private/Internal) in `src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/Enums/GitOrganizationVisibility.cs`
 - [X] T003 [P] Create GitOrganizationDomainHelper in `src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/GitOrganizationDomainHelper.cs`
 - [X] T004 [P] Create base GitOrganizationEvent in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationEvent.cs`
 - [X] T005 [P] Create base GitOrganizationCommand in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/GitOrganizationCommand.cs`
 - [X] T006 [P] Create base GitOrganizationRequest in `src/libraries/Application/Hexalith.GitStorage.Requests/GitOrganization/GitOrganizationRequest.cs`
+- [ ] T006a [P] Add Visibility localization keys to `src/libraries/Domain/Hexalith.GitStorage.Localizations/GitOrganization.resx`
+- [ ] T006b [P] Add French Visibility labels to `src/libraries/Domain/Hexalith.GitStorage.Localizations/GitOrganization.fr.resx`
 
 ---
 
@@ -42,22 +47,27 @@ Following Hexalith module architecture:
 
 **CRITICAL**: No user story work can begin until this phase is complete
 
-- [X] T007 Create GitOrganizationAdded event in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationAdded.cs`
-- [X] T008 [P] Create GitOrganizationSynced event in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationSynced.cs`
+- [ ] T007 Add Visibility parameter to GitOrganizationAdded event in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationAdded.cs`
+- [ ] T008 [P] Add Visibility parameter to GitOrganizationSynced event in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationSynced.cs`
 - [X] T009 [P] Create GitOrganizationDescriptionChanged event in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationDescriptionChanged.cs`
+- [ ] T009a [P] Create GitOrganizationVisibilityChanged event in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationVisibilityChanged.cs`
+- [ ] T009b [P] Create GitOrganizationVisibilityChangedValidator in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationVisibilityChangedValidator.cs`
 - [X] T010 [P] Create GitOrganizationMarkedNotFound event in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationMarkedNotFound.cs`
 - [X] T011 [P] Create GitOrganizationDisabled event in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationDisabled.cs`
 - [X] T012 [P] Create GitOrganizationEnabled event in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationEnabled.cs`
-- [X] T013 Create GitOrganization aggregate in `src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitOrganization.cs` (depends on T007-T012)
-- [X] T014 [P] Create GitOrganizationDetailsViewModel in `src/libraries/Application/Hexalith.GitStorage.Requests/GitOrganization/GitOrganizationDetailsViewModel.cs`
-- [X] T015 [P] Create GitOrganizationSummaryViewModel in `src/libraries/Application/Hexalith.GitStorage.Requests/GitOrganization/GitOrganizationSummaryViewModel.cs`
+- [ ] T013 Add Visibility property to GitOrganization aggregate in `src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitOrganization.cs`
+- [ ] T013a Add ApplyEvent handler for GitOrganizationVisibilityChanged in `src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitOrganization.cs`
+- [ ] T013b Update GitOrganization constructors to handle Visibility from events in `src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitOrganization.cs`
+- [ ] T014 [P] Add Visibility property to GitOrganizationDetailsViewModel in `src/libraries/Application/Hexalith.GitStorage.Requests/GitOrganization/GitOrganizationDetailsViewModel.cs`
+- [ ] T015 [P] Add Visibility property to GitOrganizationSummaryViewModel in `src/libraries/Application/Hexalith.GitStorage.Requests/GitOrganization/GitOrganizationSummaryViewModel.cs`
 - [X] T016 Register GitOrganization aggregate in module helper (using Hexalith framework auto-discovery)
 - [X] T017 Register GitOrganization events in module helper (using Hexalith framework auto-discovery)
 
 ### Tests for Foundational Phase
 
-- [X] T018 [P] Create aggregate initialization tests in `test/Hexalith.GitStorage.Tests/Domains/Aggregates/GitOrganizationTests.cs`
-- [X] T019 [P] Create event serialization tests in `test/Hexalith.GitStorage.Tests/Domains/Events/GitOrganizationEventTests.cs`
+- [ ] T018 [P] Update aggregate tests for Visibility property in `test/Hexalith.GitStorage.Tests/Domains/Aggregates/GitOrganizationTests.cs`
+- [ ] T019 [P] Add Visibility serialization tests in `test/Hexalith.GitStorage.Tests/Domains/Events/GitOrganizationEventTests.cs`
+- [ ] T019a [P] Add GitOrganizationVisibilityChanged event tests in `test/Hexalith.GitStorage.Tests/Domains/Events/GitOrganizationEventTests.cs`
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -96,8 +106,8 @@ Following Hexalith module architecture:
 
 ### Implementation for User Story 2
 
-- [X] T029 [US2] Create AddGitOrganization command in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/AddGitOrganization.cs`
-- [X] T030 [US2] Create AddGitOrganizationValidator in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/AddGitOrganizationValidator.cs`
+- [ ] T029 [US2] Add Visibility parameter to AddGitOrganization command in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/AddGitOrganization.cs`
+- [ ] T030 [US2] Update AddGitOrganizationValidator to validate Visibility in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/AddGitOrganizationValidator.cs`
 - [X] T030a [US2] Create GitOrganizationNameValidator for FR-003 naming rules in `src/libraries/Domain/Hexalith.GitStorage.Aggregates/Validators/GitOrganizationValidator.cs`
 - [X] T031 [US2] Add CreateOrganizationAsync to IGitProviderAdapter in `src/libraries/Application/Hexalith.GitStorage.Abstractions/IGitProviderAdapter.cs`
 - [ ] T032 [US2] Implement GitHub adapter CreateOrganizationAsync in `src/libraries/Infrastructure/Hexalith.GitStorage.GitHub/GitHubProviderAdapter.cs`
@@ -128,8 +138,8 @@ Following Hexalith module architecture:
 - [X] T041 [US3] Create GetGitOrganizationDetailsHandler in `src/libraries/Application/Hexalith.GitStorage.Projections/RequestHandlers/GetGitOrganizationDetailsHandler.cs`
 - [X] T042 [US3] Register GetGitOrganizationDetails request handler in `src/libraries/Application/Hexalith.GitStorage.Projections/Helpers/GitOrganizationProjectionHelper.cs`
 - [X] T043 [US3] Add GET /git-organizations/{id} endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.WebServer/Controllers/GitOrganizationsController.cs`
-- [ ] T044 [US3] Create GitOrganizationDetailsPage.razor in `src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/GitOrganizations/GitOrganizationDetailsPage.razor`
-- [ ] T045 [US3] Create GitOrganizationCard.razor component in `src/libraries/Presentation/Hexalith.GitStorage.UI.Components/GitOrganizations/GitOrganizationCard.razor`
+- [ ] T044 [US3] Create GitOrganizationDetailsPage.razor with Visibility display in `src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/GitOrganizations/GitOrganizationDetailsPage.razor`
+- [ ] T045 [US3] Create GitOrganizationCard.razor component with Visibility badge in `src/libraries/Presentation/Hexalith.GitStorage.UI.Components/GitOrganizations/GitOrganizationCard.razor`
 
 ### Tests for User Story 3
 
@@ -149,6 +159,8 @@ Following Hexalith module architecture:
 ### Implementation for User Story 4
 
 - [X] T048 [US4] Create ChangeGitOrganizationDescription command in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/ChangeGitOrganizationDescription.cs`
+- [ ] T048a [P] [US4] Create ChangeGitOrganizationVisibility command in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/ChangeGitOrganizationVisibility.cs`
+- [ ] T048b [P] [US4] Create ChangeGitOrganizationVisibilityValidator in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/ChangeGitOrganizationVisibilityValidator.cs`
 - [X] T049 [P] [US4] Create DisableGitOrganization command in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/DisableGitOrganization.cs`
 - [X] T050 [P] [US4] Create EnableGitOrganization command in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/EnableGitOrganization.cs`
 - [X] T051 [US4] Create ChangeGitOrganizationDescriptionValidator in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/ChangeGitOrganizationDescriptionValidator.cs`
@@ -156,8 +168,12 @@ Following Hexalith module architecture:
 - [ ] T053 [US4] Implement GitHub adapter UpdateOrganizationAsync in `src/libraries/Infrastructure/Hexalith.GitStorage.GitHub/GitHubProviderAdapter.cs`
 - [ ] T054 [US4] Implement Forgejo adapter UpdateOrganizationAsync in `src/libraries/Infrastructure/Hexalith.GitStorage.Forgejo/ForgejoProviderAdapter.cs`
 - [ ] T055 [US4] Create GitOrganizationDescriptionChangedHandler for remote sync in `src/libraries/Application/Hexalith.GitStorage.Handlers/GitOrganization/GitOrganizationDescriptionChangedHandler.cs`
-- [ ] T056 [US4] Register update/disable/enable command handlers in DI `src/libraries/Infrastructure/Hexalith.GitStorage.DaprRuntime.Abstractions/Helpers/GitStorageCommandsHelper.cs`
-- [X] T057 [US4] Add PATCH /git-organizations/{id} endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.WebServer/Controllers/GitOrganizationsController.cs`
+- [ ] T055a [P] [US4] Create GitOrganizationVisibilityChangedHandler for remote sync in `src/libraries/Application/Hexalith.GitStorage.Handlers/GitOrganization/GitOrganizationVisibilityChangedHandler.cs`
+- [ ] T055b [P] [US4] Create GitOrganizationVisibilityChangedOnDetailsProjectionHandler in `src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Details/`
+- [ ] T055c [P] [US4] Create GitOrganizationVisibilityChangedOnSummaryProjectionHandler in `src/libraries/Application/Hexalith.GitStorage.Projections/ProjectionHandlers/Summaries/`
+- [ ] T056 [US4] Register update/disable/enable/visibility command handlers in DI `src/libraries/Infrastructure/Hexalith.GitStorage.DaprRuntime.Abstractions/Helpers/GitStorageCommandsHelper.cs`
+- [X] T057 [US4] Add PATCH /git-organizations/{id}/description endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.WebServer/Controllers/GitOrganizationsController.cs`
+- [ ] T057a [US4] Add PATCH /git-organizations/{id}/visibility endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.WebServer/Controllers/GitOrganizationsController.cs`
 - [X] T058 [US4] Add POST /git-organizations/{id}/disable endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.WebServer/Controllers/GitOrganizationsController.cs`
 - [X] T059 [US4] Add POST /git-organizations/{id}/enable endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.WebServer/Controllers/GitOrganizationsController.cs`
 - [ ] T060 [US4] Create GitOrganizationForm.razor component in `src/libraries/Presentation/Hexalith.GitStorage.UI.Components/GitOrganizations/GitOrganizationForm.razor`
@@ -166,6 +182,8 @@ Following Hexalith module architecture:
 
 - [ ] T061 [P] [US4] Create ChangeGitOrganizationDescription aggregate apply tests in `test/Hexalith.GitStorage.UnitTests/GitOrganization/GitOrganizationAggregateTests.cs`
 - [ ] T062 [P] [US4] Create Disable/Enable aggregate apply tests in `test/Hexalith.GitStorage.UnitTests/GitOrganization/GitOrganizationAggregateTests.cs`
+- [ ] T062a [P] [US4] Create ChangeGitOrganizationVisibility command tests in `test/Hexalith.GitStorage.Tests/Domains/Commands/GitOrganizationCommandTests.cs`
+- [ ] T062b [P] [US4] Create ChangeGitOrganizationVisibilityValidator tests in `test/Hexalith.GitStorage.Tests/Domains/Commands/GitOrganizationValidatorTests.cs`
 - [X] T063 [P] [US4] Create command validator tests in `test/Hexalith.GitStorage.Tests/Domains/Commands/GitOrganizationValidatorTests.cs`
 
 **Checkpoint**: At this point, User Story 4 should be fully functional - update, disable, and enable organizations
@@ -185,8 +203,9 @@ Following Hexalith module architecture:
 - [X] T066 [US5] Create GetGitOrganizationSummariesHandler in `src/libraries/Application/Hexalith.GitStorage.Projections/Helpers/GitOrganizationProjectionHelper.cs`
 - [X] T067 [US5] Register GetGitOrganizationSummaries request handler in `src/libraries/Application/Hexalith.GitStorage.Projections/Helpers/GitOrganizationProjectionHelper.cs`
 - [X] T068 [US5] Add GET /git-organizations endpoint in `src/libraries/Infrastructure/Hexalith.GitStorage.WebServer/Controllers/GitOrganizationsController.cs`
-- [ ] T069 [US5] Create GitOrganizationsPage.razor in `src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/GitOrganizations/GitOrganizationsPage.razor`
-- [ ] T070 [US5] Create GitOrganizationList.razor component in `src/libraries/Presentation/Hexalith.GitStorage.UI.Components/GitOrganizations/GitOrganizationList.razor`
+- [ ] T069 [US5] Create GitOrganizationsPage.razor with Visibility column in `src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/GitOrganizations/GitOrganizationsPage.razor`
+- [ ] T070 [US5] Create GitOrganizationList.razor component with Visibility badges in `src/libraries/Presentation/Hexalith.GitStorage.UI.Components/GitOrganizations/GitOrganizationList.razor`
+- [ ] T070a [P] [US5] Add Visibility filter dropdown to list view in `src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/GitOrganizations/GitOrganizationsPage.razor`
 - [ ] T071 [US5] Add GitOrganizations menu item to navigation `src/libraries/Presentation/Hexalith.GitStorage.UI.Components/Menu/GitStorageMenu.razor`
 
 ### Tests for User Story 5
@@ -316,17 +335,32 @@ With 5 developers after Foundational:
 
 ## Summary
 
-| Phase | Tasks | Parallel Opportunities |
-|-------|-------|------------------------|
-| Phase 1: Setup | 6 tasks (T001-T006) | All parallel |
-| Phase 2: Foundational | 13 tasks (T007-T019) | T008-T012, T014-T015 parallel |
-| Phase 3: US1 (Sync) | 9 tasks (T020-T028) | T027-T028 parallel |
-| Phase 4: US2 (Create) | 10 tasks (T029-T038) | T037-T038 parallel |
-| Phase 5: US3 (View) | 9 tasks (T039-T047) | T046-T047 parallel |
-| Phase 6: US4 (Update) | 16 tasks (T048-T063) | T049-T050, T061-T063 parallel |
-| Phase 7: US5 (List) | 10 tasks (T064-T073) | T072-T073 parallel |
-| Phase 8: Polish | 6 tasks (T074-T079) | T074-T076 parallel |
-| **Total** | **79 tasks** | |
+| Phase | Tasks | Description | Parallel |
+|-------|-------|-------------|----------|
+| Phase 1: Setup | 9 tasks | Enums + localizations including Visibility | All parallel |
+| Phase 2: Foundational | 16 tasks | Events + aggregate including Visibility | T008-T012, T014-T015 parallel |
+| Phase 3: US1 (Sync) | 9 tasks | Sync with Visibility from remote | T027-T028 parallel |
+| Phase 4: US2 (Create) | 10 tasks | Create with Visibility | T037-T038 parallel |
+| Phase 5: US3 (View) | 9 tasks | View details with Visibility badge | T046-T047 parallel |
+| Phase 6: US4 (Update) | 22 tasks | Update including ChangeVisibility | T049-T050, T055a-c, T062a-b parallel |
+| Phase 7: US5 (List) | 11 tasks | List with Visibility column/filter | T072-T073 parallel |
+| Phase 8: Polish | 6 tasks | Final validation | T074-T076 parallel |
+| **Total** | **92 tasks** | **Visibility adds ~13 new tasks** | |
+
+### Visibility-Specific Tasks Summary
+
+| Area | New Tasks |
+|------|-----------|
+| Enum | T002a (GitOrganizationVisibility) |
+| Localizations | T006a, T006b (Visibility labels) |
+| Events | T007, T008 (update), T009a, T009b (new VisibilityChanged) |
+| Aggregate | T013, T013a, T013b (Visibility property + handlers) |
+| ViewModels | T014, T015 (add Visibility property) |
+| Commands | T029, T030 (update), T048a, T048b (ChangeVisibility) |
+| Handlers | T055a (event), T055b, T055c (projections) |
+| API | T057a (PATCH /visibility endpoint) |
+| UI | T044, T045, T069, T070, T070a (Visibility display/filter) |
+| Tests | T018, T019, T019a, T062a, T062b (Visibility tests) |
 
 ---
 

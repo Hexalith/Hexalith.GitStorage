@@ -58,6 +58,39 @@ public enum GitOrganizationOrigin
 }
 ```
 
+### File: `Hexalith.GitStorage.Aggregates.Abstractions/Enums/GitOrganizationVisibility.cs`
+
+```csharp
+// <copyright file="GitOrganizationVisibility.cs" company="ITANEO">
+// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+
+namespace Hexalith.GitStorage.Aggregates.Enums;
+
+/// <summary>
+/// Specifies the visibility level of a Git Organization.
+/// </summary>
+public enum GitOrganizationVisibility
+{
+    /// <summary>
+    /// Organization is visible to everyone.
+    /// </summary>
+    Public = 0,
+
+    /// <summary>
+    /// Organization is only visible to members.
+    /// </summary>
+    Private = 1,
+
+    /// <summary>
+    /// Organization is visible to all authenticated users within the enterprise.
+    /// Maps to GitHub 'internal' and Forgejo 'limited'.
+    /// </summary>
+    Internal = 2,
+}
+```
+
 ### File: `Hexalith.GitStorage.Aggregates.Abstractions/Enums/GitOrganizationSyncStatus.cs`
 
 ```csharp
@@ -179,13 +212,15 @@ using Hexalith.PolymorphicSerialization;
 /// <param name="Id">The unique identifier of the Git Organization.</param>
 /// <param name="Name">The name of the organization as it appears on the Git server.</param>
 /// <param name="Description">Optional description of the organization.</param>
+/// <param name="Visibility">The visibility level of the organization.</param>
 /// <param name="GitStorageAccountId">The ID of the parent Git Storage Account.</param>
 [PolymorphicSerialization]
 public partial record GitOrganizationAdded(
     string Id,
     [property: DataMember(Order = 2)] string Name,
     [property: DataMember(Order = 3)] string? Description,
-    [property: DataMember(Order = 4)] string GitStorageAccountId)
+    [property: DataMember(Order = 4)] GitOrganizationVisibility Visibility,
+    [property: DataMember(Order = 5)] string GitStorageAccountId)
     : GitOrganizationEvent(Id);
 ```
 
@@ -216,12 +251,13 @@ public sealed record GitOrganization(
     [property: DataMember(Order = 1)] string Id,
     [property: DataMember(Order = 2)] string Name,
     [property: DataMember(Order = 3)] string? Description,
-    [property: DataMember(Order = 4)] string GitStorageAccountId,
-    [property: DataMember(Order = 5)] GitOrganizationOrigin Origin,
-    [property: DataMember(Order = 6)] string? RemoteId,
-    [property: DataMember(Order = 7)] GitOrganizationSyncStatus SyncStatus,
-    [property: DataMember(Order = 8)] DateTimeOffset? LastSyncedAt,
-    [property: DataMember(Order = 9)] bool Disabled) : IDomainAggregate
+    [property: DataMember(Order = 4)] GitOrganizationVisibility Visibility,
+    [property: DataMember(Order = 5)] string GitStorageAccountId,
+    [property: DataMember(Order = 6)] GitOrganizationOrigin Origin,
+    [property: DataMember(Order = 7)] string? RemoteId,
+    [property: DataMember(Order = 8)] GitOrganizationSyncStatus SyncStatus,
+    [property: DataMember(Order = 9)] DateTimeOffset? LastSyncedAt,
+    [property: DataMember(Order = 10)] bool Disabled) : IDomainAggregate
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="GitOrganization"/> class.
@@ -331,13 +367,15 @@ using Hexalith.PolymorphicSerialization;
 /// <param name="Id">The unique identifier for the new Git Organization.</param>
 /// <param name="Name">The name of the organization.</param>
 /// <param name="Description">Optional description.</param>
+/// <param name="Visibility">The visibility level of the organization.</param>
 /// <param name="GitStorageAccountId">The parent Git Storage Account ID.</param>
 [PolymorphicSerialization]
 public partial record AddGitOrganization(
     string Id,
     [property: DataMember(Order = 2)] string Name,
     [property: DataMember(Order = 3)] string? Description,
-    [property: DataMember(Order = 4)] string GitStorageAccountId)
+    [property: DataMember(Order = 4)] GitOrganizationVisibility Visibility,
+    [property: DataMember(Order = 5)] string GitStorageAccountId)
     : GitOrganizationCommand(Id);
 ```
 
@@ -389,7 +427,7 @@ private ApplyResult ApplyEvent(SomeEvent e) =>
 
 ```csharp
 services.TryAddSimpleInitializationCommandHandler<AddGitOrganization>(
-    c => new GitOrganizationAdded(c.Id, c.Name, c.Description, c.GitStorageAccountId),
+    c => new GitOrganizationAdded(c.Id, c.Name, c.Description, c.Visibility, c.GitStorageAccountId),
     ev => new GitOrganization((GitOrganizationAdded)ev));
 ```
 

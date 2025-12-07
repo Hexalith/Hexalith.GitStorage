@@ -187,6 +187,63 @@ public partial record GitOrganizationSynced(Id, Name, Description, GitStorageAcc
 - Configurable retry policy (exponential backoff)
 - At-least-once delivery semantics
 
+### Decision 9: Visibility Property
+
+**Decision**: Add `GitOrganizationVisibility` enum with values Public(0), Private(1), Internal(2)
+
+**Rationale**:
+
+- FR-018 requires tracking organization visibility
+- GitHub and Forgejo both support visibility settings
+- Visibility can be set at creation and changed independently
+- Follows existing enum patterns (GitOrganizationOrigin, GitOrganizationSyncStatus)
+
+**API Mapping**:
+
+| GitOrganizationVisibility | GitHub | Forgejo |
+|---------------------------|--------|---------|
+| Public | `public` | `public` |
+| Private | `private` | `private` |
+| Internal | `internal` | `limited` |
+
+**Implementation**:
+
+```csharp
+public enum GitOrganizationVisibility
+{
+    Public = 0,
+    Private = 1,
+    Internal = 2,
+}
+```
+
+**Event Impact**:
+
+- `GitOrganizationAdded`: Add Visibility parameter (Order = 5)
+- `GitOrganizationSynced`: Add Visibility parameter (Order = 5)
+- `GitOrganizationVisibilityChanged`: New event for visibility changes
+
+**Default Value**: `Public` for backward compatibility with existing events
+
+### Decision 10: DataMember Order Strategy for Visibility
+
+**Decision**: Insert Visibility at Order = 5 in events, maintaining logical grouping
+
+**Rationale**:
+
+- Logical grouping: Id, Name, Description, GitStorageAccountId, Visibility, then sync-related fields
+- Consistent positioning across all affected records
+- Higher-order fields shift up (RemoteId, SyncedAt, etc.)
+
+**Affected Records**:
+
+| Record | Visibility Order | Notes |
+|--------|------------------|-------|
+| GitOrganizationAdded | 5 | New parameter after GitStorageAccountId |
+| GitOrganizationSynced | 5 | RemoteId→6, SyncedAt→7 |
+| GitOrganization (aggregate) | 5 | RemoteId→7, SyncStatus→8, etc. |
+| GitOrganizationDetailsViewModel | 6 | After GitStorageAccountName |
+
 ## Open Items
 
 None - all clarifications resolved in spec sessions 2025-12-01 and 2025-12-07.
