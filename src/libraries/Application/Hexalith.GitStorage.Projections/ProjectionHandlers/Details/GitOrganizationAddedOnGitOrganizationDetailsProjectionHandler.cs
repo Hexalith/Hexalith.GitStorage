@@ -31,6 +31,7 @@ public class GitOrganizationAddedOnGitOrganizationDetailsProjectionHandler(IProj
             baseEvent.Description,
             baseEvent.GitStorageAccountId,
             string.Empty,
+            baseEvent.Visibility,
             GitOrganizationOrigin.CreatedViaApplication,
             null,
             GitOrganizationSyncStatus.Synced,

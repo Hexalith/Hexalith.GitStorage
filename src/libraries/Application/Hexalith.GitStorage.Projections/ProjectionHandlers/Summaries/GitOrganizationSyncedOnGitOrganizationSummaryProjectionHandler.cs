@@ -29,6 +29,7 @@ public class GitOrganizationSyncedOnGitOrganizationSummaryProjectionHandler(IPro
             baseEvent.Id,
             baseEvent.Name,
             baseEvent.GitStorageAccountId,
+            baseEvent.Visibility,
             GitOrganizationSyncStatus.Synced,
             summary?.Disabled ?? false));
     }

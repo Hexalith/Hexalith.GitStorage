@@ -16,7 +16,19 @@
       "Bash(git commit:*)",
       "Bash(xargs basename:*)",
       "Bash(ls:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(git -C \"D:\\Hexalith.GitStorage\" checkout -b 002-git-organization)",
+      "Bash(git -C \"D:\\Hexalith.GitStorage\" status)",
+      "Bash(git -C \"D:\\Hexalith.GitStorage\" diff --staged)",
+      "Bash(git -C \"D:\\Hexalith.GitStorage\" diff)",
+      "Bash(git -C \"D:\\Hexalith.GitStorage\" log --oneline -5)",
+      "Bash(git -C \"D:\\Hexalith.GitStorage\" add .claude/settings.local.json)",
+      "Bash(git -C \"D:\\Hexalith.GitStorage\" commit -m \"$(cat <<''EOF''\nchore: add git status and diff commands to local settings\n\nAdd permissions for git status and diff commands to streamline\ndevelopment workflow.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(del \"D:\\Hexalith.GitStorage\\nul\")",
+      "Bash(rm \"D:\\Hexalith.GitStorage\\nul\")",
+      "Bash(test:*)",
+      "Bash(git checkout:*)",
+      "Bash(dotnet run:*)"
     ],
     "deny": [],
     "ask": []

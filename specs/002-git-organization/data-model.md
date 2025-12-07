@@ -16,6 +16,7 @@ The GitOrganization entity represents an organization on a Git server (GitHub or
 | `Id` | `string` | Required, Composite key | Format: `{GitStorageAccountId}-{OrganizationName}` (lowercase) |
 | `Name` | `string` | Required, 1-39 chars, Regex pattern | Organization name as it appears on the Git Server |
 | `Description` | `string?` | Optional | Human-readable description of the organization |
+| `Visibility` | `GitOrganizationVisibility` | Required, Default: Public | Organization visibility level (Public/Private/Internal) |
 | `GitStorageAccountId` | `string` | Required, FK | Reference to parent Git Storage Account |
 | `Origin` | `GitOrganizationOrigin` | Required | How the organization was added (Synced/CreatedViaApplication) |
 | `RemoteId` | `string?` | Optional | Organization's unique identifier on the remote Git Server |
@@ -46,20 +47,29 @@ The GitOrganization entity represents an organization on a Git server (GitHub or
 | NotFoundOnRemote | 1 | Previously synced but no longer exists on remote |
 | SyncError | 2 | Last sync operation failed |
 
+### GitOrganizationVisibility
+
+| Value | Code | Description | GitHub | Forgejo |
+|-------|------|-------------|--------|---------|
+| Public | 0 | Organization is visible to everyone | `public` | `public` |
+| Private | 1 | Organization is only visible to members | `private` | `private` |
+| Internal | 2 | Organization is visible to all authenticated enterprise users | `internal` | `limited` |
+
 ## Domain Events
 
 ### Initialization Events
 
 | Event | Fields | Trigger |
 |-------|--------|---------|
-| `GitOrganizationAdded` | Id, Name, Description?, GitStorageAccountId | API create operation |
-| `GitOrganizationSynced` | Id, Name, Description?, GitStorageAccountId, RemoteId?, SyncedAt | Sync discovery |
+| `GitOrganizationAdded` | Id, Name, Description?, Visibility, GitStorageAccountId | API create operation |
+| `GitOrganizationSynced` | Id, Name, Description?, Visibility, GitStorageAccountId, RemoteId?, SyncedAt | Sync discovery |
 
 ### State Change Events
 
 | Event | Fields | Trigger |
 |-------|--------|---------|
 | `GitOrganizationDescriptionChanged` | Id, Name, Description? | Update operation |
+| `GitOrganizationVisibilityChanged` | Id, Visibility | Visibility change operation |
 | `GitOrganizationMarkedNotFound` | Id, MarkedAt | Sync detects removal |
 | `GitOrganizationDisabled` | Id | Soft-delete operation |
 | `GitOrganizationEnabled` | Id | Re-enable operation |
@@ -68,8 +78,9 @@ The GitOrganization entity represents an organization on a Git server (GitHub or
 
 | Command | Fields | Description |
 |---------|--------|-------------|
-| `AddGitOrganization` | Id, Name, Description?, GitStorageAccountId | Create via API (triggers remote creation) |
+| `AddGitOrganization` | Id, Name, Description?, Visibility, GitStorageAccountId | Create via API (triggers remote creation) |
 | `ChangeGitOrganizationDescription` | Id, Name, Description? | Update description (triggers remote update) |
+| `ChangeGitOrganizationVisibility` | Id, Visibility | Update visibility (triggers remote update) |
 | `DisableGitOrganization` | Id | Soft-delete (local only) |
 | `EnableGitOrganization` | Id | Re-enable (local only) |
 | `SyncGitOrganizations` | GitStorageAccountId | Trigger bulk sync from remote |
@@ -90,6 +101,7 @@ The GitOrganization entity represents an organization on a Git server (GitHub or
 | `Id` | `string` | Composite key |
 | `Name` | `string` | Organization name |
 | `Description` | `string?` | Description |
+| `Visibility` | `GitOrganizationVisibility` | Organization visibility level |
 | `GitStorageAccountId` | `string` | Parent account reference |
 | `GitStorageAccountName` | `string` | Denormalized account name for display |
 | `Origin` | `GitOrganizationOrigin` | How organization was added |
@@ -104,6 +116,7 @@ The GitOrganization entity represents an organization on a Git server (GitHub or
 |-------|------|-------------|
 | `Id` | `string` | Composite key |
 | `Name` | `string` | Organization name |
+| `Visibility` | `GitOrganizationVisibility` | Organization visibility level |
 | `GitStorageAccountId` | `string` | Parent account reference |
 | `SyncStatus` | `GitOrganizationSyncStatus` | Current sync state |
 | `Disabled` | `bool` | Soft-delete flag |
@@ -151,20 +164,20 @@ The GitOrganization entity represents an organization on a Git server (GitHub or
           │    (Active)    │
           └───────┬────────┘
                   │
-    ┌─────────────┼─────────────┬───────────────┐
-    │             │             │               │
-    ▼             ▼             ▼               ▼
-┌────────┐  ┌──────────┐  ┌──────────┐   ┌──────────┐
-│Descrip-│  │ Marked   │  │ Disabled │   │  Synced  │
-│tion    │  │NotFound  │  │          │   │  (again) │
-│Changed │  │          │  │          │   │          │
-└────────┘  └──────────┘  └─────┬────┘   └──────────┘
-                                │
-                                ▼
-                         ┌──────────┐
-                         │ Enabled  │
-                         │(Re-active)│
-                         └──────────┘
+    ┌─────────────┼─────────────┬───────────────┬───────────────┐
+    │             │             │               │               │
+    ▼             ▼             ▼               ▼               ▼
+┌────────┐  ┌──────────┐  ┌──────────┐   ┌──────────┐   ┌──────────┐
+│Descrip-│  │Visibility│  │ Marked   │   │ Disabled │   │  Synced  │
+│tion    │  │ Changed  │  │NotFound  │   │          │   │  (again) │
+│Changed │  │          │  │          │   │          │   │          │
+└────────┘  └──────────┘  └──────────┘   └─────┬────┘   └──────────┘
+                                                │
+                                                ▼
+                                         ┌──────────┐
+                                         │ Enabled  │
+                                         │(Re-active)│
+                                         └──────────┘
 ```
 
 ## Serialization Attributes

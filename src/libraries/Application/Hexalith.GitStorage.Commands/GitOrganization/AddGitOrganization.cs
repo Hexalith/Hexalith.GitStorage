@@ -7,6 +7,7 @@ namespace Hexalith.GitStorage.Commands.GitOrganization;
 
 using System.Runtime.Serialization;
 
+using Hexalith.GitStorage.Aggregates.Enums;
 using Hexalith.PolymorphicSerializations;
 
 /// <summary>
@@ -17,10 +18,12 @@ using Hexalith.PolymorphicSerializations;
 /// <param name="Name">The organization name.</param>
 /// <param name="Description">Optional description for the organization.</param>
 /// <param name="GitStorageAccountId">Reference to the parent GitStorageAccount entity.</param>
+/// <param name="Visibility">The visibility level of the organization.</param>
 [PolymorphicSerialization]
 public partial record AddGitOrganization(
     string Id,
     [property: DataMember(Order = 2)] string Name,
     [property: DataMember(Order = 3)] string? Description,
-    [property: DataMember(Order = 4)] string GitStorageAccountId)
+    [property: DataMember(Order = 4)] string GitStorageAccountId,
+    [property: DataMember(Order = 5)] GitOrganizationVisibility Visibility = GitOrganizationVisibility.Public)
     : GitOrganizationCommand(Id);

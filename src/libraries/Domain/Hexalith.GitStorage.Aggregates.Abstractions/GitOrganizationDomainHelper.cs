@@ -21,6 +21,7 @@ public static class GitOrganizationDomainHelper
     /// <param name="gitStorageAccountId">The Git Storage Account identifier.</param>
     /// <param name="organizationName">The organization name.</param>
     /// <returns>The composite identifier in format: {gitStorageAccountId}-{organizationName} (lowercase).</returns>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "N/A")]
     public static string GenerateId(string gitStorageAccountId, string organizationName)
-        => $"{gitStorageAccountId}-{organizationName.ToLowerInvariant()}";
+        => $"{gitStorageAccountId}-{organizationName?.ToLowerInvariant()}";
 }

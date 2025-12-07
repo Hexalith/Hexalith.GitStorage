@@ -34,7 +34,7 @@ As a system administrator, I need to create a new organization through this appl
 
 **Acceptance Scenarios**:
 
-1. **Given** a valid, enabled Git Storage Account exists, **When** I create a new organization with a valid name and optional description, **Then** the organization is created on the remote Git Server AND stored locally with a link to the Git Storage Account.
+1. **Given** a valid, enabled Git Storage Account exists, **When** I create a new organization with a valid name, visibility (Public/Private/Internal), and optional description, **Then** the organization is created on the remote Git Server AND stored locally with a link to the Git Storage Account.
 2. **Given** I am creating a new organization, **When** an organization with the same name already exists on the remote server, **Then** the system rejects the creation with a clear error indicating the conflict.
 3. **Given** I am creating a new organization, **When** the remote Git Server is unreachable, **Then** the system returns an error without creating a local record (maintains consistency).
 4. **Given** I am creating a new organization, **When** I omit required fields (organization name or Git Storage Account reference), **Then** the system validates and rejects the request with clear error messages.
@@ -51,7 +51,7 @@ As a system administrator, I need to view the details of a Git Organization so t
 
 **Acceptance Scenarios**:
 
-1. **Given** a Git Organization exists, **When** I request to view its details, **Then** the system displays the organization name, description, associated Git Storage Account, sync status, and origin (synced vs. created locally).
+1. **Given** a Git Organization exists, **When** I request to view its details, **Then** the system displays the organization name, description, visibility (Public/Private/Internal), associated Git Storage Account, sync status, and origin (synced vs. created locally).
 2. **Given** I request details for a non-existent organization, **When** the system processes my request, **Then** it returns an appropriate "not found" response.
 
 ---
@@ -100,16 +100,17 @@ As a system administrator, I need to browse a list of all Git Organizations so t
 
 - **FR-001**: System MUST allow synchronization of organizations from a Git Storage Account to the local database.
 - **FR-002**: System MUST allow creation of new organizations via the application API, which creates the organization on the remote Git Server (GitHub or Forgejo) and stores it locally.
-- **FR-003**: System MUST validate organization names against Git Server naming conventions (alphanumeric, hyphens, underscores; no spaces or special characters).
+- **FR-003**: System MUST validate organization names against Git Server naming conventions: alphanumeric characters and hyphens only; maximum 39 characters; cannot start with hyphen; cannot contain consecutive hyphens; must be unique within Git Storage Account.
 - **FR-004**: System MUST associate each Git Organization with exactly one Git Storage Account.
 - **FR-005**: System MUST track the origin of each organization (synced from remote vs. created via application).
 - **FR-006**: System MUST track sync status for each organization (last synced timestamp, sync errors if any).
 - **FR-007**: System MUST allow retrieval of Git Organization details by identifier.
-- **FR-008**: System MUST allow updating organization description; changes emit domain events that trigger event handlers to synchronize with the remote Git Server.
+- **FR-008**: System MUST allow updating organization description and visibility; changes emit domain events that trigger event handlers to synchronize with the remote Git Server.
+- **FR-018**: System MUST track organization visibility (Public | Private | Internal); visibility is synced from remote during sync operations and can be set during organization creation.
 - **FR-009**: System MUST provide a paginated list of Git Organization summaries with filtering by Git Storage Account.
 - **FR-010**: System MUST emit domain events when organizations are synced, created, updated, or flagged as removed from remote.
 - **FR-011**: System MUST prevent creation of duplicate organizations (same name within the same Git Storage Account).
-- **FR-012**: System MUST enforce role-based authorization requiring Admin role for all organization operations (sync, create, view, update).
+- **FR-012**: System MUST enforce role-based authorization using GitStorage roles: Owner role required for create/update/disable/enable/sync operations; Contributor and Reader roles may view organization details and list.
 - **FR-013**: System MUST gracefully handle remote Git Server unavailability; event handlers fail and retry is delegated to the messaging infrastructure (Dapr).
 - **FR-014**: System MUST NOT hard-delete organizations; organizations removed from remote are flagged but retained for audit purposes.
 - **FR-015**: System MUST support soft-delete (disable) of organizations locally; soft-deleted organizations are flagged as Disabled but no changes are propagated to the remote Git Server.
@@ -128,6 +129,7 @@ As a system administrator, I need to browse a list of all Git Organizations so t
   - **Id**: Composite key `{GitStorageAccountId}-{OrganizationName}` (deterministic, naturally unique within account context)
   - **Name**: Organization name as it appears on the Git Server
   - **Description**: Optional description of the organization
+  - **Visibility**: Organization visibility level (Public | Private | Internal). Public organizations are visible to everyone; Private organizations are only visible to members; Internal organizations are visible to all authenticated users within the enterprise.
   - **GitStorageAccountId**: Reference to the parent Git Storage Account
   - **Origin**: Indicator of how the organization was added (Synced | CreatedViaApplication)
   - **RemoteId**: The organization's unique identifier on the remote Git Server (if available)
@@ -165,6 +167,7 @@ As a system administrator, I need to browse a list of all Git Organizations so t
 - Q: Can disabled organizations be re-enabled? → A: Yes, re-enable allowed (reversible soft-delete).
 - Q: How to handle sync when local org matches remote org name? → A: Skip remote (local record takes precedence, no changes).
 - Q: Is Blazor UI included in this feature? → A: Yes, include UI (list, details, create, edit pages).
+- Q: Should GitOrganization have a Visibility property? → A: Yes, with values Public | Private | Internal (synced from remote and settable during creation).
 
 ## Assumptions
 

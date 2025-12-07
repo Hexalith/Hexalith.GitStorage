@@ -31,6 +31,7 @@ public class GitOrganizationSyncedOnGitOrganizationDetailsProjectionHandler(IPro
             baseEvent.Description,
             baseEvent.GitStorageAccountId,
             model?.GitStorageAccountName ?? string.Empty,
+            baseEvent.Visibility,
             model?.Origin ?? GitOrganizationOrigin.Synced,
             baseEvent.RemoteId,
             GitOrganizationSyncStatus.Synced,

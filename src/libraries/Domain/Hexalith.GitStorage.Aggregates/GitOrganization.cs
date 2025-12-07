@@ -20,6 +20,7 @@ using Hexalith.GitStorage.Events.GitOrganization;
 /// <param name="Name">The organization name as it appears on the Git Server.</param>
 /// <param name="Description">Optional description of the organization.</param>
 /// <param name="GitStorageAccountId">Reference to the parent GitStorageAccount entity.</param>
+/// <param name="Visibility">The visibility level of the organization.</param>
 /// <param name="Origin">How the organization was added to the system.</param>
 /// <param name="RemoteId">The organization's unique identifier on the remote Git Server.</param>
 /// <param name="SyncStatus">Current synchronization state with the remote Git Server.</param>
@@ -31,17 +32,18 @@ public sealed record GitOrganization(
     [property: DataMember(Order = 2)] string Name,
     [property: DataMember(Order = 3)] string? Description,
     [property: DataMember(Order = 4)] string GitStorageAccountId,
-    [property: DataMember(Order = 5)] GitOrganizationOrigin Origin,
-    [property: DataMember(Order = 6)] string? RemoteId,
-    [property: DataMember(Order = 7)] GitOrganizationSyncStatus SyncStatus,
-    [property: DataMember(Order = 8)] DateTimeOffset? LastSyncedAt,
-    [property: DataMember(Order = 9)] bool Disabled) : IDomainAggregate
+    [property: DataMember(Order = 5)] GitOrganizationVisibility Visibility,
+    [property: DataMember(Order = 6)] GitOrganizationOrigin Origin,
+    [property: DataMember(Order = 7)] string? RemoteId,
+    [property: DataMember(Order = 8)] GitOrganizationSyncStatus SyncStatus,
+    [property: DataMember(Order = 9)] DateTimeOffset? LastSyncedAt,
+    [property: DataMember(Order = 10)] bool Disabled) : IDomainAggregate
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="GitOrganization"/> class.
     /// </summary>
     public GitOrganization()
-        : this(string.Empty, string.Empty, null, string.Empty, GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false)
+        : this(string.Empty, string.Empty, null, string.Empty, GitOrganizationVisibility.Public, GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false)
     {
     }
 
@@ -55,6 +57,7 @@ public sealed record GitOrganization(
             added.Name,
             added.Description,
             added.GitStorageAccountId,
+            added.Visibility,
             GitOrganizationOrigin.CreatedViaApplication,
             null,
             GitOrganizationSyncStatus.Synced,
@@ -73,6 +76,7 @@ public sealed record GitOrganization(
             synced.Name,
             synced.Description,
             synced.GitStorageAccountId,
+            synced.Visibility,
             GitOrganizationOrigin.Synced,
             synced.RemoteId,
             GitOrganizationSyncStatus.Synced,
@@ -106,6 +110,7 @@ public sealed record GitOrganization(
                 GitOrganizationAdded e => ApplyEvent(e),
                 GitOrganizationSynced e => ApplyEvent(e),
                 GitOrganizationDescriptionChanged e => ApplyEvent(e),
+                GitOrganizationVisibilityChanged e => ApplyEvent(e),
                 GitOrganizationMarkedNotFound e => ApplyEvent(e),
                 GitOrganizationDisabled e => ApplyEvent(e),
                 GitOrganizationEnabled e => ApplyEvent(e),
@@ -126,6 +131,7 @@ public sealed record GitOrganization(
             {
                 Name = e.Name,
                 Description = e.Description,
+                Visibility = e.Visibility,
                 RemoteId = e.RemoteId,
                 SyncStatus = GitOrganizationSyncStatus.Synced,
                 LastSyncedAt = e.SyncedAt,
@@ -135,6 +141,10 @@ public sealed record GitOrganization(
     private ApplyResult ApplyEvent(GitOrganizationDescriptionChanged e) => Description == e.Description && Name == e.Name
         ? ApplyResult.Error(this, "The GitOrganization name and description are already set to the specified values.")
         : ApplyResult.Success(this with { Description = e.Description, Name = e.Name }, [e]);
+
+    private ApplyResult ApplyEvent(GitOrganizationVisibilityChanged e) => Visibility == e.Visibility
+        ? ApplyResult.Error(this, "The GitOrganization visibility is already set to the specified value.")
+        : ApplyResult.Success(this with { Visibility = e.Visibility }, [e]);
 
     private ApplyResult ApplyEvent(GitOrganizationMarkedNotFound e) => SyncStatus == GitOrganizationSyncStatus.NotFoundOnRemote
         ? ApplyResult.Error(this, "The GitOrganization is already marked as not found on remote.")

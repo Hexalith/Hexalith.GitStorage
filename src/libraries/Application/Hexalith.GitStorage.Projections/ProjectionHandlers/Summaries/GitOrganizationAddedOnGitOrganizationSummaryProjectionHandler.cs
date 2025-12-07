@@ -29,6 +29,7 @@ public class GitOrganizationAddedOnGitOrganizationSummaryProjectionHandler(IProj
             baseEvent.Id,
             baseEvent.Name,
             baseEvent.GitStorageAccountId,
+            baseEvent.Visibility,
             GitOrganizationSyncStatus.Synced,
             false));
     }

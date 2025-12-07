@@ -106,4 +106,22 @@
   <data name="Disabled" xml:space="preserve">
     <value>Désactivé</value>
   </data>
+  <data name="Visibility" xml:space="preserve">
+    <value>Visibilité</value>
+  </data>
+  <data name="VisibilityPublic" xml:space="preserve">
+    <value>Public</value>
+  </data>
+  <data name="VisibilityPrivate" xml:space="preserve">
+    <value>Privé</value>
+  </data>
+  <data name="VisibilityInternal" xml:space="preserve">
+    <value>Interne</value>
+  </data>
+  <data name="VisibilityRequired" xml:space="preserve">
+    <value>La visibilité est requise</value>
+  </data>
+  <data name="VisibilityInvalid" xml:space="preserve">
+    <value>Valeur de visibilité invalide</value>
+  </data>
 </root>
