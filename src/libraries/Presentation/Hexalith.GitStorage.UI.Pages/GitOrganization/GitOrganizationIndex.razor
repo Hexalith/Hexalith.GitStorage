@@ -1,0 +1,65 @@
+@page "/GitOrganization/GitOrganization"
+@rendermode InteractiveAuto
+<HexEntityIndexPage OnLoadData="LoadSummaries"
+                    OnImport="ImportAsync"
+                    OnExport="ExportAsync"
+                    OnDatabaseSynchronize="SynchronizeDatabaseAsync"
+                    AddPagePath="/GitOrganization/Add/GitOrganization"
+                    Title="@Labels.ListTitle">
+    <FluentDataGrid Items="_summariesQuery" TGridItem="GitOrganizationSummaryViewModel">
+        <PropertyColumn Property="@(p => p.Id)" Title="Id" Sortable="true" />
+        <PropertyColumn Property="@(p => p.Name)" Title="@Labels.Name" Sortable="true" />
+        <PropertyColumn Property="@(p => p.GitStorageAccountId)" Title="Account" Sortable="true" />
+        <PropertyColumn Property="@(p => p.SyncStatus)" Title="Status" Sortable="true" />
+        <TemplateColumn Title="">
+            <FluentButton Appearance="Appearance.Lightweight"
+                          IconStart="@(new Icons.Regular.Size20.Eye())"
+                          OnClick="@(() => NavigationManager.NavigateTo($"/GitOrganization/{context.Id}"))" />
+        </TemplateColumn>
+    </FluentDataGrid>
+</HexEntityIndexPage>
+
+@code {
+    private IEnumerable<GitOrganizationSummaryViewModel>? _summaries;
+    private IQueryable<GitOrganizationSummaryViewModel>? _summariesQuery;
+
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthenticationStateTask { get; set; }
+
+    private ClaimsPrincipal? _user;
+    private ClaimsPrincipal User => _user ?? throw new InvalidOperationException("User not initialized");
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (AuthenticationStateTask is not null)
+        {
+            var authState = await AuthenticationStateTask;
+            _user = authState.User;
+        }
+        await base.OnInitializedAsync();
+    }
+
+    private async Task LoadSummaries()
+    {
+        _summaries = [..(await RequestService
+            .SubmitAsync(User, new GetGitOrganizationSummaries(), CancellationToken.None))
+            .Results
+            .OrderBy(p => p.Id)];
+        _summariesQuery = _summaries.AsQueryable();
+    }
+
+    private static Task SynchronizeDatabaseAsync()
+    {
+        return Task.CompletedTask;
+    }
+
+    private static async Task ImportAsync()
+    {
+        await Task.CompletedTask;
+    }
+
+    private static async Task ExportAsync()
+    {
+        await Task.CompletedTask;
+    }
+}

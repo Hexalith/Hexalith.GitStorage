@@ -1,4 +1,4 @@
-// <copyright file="GitStorageAccountModulePolicies.cs" company="ITANEO">
+// <copyright file="GitStorageModulePolicies.cs" company="ITANEO">
 // Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
@@ -13,43 +13,43 @@ using Hexalith.GitStorage;
 using Microsoft.AspNetCore.Authorization;
 
 /// <summary>
-/// Provides authorization policies for the GitStorageAccount module.
+/// Provides authorization policies for the GitStorage module.
 /// </summary>
-public static class GitStorageAccountModulePolicies
+public static class GitStorageModulePolicies
 {
     /// <summary>
-    /// Gets the authorization policies for the GitStorageAccount module.
+    /// Gets the authorization policies for the GitStorage module.
     /// </summary>
     public static IDictionary<string, AuthorizationPolicy> AuthorizationPolicies =>
     new Dictionary<string, AuthorizationPolicy>
     {
         {
-            GitStorageAccountPolicies.Owner, new AuthorizationPolicyBuilder()
+            GitStoragePolicies.Owner, new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
-                .RequireRole(ApplicationRoles.GlobalAdministrator, GitStorageAccountRoles.Owner)
+                .RequireRole(ApplicationRoles.GlobalAdministrator, GitStorageRoles.Owner)
                 .Build()
         },
         {
-            GitStorageAccountPolicies.Contributor, new AuthorizationPolicyBuilder()
+            GitStoragePolicies.Contributor, new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
-                .RequireRole(ApplicationRoles.GlobalAdministrator, GitStorageAccountRoles.Owner, GitStorageAccountRoles.Contributor)
+                .RequireRole(ApplicationRoles.GlobalAdministrator, GitStorageRoles.Owner, GitStorageRoles.Contributor)
                 .Build()
         },
         {
-            GitStorageAccountPolicies.Reader, new AuthorizationPolicyBuilder()
+            GitStoragePolicies.Reader, new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
-                .RequireRole(ApplicationRoles.GlobalAdministrator, GitStorageAccountRoles.Owner, GitStorageAccountRoles.Contributor, GitStorageAccountRoles.Reader)
+                .RequireRole(ApplicationRoles.GlobalAdministrator, GitStorageRoles.Owner, GitStorageRoles.Contributor, GitStorageRoles.Reader)
                 .Build()
         },
     };
 
     /// <summary>
-    /// Adds the GitStorageAccount module policies to the specified authorization options.
+    /// Adds the GitStorage module policies to the specified authorization options.
     /// </summary>
     /// <param name="options">The authorization options to add the policies to.</param>
     /// <returns>The updated authorization options.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the options parameter is null.</exception>
-    public static AuthorizationOptions AddGitStorageAccountAuthorizationPolicies(this AuthorizationOptions options)
+    public static AuthorizationOptions AddGitStorageAuthorizationPolicies(this AuthorizationOptions options)
     {
         ArgumentNullException.ThrowIfNull(options);
         foreach (KeyValuePair<string, AuthorizationPolicy> policy in AuthorizationPolicies)

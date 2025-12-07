@@ -4,6 +4,9 @@
     <RootNamespace>Hexalith.GitStorage</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="D:\Hexalith.GitStorage\Hexalith.Builds\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Hexalith.Application.Modules.Abstractions" />
   </ItemGroup>
 </Project>

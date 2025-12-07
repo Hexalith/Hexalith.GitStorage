@@ -1,4 +1,4 @@
-// <copyright file="GitStorageAccountHelper.cs" company="ITANEO">
+// <copyright file="GitStorageHelper.cs" company="ITANEO">
 // Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
@@ -11,9 +11,9 @@ using Hexalith.GitStorage.Projections.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
-/// Helper class for adding GitStorageAccount projections to the service collection.
+/// Helper class for adding GitStorage projections to the service collection.
 /// </summary>
-public static class GitStorageAccountHelper
+public static class GitStorageHelper
 {
     /// <summary>
     /// Adds the GitStorageAccount module to the service collection.
@@ -25,6 +25,10 @@ public static class GitStorageAccountHelper
         _ = services.AddGitStorageAccountCommandHandlers();
         _ = services.AddGitStorageAccountAggregateProviders();
         _ = services.AddGitStorageAccountEventValidators();
+
+        _ = services.AddGitOrganizationCommandHandlers();
+        _ = services.AddGitOrganizationAggregateProviders();
+        _ = services.AddGitOrganizationEventValidators();
         return services;
     }
 }

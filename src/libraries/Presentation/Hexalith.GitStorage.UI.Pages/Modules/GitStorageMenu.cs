@@ -26,7 +26,7 @@ public static class GitStorageMenu
                     new IconInformation("Apps", 20, IconStyle.Regular, IconSource.Fluent, IconLibraryName),
                     true,
                     10,
-                    GitStorageAccountRoles.Reader,
+                    GitStorageRoles.Reader,
                     [
                         new MenuItemInformation(
                             Labels.GitStorageAccountMenuItem,
@@ -34,7 +34,15 @@ public static class GitStorageMenu
                             new IconInformation("AppsAddIn", 20, IconStyle.Regular, IconSource.Fluent, IconLibraryName),
                             false,
                             30,
-                            GitStorageAccountRoles.Reader,
+                            GitStorageRoles.Reader,
+                            []),
+                        new MenuItemInformation(
+                            Labels.GitOrganizationMenuItem,
+                            "GitOrganization/GitOrganization",
+                            new IconInformation("Organization", 20, IconStyle.Regular, IconSource.Fluent, IconLibraryName),
+                            false,
+                            40,
+                            GitStorageRoles.Reader,
                             []),
                     ]);
 

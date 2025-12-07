@@ -32,10 +32,10 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 /// <summary>
 /// The GitStorage construction site client module.
 /// </summary>
-public sealed class HexalithGitStorageAccountWebServerModule : IWebServerApplicationModule, IGitStorageAccountModule
+public sealed class HexalithGitStorageAccountWebServerModule : IWebServerApplicationModule, IGitStorageModule
 {
     /// <inheritdoc/>
-    public IDictionary<string, AuthorizationPolicy> AuthorizationPolicies => GitStorageAccountModulePolicies.AuthorizationPolicies;
+    public IDictionary<string, AuthorizationPolicy> AuthorizationPolicies => GitStorageModulePolicies.AuthorizationPolicies;
 
     /// <inheritdoc/>
     public IEnumerable<string> Dependencies => [];
@@ -83,14 +83,15 @@ public sealed class HexalithGitStorageAccountWebServerModule : IWebServerApplica
             .AddGitStorageAccountEventValidators()
             .AddGitStorageAccountProjectionActorFactories()
             .AddGitStorageAccountRequestHandlers()
-            .AddGitStorageAccountProjections();
+            .AddGitStorageAccountProjections()
+            .AddGitOrganizationProjectionActorFactories();
 
         HexalithGitStorageEventsSerialization.RegisterPolymorphicMappers();
         HexalithGitStorageCommandsSerialization.RegisterPolymorphicMappers();
         HexalithGitStorageRequestsSerialization.RegisterPolymorphicMappers();
 
         // Add application module
-        services.TryAddSingleton<IGitStorageAccountModule, HexalithGitStorageAccountWebServerModule>();
+        services.TryAddSingleton<IGitStorageModule, HexalithGitStorageAccountWebServerModule>();
 
         _ = services.AddTransient(_ => GitStorageMenu.Menu);
         _ = services.AddControllers().AddApplicationPart(typeof(GitStorageController).Assembly);

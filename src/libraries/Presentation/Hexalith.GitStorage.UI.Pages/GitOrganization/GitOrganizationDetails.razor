@@ -1,0 +1,90 @@
+@page "/GitOrganization/Add/GitOrganization"
+@page "/GitOrganization/{Id}"
+<HexEntityDetailsPage AddTitle="@Labels.AddTitle"
+                      EditTitle="@Labels.Title"
+                      ViewModel="_data"
+                      EntityId="@Id"
+                      IndexPath="/GitOrganization/GitOrganization"
+                      ValidationResult="_validationResult"
+                      OnSave="OnSave"
+                      OnLoadData="OnLoadDataAsync">
+</HexEntityDetailsPage>
+
+@code {
+
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthenticationStateTask { get; set; }
+
+    [Parameter]
+    public string? Id { get; set; }
+
+    private ClaimsPrincipal? _user;
+    private GitOrganizationEditViewModel _data = new();
+
+    private ValidationResult? _validationResult;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (AuthenticationStateTask is not null)
+        {
+            var authState = await AuthenticationStateTask;
+            if (!authState.User.Identity?.IsAuthenticated == true)
+            {
+                NavigationManager.NavigateTo(Application.LoginPath);
+            }
+            _user = authState.User;
+        }
+        if (_user is null)
+        {
+            return;
+        }
+        if (Id is not null)
+        {
+            var details = await RequestService.SubmitAsync(_user, new GetGitOrganizationDetails(Id), CancellationToken.None);
+            if (details.Result is not null)
+            {
+                _data = new GitOrganizationEditViewModel(details.Result);
+            }
+        }
+        await base.OnInitializedAsync();
+    }
+
+    protected async Task OnLoadDataAsync()
+    {
+        if (_user is null)
+        {
+            return;
+        }
+        if (Id is not null)
+        {
+            var details = await RequestService.SubmitAsync(_user, new GetGitOrganizationDetails(Id), CancellationToken.None);
+            if (details.Result is not null)
+            {
+                _data = new GitOrganizationEditViewModel(details.Result);
+            }
+        }
+    }
+
+    private async Task<SaveResult> OnSave()
+    {
+        var result = _data.ValidateSave(_user, (d) =>
+        {
+            _validationResult = new GitOrganizationEditValidation().Validate(d);
+            if (_validationResult.IsValid)
+            {
+                return true;
+            }
+            return false;
+        });
+        if (result.Result == ExecuteSaveResult.Success)
+        {
+            await _data!.SaveAsync(_user!, CommandService, Id is null, CancellationToken.None);
+            if (Id is null)
+            {
+                _data = new ();
+            }
+        }
+        StateHasChanged();
+        return result;
+    }
+}

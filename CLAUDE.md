@@ -107,6 +107,59 @@ public partial record GetGitStorageAccountDetails(
 }
 ```
 
+### Module Security
+```csharp
+public static class GitStorageRoles
+{
+    /// <summary>
+    /// Role for users who can contribute to GitStorage but can't manage it.
+    /// </summary>
+    public const string Contributor = nameof(GitStorage) + nameof(Contributor);
+
+    /// <summary>
+    /// Role for users who own GitStorage. They can manage it.
+    /// </summary>
+    public const string Owner = nameof(GitStorage) + nameof(Owner);
+
+    /// <summary>
+    /// Role for users who can only read GitStorage.
+    /// </summary>
+    public const string Reader = nameof(GitStorage) + nameof(Reader);
+}
+public static class GitStoragePolicies
+{
+    public const string Contributor = GitStorageRoles.Contributor;
+    public const string Owner = GitStorageRoles.Owner;
+    public const string Reader = GitStorageRoles.Reader;
+}
+public static class GitStorageModulePolicies
+{
+    public static IDictionary<string, AuthorizationPolicy> AuthorizationPolicies =>
+    new Dictionary<string, AuthorizationPolicy>
+    {
+        {
+            GitStoragePolicies.Owner, new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .RequireRole(ApplicationRoles.GlobalAdministrator, GitStorageRoles.Owner)
+                .Build()
+        },
+        {
+            GitStoragePolicies.Contributor, new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .RequireRole(ApplicationRoles.GlobalAdministrator, GitStorageRoles.Owner, GitStorageRoles.Contributor)
+                .Build()
+        },
+        {
+            GitStoragePolicies.Reader, new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .RequireRole(ApplicationRoles.GlobalAdministrator, GitStorageRoles.Owner, GitStorageRoles.Contributor, GitStorageRoles.Reader)
+                .Build()
+        },
+    };
+```
+
+
+
 ## Naming Conventions
 
 | Type | Pattern | Example |
@@ -137,7 +190,7 @@ public partial record GetGitStorageAccountDetails(
 
 ```csharp
 [Fact]
-public void Apply_GitStorageAccountAdded_ShouldInitializeAggregate()
+public void ApplyGitStorageAccountAddedShouldInitializeAggregate()
 {
     // Arrange
     GitStorageAccount aggregate = new();
@@ -155,21 +208,7 @@ public void Apply_GitStorageAccountAdded_ShouldInitializeAggregate()
 
 Test naming: `{Method}_{Scenario}_{ExpectedResult}`
 
-## Commands
-
-```bash
-dotnet build                    # Build solution
-dotnet test                     # Run tests
-cd AspireHost && dotnet run     # Start with Aspire orchestration
-./initialize.ps1 -PackageName "YourModule"  # Initialize from template
-```
-
 ## Do Not Modify
 
-- `DOCUMENTATION.ai.md` - AI prompts
 - `Hexalith.Builds/` - Build configs (submodule)
 - `HexalithApp/` - Base framework (submodule)
-
-## Hexalith Package Version
-
-Current: **1.71.1** (defined in `Directory.Packages.props`)

@@ -24,10 +24,10 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 /// <summary>
 /// The GitStorageAccount construction site client module.
 /// </summary>
-public class HexalithGitStorageWebAppModule : IWebAppApplicationModule, IGitStorageAccountModule
+public class HexalithGitStorageWebAppModule : IWebAppApplicationModule, IGitStorageModule
 {
     /// <inheritdoc/>
-    public IDictionary<string, AuthorizationPolicy> AuthorizationPolicies => GitStorageAccountModulePolicies.AuthorizationPolicies;
+    public IDictionary<string, AuthorizationPolicy> AuthorizationPolicies => GitStorageModulePolicies.AuthorizationPolicies;
 
     /// <inheritdoc/>
     public IEnumerable<string> Dependencies => [];
@@ -68,7 +68,7 @@ public class HexalithGitStorageWebAppModule : IWebAppApplicationModule, IGitStor
         HexalithGitStorageRequestsSerialization.RegisterPolymorphicMappers();
 
         // Add application module
-        services.TryAddSingleton<IGitStorageAccountModule, HexalithGitStorageWebAppModule>();
+        services.TryAddSingleton<IGitStorageModule, HexalithGitStorageWebAppModule>();
 
         _ = services
             .AddGitStorageAccountQueryServices()
