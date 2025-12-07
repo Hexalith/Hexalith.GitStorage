@@ -12,7 +12,8 @@
       "Bash(dir:*)",
       "Bash(find:*)",
       "Bash(grep:*)",
-      "Bash(git -C \"/d/Hexalith.GitStorage\" config --file .gitmodules --get-regexp path)"
+      "Bash(git -C \"/d/Hexalith.GitStorage\" config --file .gitmodules --get-regexp path)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
