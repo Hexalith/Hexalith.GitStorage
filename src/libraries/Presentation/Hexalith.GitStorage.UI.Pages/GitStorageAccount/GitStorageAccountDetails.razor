@@ -8,9 +8,27 @@
                       ValidationResult="_validationResult"
                       OnSave="OnSave"
                       OnLoadData="OnLoadDataAsync">
+    <FluentAccordionItem Heading="@Labels.ApiCredentials" Expanded="true">
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16">
+            <FluentSelect TOption="GitServerProviderType"
+                          Label="@Labels.ProviderType"
+                          Items="@_providerTypes"
+                          OptionText="@(p => p.ToString())"
+                          OptionValue="@(p => p.ToString())"
+                          @bind-SelectedOption="_data.ProviderType" />
+            <FluentTextField Label="@Labels.ServerUrl"
+                             @bind-Value="_data.ServerUrl"
+                             Placeholder="https://api.github.com" />
+            <FluentTextField Label="@Labels.AccessToken"
+                             @bind-Value="_data.AccessToken"
+                             TextFieldType="TextFieldType.Password"
+                             Placeholder="ghp_xxxxxxxxxxxx" />
+        </FluentStack>
+    </FluentAccordionItem>
 </HexEntityDetailsPage>
 
 @code {
+    private static readonly GitServerProviderType[] _providerTypes = Enum.GetValues<GitServerProviderType>();
 
     [CascadingParameter]
     public Task<AuthenticationState>? AuthenticationStateTask { get; set; }

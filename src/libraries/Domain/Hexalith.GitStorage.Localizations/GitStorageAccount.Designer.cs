@@ -88,6 +88,15 @@ namespace Hexalith.GitStorage.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to API Credentials.
+        /// </summary>
+        public static string ApiCredentials {
+            get {
+                return ResourceManager.GetString("ApiCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comments.
         /// </summary>
         public static string Comments {

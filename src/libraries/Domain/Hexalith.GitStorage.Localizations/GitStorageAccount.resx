@@ -162,4 +162,7 @@
   <data name="ServerUrlMustBeHttps" xml:space="preserve">
     <value>Server URL must use HTTPS</value>
   </data>
+  <data name="ApiCredentials" xml:space="preserve">
+    <value>API Credentials</value>
+  </data>
 </root>
