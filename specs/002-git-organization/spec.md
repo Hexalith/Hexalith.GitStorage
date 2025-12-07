@@ -92,6 +92,7 @@ As a system administrator, I need to browse a list of all Git Organizations so t
 - What happens if the remote organization is deleted on the server between syncs? On the next sync, the organization should be flagged as "not found on remote" with a timestamp; it should not be automatically deleted locally.
 - How does the system handle concurrent sync operations for the same Git Storage Account? The system should prevent concurrent syncs for the same account using optimistic concurrency or a locking mechanism.
 - What happens when creating an organization with invalid characters in the name (characters not allowed by GitHub/Forgejo)? The system should validate organization names against git server naming rules before attempting remote creation.
+- What happens during sync when a locally-created organization already exists with the same name as a remote organization? The local record takes precedence and the remote organization is skipped (no updates applied).
 
 ## Requirements *(mandatory)*
 
@@ -111,6 +112,15 @@ As a system administrator, I need to browse a list of all Git Organizations so t
 - **FR-012**: System MUST enforce role-based authorization requiring Admin role for all organization operations (sync, create, view, update).
 - **FR-013**: System MUST gracefully handle remote Git Server unavailability; event handlers fail and retry is delegated to the messaging infrastructure (Dapr).
 - **FR-014**: System MUST NOT hard-delete organizations; organizations removed from remote are flagged but retained for audit purposes.
+- **FR-015**: System MUST support soft-delete (disable) of organizations locally; soft-deleted organizations are flagged as Disabled but no changes are propagated to the remote Git Server.
+- **FR-016**: System MUST allow re-enabling (un-disabling) a previously disabled organization; soft-delete is reversible.
+- **FR-017**: System MUST provide Blazor UI pages for GitOrganization management: list view, details view, create form, and edit form.
+
+### Out of Scope
+
+- Hard deletion of organizations from the remote Git Server via this application.
+- Automatic scheduled synchronization (deferred to future enhancement).
+- Credential management for Git Storage Accounts (handled by feature 001).
 
 ### Key Entities
 
@@ -136,6 +146,10 @@ As a system administrator, I need to browse a list of all Git Organizations so t
 - **SC-005**: Users receive clear, actionable error messages for all validation failures and remote server errors.
 - **SC-006**: Organizations flagged as "not found on remote" retain full history and are never auto-deleted.
 
+### Non-Functional Requirements
+
+- **NFR-001**: Observability is limited to standard application logging; no custom metrics or distributed tracing required for this feature.
+
 ## Clarifications
 
 ### Session 2025-12-01
@@ -143,6 +157,14 @@ As a system administrator, I need to browse a list of all Git Organizations so t
 - Q: How should GitOrganization Id be generated? → A: Composite key `{GitStorageAccountId}-{OrganizationName}` (deterministic, naturally unique within account context).
 - Q: How should updates to synced organizations be handled? → A: Always push to remote regardless of origin; domain events trigger event handlers that sync changes to the remote server (same pattern as creation).
 - Q: How should event handler failures (remote unavailable) be managed? → A: Infrastructure-managed retry; event handler fails and the underlying messaging infrastructure (Dapr) handles retry policies and dead-letter processing.
+
+### Session 2025-12-07
+
+- Q: Is organization deletion in scope? → A: Soft-delete only (flag as disabled locally, do not touch remote).
+- Q: What observability level is required? → A: Minimal (standard application logs only).
+- Q: Can disabled organizations be re-enabled? → A: Yes, re-enable allowed (reversible soft-delete).
+- Q: How to handle sync when local org matches remote org name? → A: Skip remote (local record takes precedence, no changes).
+- Q: Is Blazor UI included in this feature? → A: Yes, include UI (list, details, create, edit pages).
 
 ## Assumptions
 

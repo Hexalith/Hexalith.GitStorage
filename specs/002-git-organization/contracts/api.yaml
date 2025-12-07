@@ -1,7 +1,10 @@
 openapi: 3.0.3
 info:
-  title: Git Organization API
-  description: API for managing Git Organizations within Git Storage Accounts
+  title: GitOrganization API
+  description: |
+    API for managing Git Organizations within the Hexalith.GitStorage module.
+    Organizations can be synced from remote Git servers (GitHub, Forgejo) or
+    created via this API with automatic provisioning on the remote server.
   version: 1.0.0
   contact:
     name: ITANEO
@@ -9,46 +12,51 @@ info:
 
 servers:
   - url: /api/v1
-    description: API Server
+    description: API base path
 
-security:
-  - bearerAuth: []
+tags:
+  - name: GitOrganizations
+    description: Git Organization management operations
 
 paths:
   /git-organizations:
     get:
-      summary: List Git Organizations
-      description: Returns a paginated list of Git Organization summaries with optional filtering
-      operationId: getGitOrganizations
       tags:
         - GitOrganizations
+      summary: List Git Organizations
+      description: |
+        Returns a paginated list of Git Organization summaries.
+        Supports filtering by Git Storage Account and search.
+      operationId: getGitOrganizationSummaries
       parameters:
-        - name: gitStorageAccountId
-          in: query
-          description: Filter by Git Storage Account ID
-          required: false
-          schema:
-            type: string
         - name: skip
           in: query
-          description: Number of records to skip (pagination)
-          required: false
+          description: Number of records to skip for pagination
           schema:
             type: integer
             default: 0
             minimum: 0
         - name: take
           in: query
-          description: Number of records to return (page size)
-          required: false
+          description: Maximum number of records to return
           schema:
             type: integer
             default: 20
             minimum: 1
             maximum: 100
+        - name: search
+          in: query
+          description: Search term to filter organizations by name or ID
+          schema:
+            type: string
+        - name: gitStorageAccountId
+          in: query
+          description: Filter by Git Storage Account ID
+          schema:
+            type: string
       responses:
         '200':
-          description: List of organization summaries
+          description: List of Git Organization summaries
           content:
             application/json:
               schema:
@@ -58,62 +66,70 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/GitOrganizationSummary'
-                  totalCount:
+                  total:
                     type: integer
-                  skip:
-                    type: integer
-                  take:
-                    type: integer
+                    description: Total count of matching organizations
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+      security:
+        - bearerAuth: []
 
     post:
-      summary: Create Git Organization
-      description: Creates a new organization locally and on the remote Git Server
-      operationId: createGitOrganization
       tags:
         - GitOrganizations
+      summary: Create Git Organization
+      description: |
+        Creates a new Git Organization locally and on the remote Git server.
+        The organization is automatically provisioned on the remote server
+        associated with the specified Git Storage Account.
+      operationId: addGitOrganization
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateGitOrganizationRequest'
+              $ref: '#/components/schemas/AddGitOrganizationCommand'
       responses:
         '202':
-          description: Organization creation accepted (async)
+          description: Organization creation accepted (async operation)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommandAcceptedResponse'
+                $ref: '#/components/schemas/CommandAccepted'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/ValidationError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
         '409':
-          $ref: '#/components/responses/Conflict'
+          description: Organization already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - bearerAuth: []
 
   /git-organizations/{id}:
     get:
-      summary: Get Git Organization Details
-      description: Returns full details for a specific Git Organization
-      operationId: getGitOrganization
       tags:
         - GitOrganizations
+      summary: Get Git Organization details
+      description: Returns full details of a specific Git Organization
+      operationId: getGitOrganizationDetails
       parameters:
         - name: id
           in: path
-          description: Git Organization ID (composite key)
           required: true
+          description: Git Organization composite ID (format {GitStorageAccountId}-{OrganizationName})
           schema:
             type: string
       responses:
         '200':
-          description: Organization details
+          description: Git Organization details
           content:
             application/json:
               schema:
@@ -124,18 +140,22 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+        - bearerAuth: []
 
     patch:
-      summary: Update Git Organization
-      description: Updates the organization description
-      operationId: updateGitOrganization
       tags:
         - GitOrganizations
+      summary: Update Git Organization
+      description: |
+        Updates the Git Organization description. Changes are propagated
+        to the remote Git server via event handlers.
+      operationId: changeGitOrganizationDescription
       parameters:
         - name: id
           in: path
-          description: Git Organization ID (composite key)
           required: true
+          description: Git Organization composite ID
           schema:
             type: string
       requestBody:
@@ -143,106 +163,129 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateGitOrganizationRequest'
+              $ref: '#/components/schemas/ChangeGitOrganizationDescriptionCommand'
       responses:
         '202':
-          description: Update accepted (async)
+          description: Update accepted (async operation)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommandAcceptedResponse'
+                $ref: '#/components/schemas/CommandAccepted'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          $ref: '#/components/responses/ValidationError'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+        - bearerAuth: []
 
   /git-organizations/{id}/disable:
     post:
-      summary: Disable Git Organization
-      description: Disables a Git Organization locally
-      operationId: disableGitOrganization
       tags:
         - GitOrganizations
+      summary: Disable Git Organization
+      description: |
+        Soft-deletes the Git Organization locally. The organization is not
+        deleted from the remote Git server. This operation is reversible.
+      operationId: disableGitOrganization
       parameters:
         - name: id
           in: path
-          description: Git Organization ID (composite key)
           required: true
+          description: Git Organization composite ID
           schema:
             type: string
       responses:
         '202':
-          description: Disable accepted (async)
+          description: Disable accepted
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommandAcceptedResponse'
+                $ref: '#/components/schemas/CommandAccepted'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+        - bearerAuth: []
 
   /git-organizations/{id}/enable:
     post:
+      tags:
+        - GitOrganizations
       summary: Enable Git Organization
       description: Re-enables a previously disabled Git Organization
       operationId: enableGitOrganization
-      tags:
-        - GitOrganizations
       parameters:
         - name: id
           in: path
-          description: Git Organization ID (composite key)
           required: true
+          description: Git Organization composite ID
           schema:
             type: string
       responses:
         '202':
-          description: Enable accepted (async)
+          description: Enable accepted
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommandAcceptedResponse'
+                $ref: '#/components/schemas/CommandAccepted'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+        - bearerAuth: []
 
   /git-storage-accounts/{gitStorageAccountId}/sync-organizations:
     post:
-      summary: Sync Organizations
-      description: Triggers synchronization of organizations from a Git Storage Account
-      operationId: syncGitOrganizations
       tags:
         - GitOrganizations
+      summary: Sync Organizations from Git Storage Account
+      description: |
+        Triggers synchronization of organizations from the remote Git server
+        associated with the specified Git Storage Account. New organizations
+        are added, existing ones updated, and missing ones flagged.
+      operationId: syncGitOrganizations
       parameters:
         - name: gitStorageAccountId
           in: path
-          description: Git Storage Account ID to sync from
           required: true
+          description: Git Storage Account ID to sync from
           schema:
             type: string
       responses:
         '202':
-          description: Sync accepted (async)
+          description: Sync operation accepted (async)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommandAcceptedResponse'
+                $ref: '#/components/schemas/CommandAccepted'
+        '400':
+          description: Git Storage Account is disabled or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
         '404':
-          $ref: '#/components/responses/NotFound'
+          description: Git Storage Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - bearerAuth: []
 
 components:
   securitySchemes:
@@ -263,18 +306,22 @@ components:
       properties:
         id:
           type: string
-          description: Composite key (gitStorageAccountId-organizationName)
+          description: Composite key ({GitStorageAccountId}-{OrganizationName})
+          example: "github-main-hexalith"
         name:
           type: string
-          description: Organization name
+          description: Organization name as it appears on the Git server
+          example: "hexalith"
         gitStorageAccountId:
           type: string
-          description: Parent Git Storage Account ID
+          description: Reference to the parent Git Storage Account
+          example: "github-main"
         syncStatus:
           $ref: '#/components/schemas/GitOrganizationSyncStatus'
         disabled:
           type: boolean
-          description: Whether the organization is disabled locally
+          description: Whether the organization is soft-deleted
+          example: false
 
     GitOrganizationDetails:
       type: object
@@ -289,43 +336,54 @@ components:
       properties:
         id:
           type: string
-          description: Composite key (gitStorageAccountId-organizationName)
+          description: Composite key ({GitStorageAccountId}-{OrganizationName})
+          example: "github-main-hexalith"
         name:
           type: string
-          description: Organization name
+          description: Organization name as it appears on the Git server
+          example: "hexalith"
         description:
           type: string
           nullable: true
-          description: Optional organization description
+          description: Human-readable description
+          example: "Hexalith open source projects"
         gitStorageAccountId:
           type: string
-          description: Parent Git Storage Account ID
+          description: Reference to the parent Git Storage Account
+          example: "github-main"
         gitStorageAccountName:
           type: string
-          description: Parent Git Storage Account name (denormalized)
+          description: Display name of the Git Storage Account (denormalized)
+          example: "GitHub Main"
         origin:
           $ref: '#/components/schemas/GitOrganizationOrigin'
         remoteId:
           type: string
           nullable: true
-          description: Remote server's unique identifier
+          description: Organization's unique identifier on the remote Git server
+          example: "12345678"
         syncStatus:
           $ref: '#/components/schemas/GitOrganizationSyncStatus'
         lastSyncedAt:
           type: string
           format: date-time
           nullable: true
-          description: Timestamp of last successful sync
+          description: Timestamp of last successful synchronization
+          example: "2025-12-07T10:30:00Z"
         disabled:
           type: boolean
-          description: Whether the organization is disabled locally
+          description: Whether the organization is soft-deleted
+          example: false
 
     GitOrganizationOrigin:
       type: string
       enum:
         - Synced
         - CreatedViaApplication
-      description: How the organization was added to the system
+      description: |
+        How the organization was added to the system:
+        - Synced: Discovered from remote during synchronization
+        - CreatedViaApplication: Created through this API
 
     GitOrganizationSyncStatus:
       type: string
@@ -333,9 +391,13 @@ components:
         - Synced
         - NotFoundOnRemote
         - SyncError
-      description: Current synchronization state with remote Git Server
+      description: |
+        Current synchronization state:
+        - Synced: Successfully synchronized with remote
+        - NotFoundOnRemote: Previously synced but no longer exists on remote
+        - SyncError: Last sync operation failed
 
-    CreateGitOrganizationRequest:
+    AddGitOrganizationCommand:
       type: object
       required:
         - name
@@ -343,90 +405,130 @@ components:
       properties:
         name:
           type: string
+          description: Organization name (1-39 chars, alphanumeric with hyphens/underscores)
+          pattern: '^[a-zA-Z0-9][a-zA-Z0-9_-]*[a-zA-Z0-9]$|^[a-zA-Z0-9]$'
           minLength: 1
           maxLength: 39
-          pattern: '^[a-zA-Z0-9][a-zA-Z0-9_-]*[a-zA-Z0-9]$|^[a-zA-Z0-9]$'
-          description: Organization name (alphanumeric, hyphens, underscores)
+          example: "my-new-org"
         description:
           type: string
           nullable: true
-          description: Optional organization description
+          description: Optional description for the organization
+          example: "My new organization"
         gitStorageAccountId:
           type: string
-          description: Parent Git Storage Account ID
+          description: ID of the Git Storage Account to associate with
+          example: "github-main"
 
-    UpdateGitOrganizationRequest:
+    ChangeGitOrganizationDescriptionCommand:
       type: object
+      required:
+        - name
       properties:
         name:
           type: string
-          minLength: 1
-          maxLength: 39
-          description: Updated organization name
+          description: Organization name (for validation)
+          example: "hexalith"
         description:
           type: string
           nullable: true
-          description: Updated organization description
+          description: New description for the organization
+          example: "Updated organization description"
 
-    CommandAcceptedResponse:
+    CommandAccepted:
       type: object
       required:
         - aggregateId
-        - message
+        - correlationId
       properties:
         aggregateId:
           type: string
-          description: The aggregate ID for tracking
-        message:
+          description: ID of the affected aggregate
+          example: "github-main-hexalith"
+        correlationId:
           type: string
-          description: Confirmation message
+          format: uuid
+          description: Correlation ID for tracking the async operation
+          example: "550e8400-e29b-41d4-a716-446655440000"
 
     ErrorResponse:
       type: object
       required:
-        - error
+        - code
         - message
       properties:
-        error:
+        code:
           type: string
           description: Error code
+          example: "ORGANIZATION_EXISTS"
         message:
           type: string
           description: Human-readable error message
+          example: "An organization with this name already exists"
         details:
-          type: array
-          items:
-            type: string
+          type: object
+          additionalProperties: true
           description: Additional error details
 
+    ValidationErrorResponse:
+      type: object
+      required:
+        - code
+        - message
+        - errors
+      properties:
+        code:
+          type: string
+          example: "VALIDATION_ERROR"
+        message:
+          type: string
+          example: "One or more validation errors occurred"
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                example: "name"
+              message:
+                type: string
+                example: "Name must be between 1 and 39 characters"
+
   responses:
-    BadRequest:
-      description: Invalid request parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     Unauthorized:
       description: Authentication required
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: "UNAUTHORIZED"
+            message: "Authentication required"
+
     Forbidden:
-      description: Insufficient permissions (Admin role required)
+      description: Insufficient permissions
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+          example:
+            code: "FORBIDDEN"
+            message: "You do not have permission to perform this action"
+
     NotFound:
       description: Resource not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Conflict:
-      description: Resource already exists or conflict
+          example:
+            code: "NOT_FOUND"
+            message: "The requested resource was not found"
+
+    ValidationError:
+      description: Validation failed
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
+            $ref: '#/components/schemas/ValidationErrorResponse'
