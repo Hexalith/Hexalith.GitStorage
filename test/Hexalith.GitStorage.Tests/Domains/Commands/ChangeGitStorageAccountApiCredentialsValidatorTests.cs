@@ -5,6 +5,8 @@
 
 namespace Hexalith.GitStorage.Tests.Domains.Commands;
 
+using System.Diagnostics.CodeAnalysis;
+
 using FluentValidation.TestHelper;
 
 using Hexalith.GitStorage.Aggregates.Enums;
@@ -26,20 +28,60 @@ public class ChangeGitStorageAccountApiCredentialsValidatorTests
     /// </summary>
     public ChangeGitStorageAccountApiCredentialsValidatorTests()
     {
-        Mock<IStringLocalizer<Hexalith.GitStorage.Localizations.GitStorageAccount>> localizerMock = new();
+        Mock<IStringLocalizer<Localizations.GitStorageAccount>> localizerMock = new();
         localizerMock.Setup(l => l[It.IsAny<string>()]).Returns((string key) => new LocalizedString(key, key));
         _validator = new GitStorageAccountApiCredentialsChangedValidator(localizerMock.Object);
     }
 
     /// <summary>
-    /// Tests that a valid HTTPS URL passes validation.
+    /// Tests that an empty access token fails validation.
     /// </summary>
     [Fact]
-    public void ServerUrl_ValidHttpsUrl_ShouldPassValidation()
+    public void AccessToken_Empty_ShouldFailValidation()
     {
         // Arrange
         var model = new GitStorageAccountApiCredentialsChanged(
             "test-id",
+            "https://api.github.com",
+            string.Empty,
+            GitServerProviderType.GitHub);
+
+        // Act
+        TestValidationResult<GitStorageAccountApiCredentialsChanged> result = _validator.TestValidate(model);
+
+        // Assert
+        result.ShouldHaveValidationErrorFor(x => x.AccessToken);
+    }
+
+    /// <summary>
+    /// Tests that a non-empty access token passes validation.
+    /// </summary>
+    [Fact]
+    public void AccessToken_NonEmpty_ShouldPassValidation()
+    {
+        // Arrange
+        var model = new GitStorageAccountApiCredentialsChanged(
+            "test-id",
+            "https://api.github.com",
+            "ghp_valid_token_12345",
+            GitServerProviderType.GitHub);
+
+        // Act
+        TestValidationResult<GitStorageAccountApiCredentialsChanged> result = _validator.TestValidate(model);
+
+        // Assert
+        result.ShouldNotHaveValidationErrorFor(x => x.AccessToken);
+    }
+
+    /// <summary>
+    /// Tests that an empty ID fails validation.
+    /// </summary>
+    [Fact]
+    public void Id_Empty_ShouldFailValidation()
+    {
+        // Arrange
+        var model = new GitStorageAccountApiCredentialsChanged(
+            string.Empty,
             "https://api.github.com",
             "ghp_valid_token",
             GitServerProviderType.GitHub);
@@ -48,27 +90,52 @@ public class ChangeGitStorageAccountApiCredentialsValidatorTests
         TestValidationResult<GitStorageAccountApiCredentialsChanged> result = _validator.TestValidate(model);
 
         // Assert
-        result.ShouldNotHaveValidationErrorFor(x => x.ServerUrl);
+        result.ShouldHaveValidationErrorFor(x => x.Id);
     }
 
     /// <summary>
-    /// Tests that an HTTP (non-HTTPS) URL fails validation.
+    /// Tests that an invalid enum value fails validation.
     /// </summary>
     [Fact]
-    public void ServerUrl_HttpUrl_ShouldFailValidation()
+    public void ProviderType_InvalidEnum_ShouldFailValidation()
     {
         // Arrange
         var model = new GitStorageAccountApiCredentialsChanged(
             "test-id",
-            "http://api.github.com",
+            "https://api.github.com",
             "ghp_valid_token",
-            GitServerProviderType.GitHub);
+            (GitServerProviderType)999);
 
         // Act
         TestValidationResult<GitStorageAccountApiCredentialsChanged> result = _validator.TestValidate(model);
 
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.ServerUrl);
+        result.ShouldHaveValidationErrorFor(x => x.ProviderType);
+    }
+
+    /// <summary>
+    /// Tests that a valid enum value passes validation.
+    /// </summary>
+    /// <param name="providerType">The provider type to test.</param>
+    [Theory]
+    [InlineData(GitServerProviderType.GitHub)]
+    [InlineData(GitServerProviderType.Forgejo)]
+    [InlineData(GitServerProviderType.Gitea)]
+    [InlineData(GitServerProviderType.Generic)]
+    public void ProviderType_ValidEnum_ShouldPassValidation(GitServerProviderType providerType)
+    {
+        // Arrange
+        var model = new GitStorageAccountApiCredentialsChanged(
+            "test-id",
+            "https://api.github.com",
+            "ghp_valid_token",
+            providerType);
+
+        // Act
+        TestValidationResult<GitStorageAccountApiCredentialsChanged> result = _validator.TestValidate(model);
+
+        // Assert
+        result.ShouldNotHaveValidationErrorFor(x => x.ProviderType);
     }
 
     /// <summary>
@@ -81,6 +148,26 @@ public class ChangeGitStorageAccountApiCredentialsValidatorTests
         var model = new GitStorageAccountApiCredentialsChanged(
             "test-id",
             string.Empty,
+            "ghp_valid_token",
+            GitServerProviderType.GitHub);
+
+        // Act
+        TestValidationResult<GitStorageAccountApiCredentialsChanged> result = _validator.TestValidate(model);
+
+        // Assert
+        result.ShouldHaveValidationErrorFor(x => x.ServerUrl);
+    }
+
+    /// <summary>
+    /// Tests that an HTTP (non-HTTPS) URL fails validation.
+    /// </summary>
+    [Fact]
+    public void ServerUrl_HttpUrl_ShouldFailValidation()
+    {
+        // Arrange
+        var model = new GitStorageAccountApiCredentialsChanged(
+            "test-id",
+            "http://api.github.com",
             "ghp_valid_token",
             GitServerProviderType.GitHub);
 
@@ -112,99 +199,14 @@ public class ChangeGitStorageAccountApiCredentialsValidatorTests
     }
 
     /// <summary>
-    /// Tests that a non-empty access token passes validation.
+    /// Tests that a valid HTTPS URL passes validation.
     /// </summary>
     [Fact]
-    public void AccessToken_NonEmpty_ShouldPassValidation()
+    public void ServerUrl_ValidHttpsUrl_ShouldPassValidation()
     {
         // Arrange
         var model = new GitStorageAccountApiCredentialsChanged(
             "test-id",
-            "https://api.github.com",
-            "ghp_valid_token_12345",
-            GitServerProviderType.GitHub);
-
-        // Act
-        TestValidationResult<GitStorageAccountApiCredentialsChanged> result = _validator.TestValidate(model);
-
-        // Assert
-        result.ShouldNotHaveValidationErrorFor(x => x.AccessToken);
-    }
-
-    /// <summary>
-    /// Tests that an empty access token fails validation.
-    /// </summary>
-    [Fact]
-    public void AccessToken_Empty_ShouldFailValidation()
-    {
-        // Arrange
-        var model = new GitStorageAccountApiCredentialsChanged(
-            "test-id",
-            "https://api.github.com",
-            string.Empty,
-            GitServerProviderType.GitHub);
-
-        // Act
-        TestValidationResult<GitStorageAccountApiCredentialsChanged> result = _validator.TestValidate(model);
-
-        // Assert
-        result.ShouldHaveValidationErrorFor(x => x.AccessToken);
-    }
-
-    /// <summary>
-    /// Tests that a valid enum value passes validation.
-    /// </summary>
-    /// <param name="providerType">The provider type to test.</param>
-    [Theory]
-    [InlineData(GitServerProviderType.GitHub)]
-    [InlineData(GitServerProviderType.Forgejo)]
-    [InlineData(GitServerProviderType.Gitea)]
-    [InlineData(GitServerProviderType.Generic)]
-    public void ProviderType_ValidEnum_ShouldPassValidation(GitServerProviderType providerType)
-    {
-        // Arrange
-        var model = new GitStorageAccountApiCredentialsChanged(
-            "test-id",
-            "https://api.github.com",
-            "ghp_valid_token",
-            providerType);
-
-        // Act
-        TestValidationResult<GitStorageAccountApiCredentialsChanged> result = _validator.TestValidate(model);
-
-        // Assert
-        result.ShouldNotHaveValidationErrorFor(x => x.ProviderType);
-    }
-
-    /// <summary>
-    /// Tests that an invalid enum value fails validation.
-    /// </summary>
-    [Fact]
-    public void ProviderType_InvalidEnum_ShouldFailValidation()
-    {
-        // Arrange
-        var model = new GitStorageAccountApiCredentialsChanged(
-            "test-id",
-            "https://api.github.com",
-            "ghp_valid_token",
-            (GitServerProviderType)999);
-
-        // Act
-        TestValidationResult<GitStorageAccountApiCredentialsChanged> result = _validator.TestValidate(model);
-
-        // Assert
-        result.ShouldHaveValidationErrorFor(x => x.ProviderType);
-    }
-
-    /// <summary>
-    /// Tests that an empty ID fails validation.
-    /// </summary>
-    [Fact]
-    public void Id_Empty_ShouldFailValidation()
-    {
-        // Arrange
-        var model = new GitStorageAccountApiCredentialsChanged(
-            string.Empty,
             "https://api.github.com",
             "ghp_valid_token",
             GitServerProviderType.GitHub);
@@ -213,7 +215,7 @@ public class ChangeGitStorageAccountApiCredentialsValidatorTests
         TestValidationResult<GitStorageAccountApiCredentialsChanged> result = _validator.TestValidate(model);
 
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Id);
+        result.ShouldNotHaveValidationErrorFor(x => x.ServerUrl);
     }
 
     /// <summary>
@@ -225,6 +227,8 @@ public class ChangeGitStorageAccountApiCredentialsValidatorTests
     [InlineData("https://forgejo.example.com/api/v1")]
     [InlineData("https://git.example.com:8443/api")]
     [InlineData("https://10.0.0.1/api")]
+    [SuppressMessage("Design", "CA1056:URI-like properties should not be strings", Justification = "N/A")]
+    [SuppressMessage("Design", "CA1054:URI-like parameters should not be strings", Justification = "N/A")]
     public void ServerUrl_VariousValidHttpsUrls_ShouldPassValidation(string url)
     {
         // Arrange

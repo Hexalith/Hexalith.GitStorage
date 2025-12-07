@@ -25,25 +25,9 @@ public class ClearGitStorageAccountApiCredentialsValidatorTests
     /// </summary>
     public ClearGitStorageAccountApiCredentialsValidatorTests()
     {
-        Mock<IStringLocalizer<Hexalith.GitStorage.Localizations.GitStorageAccount>> localizerMock = new();
+        Mock<IStringLocalizer<Localizations.GitStorageAccount>> localizerMock = new();
         localizerMock.Setup(l => l[It.IsAny<string>()]).Returns((string key) => new LocalizedString(key, key));
         _validator = new GitStorageAccountApiCredentialsClearedValidator(localizerMock.Object);
-    }
-
-    /// <summary>
-    /// Tests that a non-empty ID passes validation.
-    /// </summary>
-    [Fact]
-    public void Id_NonEmpty_ShouldPassValidation()
-    {
-        // Arrange
-        var model = new GitStorageAccountApiCredentialsCleared("test-id");
-
-        // Act
-        TestValidationResult<GitStorageAccountApiCredentialsCleared> result = _validator.TestValidate(model);
-
-        // Assert
-        result.ShouldNotHaveValidationErrorFor(x => x.Id);
     }
 
     /// <summary>
@@ -60,6 +44,22 @@ public class ClearGitStorageAccountApiCredentialsValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Id);
+    }
+
+    /// <summary>
+    /// Tests that a non-empty ID passes validation.
+    /// </summary>
+    [Fact]
+    public void Id_NonEmpty_ShouldPassValidation()
+    {
+        // Arrange
+        var model = new GitStorageAccountApiCredentialsCleared("test-id");
+
+        // Act
+        TestValidationResult<GitStorageAccountApiCredentialsCleared> result = _validator.TestValidate(model);
+
+        // Assert
+        result.ShouldNotHaveValidationErrorFor(x => x.Id);
     }
 
     /// <summary>
