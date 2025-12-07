@@ -16,7 +16,8 @@
       "Bash(git commit:*)",
       "Bash(xargs basename:*)",
       "Bash(ls:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(git -C \"D:\\Hexalith.GitStorage\" checkout -b 002-git-organization)"
     ],
     "deny": [],
     "ask": []
