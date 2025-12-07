@@ -225,4 +225,41 @@ public class GitOrganizationsController : ControllerBase
 
         return NoContent();
     }
+
+    /// <summary>
+    /// Changes a Git Organization's visibility.
+    /// </summary>
+    /// <param name="id">The organization identifier.</param>
+    /// <param name="command">The command to change the visibility.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>No content on success.</returns>
+    [HttpPatch("{id}/visibility")]
+    [Authorize(Policy = GitStoragePolicies.Contributor)]
+    [SwaggerOperation(Summary = "Change Git Organization Visibility", Description = "Changes a Git Organization's visibility level.")]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "Organization visibility changed successfully.")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid request data or ID mismatch.")]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "User is not authenticated.")]
+    [SwaggerResponse(StatusCodes.Status403Forbidden, "User does not have permission.")]
+    public async Task<IActionResult> ChangeVisibilityAsync(
+        string id,
+        [FromBody] ChangeGitOrganizationVisibility command,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(command);
+
+        System.Security.Claims.ClaimsPrincipal? user = _httpContextAccessor.HttpContext?.User;
+        if (user == null)
+        {
+            return Unauthorized();
+        }
+
+        if (command.Id != id)
+        {
+            return BadRequest("The organization ID in the URL does not match the command.");
+        }
+
+        await _commandService.SubmitCommandAsync(user, command, cancellationToken).ConfigureAwait(false);
+
+        return NoContent();
+    }
 }
