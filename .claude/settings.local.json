@@ -26,7 +26,8 @@
       "Bash(git -C \"D:\\Hexalith.GitStorage\" commit -m \"$(cat <<''EOF''\nchore: add git status and diff commands to local settings\n\nAdd permissions for git status and diff commands to streamline\ndevelopment workflow.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
       "Bash(del \"D:\\Hexalith.GitStorage\\nul\")",
       "Bash(rm \"D:\\Hexalith.GitStorage\\nul\")",
-      "Bash(test:*)"
+      "Bash(test:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []

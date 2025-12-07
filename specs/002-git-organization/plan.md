@@ -112,11 +112,12 @@ src/libraries/
         ├── GitOrganizationEditViewModel.cs       # UPDATE: add Visibility
         └── GitOrganizationEditValidation.cs      # UPDATE: validate Visibility
 
-test/Hexalith.GitStorage.Tests/Domains/
-├── Aggregates/GitOrganizationTests.cs            # UPDATE: test Visibility
-├── Commands/GitOrganizationCommandTests.cs       # UPDATE: test Visibility
-├── Commands/GitOrganizationValidatorTests.cs     # UPDATE: test Visibility validation
-└── Events/GitOrganizationEventTests.cs           # UPDATE: test Visibility serialization
+test/Hexalith.GitStorage.Tests/GitOrganization/
+├── GitOrganizationAggregateTests.cs              # UPDATE: test Visibility
+├── GitOrganizationCommandTests.cs                # UPDATE: test Visibility
+├── GitOrganizationValidatorTests.cs              # UPDATE: test Visibility validation
+├── GitOrganizationNameValidatorTests.cs          # NEW: FR-003 name validation tests
+└── GitOrganizationEventTests.cs                  # UPDATE: test Visibility serialization
 ```
 
 **Structure Decision**: Existing clean architecture pattern with Domain, Application, Infrastructure, Presentation layers. Feature extends existing GitOrganization entity with Visibility property across all layers.

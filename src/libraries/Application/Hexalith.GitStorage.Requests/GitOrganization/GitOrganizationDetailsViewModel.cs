@@ -18,6 +18,7 @@ using Hexalith.GitStorage.Aggregates.Enums;
 /// <param name="Description">Optional description of the organization.</param>
 /// <param name="GitStorageAccountId">Reference to the parent GitStorageAccount entity.</param>
 /// <param name="GitStorageAccountName">Parent Git Storage Account name (denormalized).</param>
+/// <param name="Visibility">The visibility level of the organization.</param>
 /// <param name="Origin">How the organization was added to the system.</param>
 /// <param name="RemoteId">The remote server's unique identifier for the organization.</param>
 /// <param name="SyncStatus">Current synchronization state with the remote Git Server.</param>
@@ -30,11 +31,12 @@ public sealed record GitOrganizationDetailsViewModel(
     [property: DataMember(Order = 3)] string? Description,
     [property: DataMember(Order = 4)] string GitStorageAccountId,
     [property: DataMember(Order = 5)] string GitStorageAccountName,
-    [property: DataMember(Order = 6)] GitOrganizationOrigin Origin,
-    [property: DataMember(Order = 7)] string? RemoteId,
-    [property: DataMember(Order = 8)] GitOrganizationSyncStatus SyncStatus,
-    [property: DataMember(Order = 9)] DateTimeOffset? LastSyncedAt,
-    [property: DataMember(Order = 10)] bool Disabled) : IIdDescription
+    [property: DataMember(Order = 6)] GitOrganizationVisibility Visibility,
+    [property: DataMember(Order = 7)] GitOrganizationOrigin Origin,
+    [property: DataMember(Order = 8)] string? RemoteId,
+    [property: DataMember(Order = 9)] GitOrganizationSyncStatus SyncStatus,
+    [property: DataMember(Order = 10)] DateTimeOffset? LastSyncedAt,
+    [property: DataMember(Order = 11)] bool Disabled) : IIdDescription
 {
     /// <inheritdoc/>
     string IIdDescription.Description => Name;
@@ -49,6 +51,7 @@ public sealed record GitOrganizationDetailsViewModel(
         null,
         string.Empty,
         string.Empty,
+        GitOrganizationVisibility.Public,
         GitOrganizationOrigin.Synced,
         null,
         GitOrganizationSyncStatus.Synced,
@@ -68,6 +71,7 @@ public sealed record GitOrganizationDetailsViewModel(
             null,
             gitStorageAccountId,
             string.Empty,
+            GitOrganizationVisibility.Public,
             GitOrganizationOrigin.CreatedViaApplication,
             null,
             GitOrganizationSyncStatus.Synced,

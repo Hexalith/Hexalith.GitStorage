@@ -46,6 +46,9 @@ public partial class AddGitOrganizationValidator : AbstractValidator<AddGitOrgan
         _ = RuleFor(x => x.GitStorageAccountId)
             .NotEmpty()
             .WithMessage(localizer[Labels.GitStorageAccountIdRequired]);
+        _ = RuleFor(x => x.Visibility)
+            .IsInEnum()
+            .WithMessage(localizer["VisibilityInvalid"]);
     }
 
     /// <summary>

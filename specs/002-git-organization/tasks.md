@@ -21,7 +21,7 @@ Following Hexalith module architecture:
 - **Domain**: `src/libraries/Domain/`
 - **Application**: `src/libraries/Application/`
 - **Presentation**: `src/libraries/Presentation/`
-- **Tests**: `test/Hexalith.GitStorage.UnitTests/`
+- **Tests**: `test/Hexalith.GitStorage.Tests/`
 
 ---
 
@@ -51,7 +51,7 @@ Following Hexalith module architecture:
 - [ ] T008 [P] Add Visibility parameter to GitOrganizationSynced event in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationSynced.cs`
 - [X] T009 [P] Create GitOrganizationDescriptionChanged event in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationDescriptionChanged.cs`
 - [ ] T009a [P] Create GitOrganizationVisibilityChanged event in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationVisibilityChanged.cs`
-- [ ] T009b [P] Create GitOrganizationVisibilityChangedValidator in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationVisibilityChangedValidator.cs`
+- [ ] T009b [P] Create GitOrganizationVisibilityChangedValidator in `src/libraries/Application/Hexalith.GitStorage.Commands/GitOrganization/GitOrganizationVisibilityChangedValidator.cs`
 - [X] T010 [P] Create GitOrganizationMarkedNotFound event in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationMarkedNotFound.cs`
 - [X] T011 [P] Create GitOrganizationDisabled event in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationDisabled.cs`
 - [X] T012 [P] Create GitOrganizationEnabled event in `src/libraries/Domain/Hexalith.GitStorage.Events/GitOrganization/GitOrganizationEnabled.cs`
@@ -91,8 +91,8 @@ Following Hexalith module architecture:
 
 ### Tests for User Story 1
 
-- [ ] T027 [P] [US1] Create SyncGitOrganizations command validation tests in `test/Hexalith.GitStorage.UnitTests/GitOrganization/SyncGitOrganizationsValidatorTests.cs`
-- [ ] T028 [P] [US1] Create SyncGitOrganizationsHandler tests in `test/Hexalith.GitStorage.UnitTests/GitOrganization/SyncGitOrganizationsHandlerTests.cs`
+- [ ] T027 [P] [US1] Create SyncGitOrganizations command validation tests in `test/Hexalith.GitStorage.Tests/GitOrganization/SyncGitOrganizationsValidatorTests.cs`
+- [ ] T028 [P] [US1] Create SyncGitOrganizationsHandler tests in `test/Hexalith.GitStorage.Tests/GitOrganization/SyncGitOrganizationsHandlerTests.cs`
 
 **Checkpoint**: At this point, User Story 1 should be fully functional - sync organizations from remote Git server
 
@@ -118,8 +118,9 @@ Following Hexalith module architecture:
 
 ### Tests for User Story 2
 
-- [ ] T037 [P] [US2] Create AddGitOrganization aggregate apply tests in `test/Hexalith.GitStorage.UnitTests/GitOrganization/GitOrganizationAggregateTests.cs`
-- [ ] T038 [P] [US2] Create AddGitOrganizationValidator tests in `test/Hexalith.GitStorage.UnitTests/GitOrganization/AddGitOrganizationValidatorTests.cs`
+- [ ] T037 [P] [US2] Create AddGitOrganization aggregate apply tests in `test/Hexalith.GitStorage.Tests/GitOrganization/GitOrganizationAggregateTests.cs`
+- [ ] T038 [P] [US2] Create AddGitOrganizationValidator tests in `test/Hexalith.GitStorage.Tests/GitOrganization/AddGitOrganizationValidatorTests.cs`
+- [ ] T038a [P] [US2] Create GitOrganizationNameValidator tests (FR-003: alphanumeric/hyphens, max 39 chars, no leading hyphen, no consecutive hyphens) in `test/Hexalith.GitStorage.Tests/GitOrganization/GitOrganizationNameValidatorTests.cs`
 
 **Checkpoint**: At this point, User Story 2 should be fully functional - create organizations via API with remote provisioning
 
@@ -143,8 +144,8 @@ Following Hexalith module architecture:
 
 ### Tests for User Story 3
 
-- [ ] T046 [P] [US3] Create GetGitOrganizationDetails request tests in `test/Hexalith.GitStorage.UnitTests/GitOrganization/GetGitOrganizationDetailsTests.cs`
-- [ ] T047 [P] [US3] Create projection handler tests in `test/Hexalith.GitStorage.UnitTests/GitOrganization/GitOrganizationDetailsProjectionTests.cs`
+- [ ] T046 [P] [US3] Create GetGitOrganizationDetails request tests in `test/Hexalith.GitStorage.Tests/GitOrganization/GetGitOrganizationDetailsTests.cs`
+- [ ] T047 [P] [US3] Create projection handler tests in `test/Hexalith.GitStorage.Tests/GitOrganization/GitOrganizationDetailsProjectionTests.cs`
 
 **Checkpoint**: At this point, User Story 3 should be fully functional - view organization details
 
@@ -180,8 +181,8 @@ Following Hexalith module architecture:
 
 ### Tests for User Story 4
 
-- [ ] T061 [P] [US4] Create ChangeGitOrganizationDescription aggregate apply tests in `test/Hexalith.GitStorage.UnitTests/GitOrganization/GitOrganizationAggregateTests.cs`
-- [ ] T062 [P] [US4] Create Disable/Enable aggregate apply tests in `test/Hexalith.GitStorage.UnitTests/GitOrganization/GitOrganizationAggregateTests.cs`
+- [ ] T061 [P] [US4] Create ChangeGitOrganizationDescription aggregate apply tests in `test/Hexalith.GitStorage.Tests/GitOrganization/GitOrganizationAggregateTests.cs`
+- [ ] T062 [P] [US4] Create Disable/Enable aggregate apply tests in `test/Hexalith.GitStorage.Tests/GitOrganization/GitOrganizationAggregateTests.cs`
 - [ ] T062a [P] [US4] Create ChangeGitOrganizationVisibility command tests in `test/Hexalith.GitStorage.Tests/Domains/Commands/GitOrganizationCommandTests.cs`
 - [ ] T062b [P] [US4] Create ChangeGitOrganizationVisibilityValidator tests in `test/Hexalith.GitStorage.Tests/Domains/Commands/GitOrganizationValidatorTests.cs`
 - [X] T063 [P] [US4] Create command validator tests in `test/Hexalith.GitStorage.Tests/Domains/Commands/GitOrganizationValidatorTests.cs`
@@ -210,8 +211,8 @@ Following Hexalith module architecture:
 
 ### Tests for User Story 5
 
-- [ ] T072 [P] [US5] Create GetGitOrganizationSummaries request tests in `test/Hexalith.GitStorage.UnitTests/GitOrganization/GetGitOrganizationSummariesTests.cs`
-- [ ] T073 [P] [US5] Create summary projection handler tests in `test/Hexalith.GitStorage.UnitTests/GitOrganization/GitOrganizationSummaryProjectionTests.cs`
+- [ ] T072 [P] [US5] Create GetGitOrganizationSummaries request tests in `test/Hexalith.GitStorage.Tests/GitOrganization/GetGitOrganizationSummariesTests.cs`
+- [ ] T073 [P] [US5] Create summary projection handler tests in `test/Hexalith.GitStorage.Tests/GitOrganization/GitOrganizationSummaryProjectionTests.cs`
 
 **Checkpoint**: At this point, User Story 5 should be fully functional - list and filter organizations
 
