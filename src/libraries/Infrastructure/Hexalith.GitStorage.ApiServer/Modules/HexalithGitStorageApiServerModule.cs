@@ -36,10 +36,10 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 /// <summary>
 /// The GitStorageAccount construction site client module.
 /// </summary>
-public sealed class HexalithGitStorageApiServerModule : IApiServerApplicationModule, IGitStorageAccountModule
+public sealed class HexalithGitStorageApiServerModule : IApiServerApplicationModule, IGitStorageModule
 {
     /// <inheritdoc/>
-    public IDictionary<string, AuthorizationPolicy> AuthorizationPolicies => GitStorageAccountModulePolicies.AuthorizationPolicies;
+    public IDictionary<string, AuthorizationPolicy> AuthorizationPolicies => GitStorageModulePolicies.AuthorizationPolicies;
 
     /// <inheritdoc/>
     public IEnumerable<string> Dependencies => [];
@@ -80,7 +80,7 @@ public sealed class HexalithGitStorageApiServerModule : IApiServerApplicationMod
         HexalithGitStorageRequestsSerialization.RegisterPolymorphicMappers();
 
         // Add application module
-        services.TryAddSingleton<IGitStorageAccountModule, HexalithGitStorageApiServerModule>();
+        services.TryAddSingleton<IGitStorageModule, HexalithGitStorageApiServerModule>();
 
         // Add command handlers
         _ = services.AddGitStorageAccount();

@@ -39,6 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".project", ".project", "{59
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		.gitmodules = .gitmodules
+		CLAUDE.md = CLAUDE.md
 		DOCUMENTATION.ai.md = DOCUMENTATION.ai.md
 		initialize.ps1 = initialize.ps1
 		LICENSE = LICENSE
