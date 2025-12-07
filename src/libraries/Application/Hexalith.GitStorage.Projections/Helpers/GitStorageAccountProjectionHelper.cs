@@ -57,7 +57,9 @@ public static class GitStorageAccountProjectionHelper
             .AddScoped<IProjectionUpdateHandler<GitStorageAccountAdded>, GitStorageAccountAddedOnDetailsProjectionHandler>()
             .AddScoped<IProjectionUpdateHandler<GitStorageAccountDescriptionChanged>, GitStorageAccountDescriptionChangedOnDetailsProjectionHandler>()
             .AddScoped<IProjectionUpdateHandler<GitStorageAccountDisabled>, GitStorageAccountDisabledOnDetailsProjectionHandler>()
-            .AddScoped<IProjectionUpdateHandler<GitStorageAccountEnabled>, GitStorageAccountEnabledOnDetailsProjectionHandler>();
+            .AddScoped<IProjectionUpdateHandler<GitStorageAccountEnabled>, GitStorageAccountEnabledOnDetailsProjectionHandler>()
+            .AddScoped<IProjectionUpdateHandler<GitStorageAccountApiCredentialsChanged>, GitStorageAccountApiCredentialsChangedOnDetailsProjectionHandler>()
+            .AddScoped<IProjectionUpdateHandler<GitStorageAccountApiCredentialsCleared>, GitStorageAccountApiCredentialsClearedOnDetailsProjectionHandler>();
 
     /// <summary>
     /// Adds the GitStorageAccount projections and request handlers to the service collection.

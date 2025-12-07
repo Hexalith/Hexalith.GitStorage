@@ -144,4 +144,22 @@
   <data name="Disabled" xml:space="preserve">
     <value>Disabled</value>
   </data>
+  <data name="ServerUrl" xml:space="preserve">
+    <value>Server URL</value>
+  </data>
+  <data name="AccessToken" xml:space="preserve">
+    <value>Access Token</value>
+  </data>
+  <data name="ProviderType" xml:space="preserve">
+    <value>Provider Type</value>
+  </data>
+  <data name="ServerUrlRequired" xml:space="preserve">
+    <value>Server URL is required when providing API credentials</value>
+  </data>
+  <data name="AccessTokenRequired" xml:space="preserve">
+    <value>Access Token is required when providing API credentials</value>
+  </data>
+  <data name="ServerUrlMustBeHttps" xml:space="preserve">
+    <value>Server URL must use HTTPS</value>
+  </data>
 </root>

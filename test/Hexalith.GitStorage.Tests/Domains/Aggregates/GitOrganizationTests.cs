@@ -50,7 +50,7 @@ public class GitOrganizationTests
     public void Apply_GitOrganizationAdded_WhenAlreadyInitialized_ShouldReturnError()
     {
         // Arrange
-        GitOrganization aggregate = new("existing-id", "ExistingOrg", null, "account1", GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
+        GitOrganization aggregate = new("existing-id", "ExistingOrg", null, "account1", GitOrganizationVisibility.Public, GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
         GitOrganizationAdded added = new("test-id", "testorg", null, "account1");
 
         // Act
@@ -70,7 +70,7 @@ public class GitOrganizationTests
         // Arrange
         GitOrganization aggregate = new();
         DateTimeOffset syncedAt = DateTimeOffset.UtcNow;
-        GitOrganizationSynced synced = new("account1-testorg", "testorg", "Test Description", "account1", "remote-123", syncedAt);
+        GitOrganizationSynced synced = new("account1-testorg", "testorg", "Test Description", "account1", GitOrganizationVisibility.Public, "remote-123", syncedAt);
 
         // Act
         ApplyResult result = aggregate.Apply(synced);
@@ -97,9 +97,9 @@ public class GitOrganizationTests
     public void Apply_GitOrganizationSynced_WhenAlreadyInitialized_ShouldUpdateAggregate()
     {
         // Arrange
-        GitOrganization aggregate = new("account1-testorg", "testorg", "Old Description", "account1", GitOrganizationOrigin.Synced, "old-remote", GitOrganizationSyncStatus.NotFoundOnRemote, null, false);
+        GitOrganization aggregate = new("account1-testorg", "testorg", "Old Description", "account1", GitOrganizationVisibility.Public, GitOrganizationOrigin.Synced, "old-remote", GitOrganizationSyncStatus.NotFoundOnRemote, null, false);
         DateTimeOffset syncedAt = DateTimeOffset.UtcNow;
-        GitOrganizationSynced synced = new("account1-testorg", "testorg", "New Description", "account1", "new-remote", syncedAt);
+        GitOrganizationSynced synced = new("account1-testorg", "testorg", "New Description", "account1", GitOrganizationVisibility.Public, "new-remote", syncedAt);
 
         // Act
         ApplyResult result = aggregate.Apply(synced);
@@ -121,7 +121,7 @@ public class GitOrganizationTests
     public void Apply_GitOrganizationDescriptionChanged_ShouldUpdateAggregate()
     {
         // Arrange
-        GitOrganization aggregate = new("account1-testorg", "testorg", "Old Description", "account1", GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
+        GitOrganization aggregate = new("account1-testorg", "testorg", "Old Description", "account1", GitOrganizationVisibility.Public, GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
         GitOrganizationDescriptionChanged changed = new("account1-testorg", "newname", "New Description");
 
         // Act
@@ -142,7 +142,7 @@ public class GitOrganizationTests
     public void Apply_GitOrganizationDescriptionChanged_WhenSameValues_ShouldReturnError()
     {
         // Arrange
-        GitOrganization aggregate = new("account1-testorg", "testorg", "Same Description", "account1", GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
+        GitOrganization aggregate = new("account1-testorg", "testorg", "Same Description", "account1", GitOrganizationVisibility.Public, GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
         GitOrganizationDescriptionChanged changed = new("account1-testorg", "testorg", "Same Description");
 
         // Act
@@ -160,7 +160,7 @@ public class GitOrganizationTests
     public void Apply_GitOrganizationMarkedNotFound_ShouldUpdateSyncStatus()
     {
         // Arrange
-        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
+        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationVisibility.Public, GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
         GitOrganizationMarkedNotFound markedNotFound = new("account1-testorg", DateTimeOffset.UtcNow);
 
         // Act
@@ -180,7 +180,7 @@ public class GitOrganizationTests
     public void Apply_GitOrganizationMarkedNotFound_WhenAlreadyNotFound_ShouldReturnError()
     {
         // Arrange
-        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.NotFoundOnRemote, null, false);
+        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationVisibility.Public, GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.NotFoundOnRemote, null, false);
         GitOrganizationMarkedNotFound markedNotFound = new("account1-testorg", DateTimeOffset.UtcNow);
 
         // Act
@@ -198,7 +198,7 @@ public class GitOrganizationTests
     public void Apply_GitOrganizationDisabled_ShouldDisableAggregate()
     {
         // Arrange
-        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
+        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationVisibility.Public, GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
         GitOrganizationDisabled disabled = new("account1-testorg");
 
         // Act
@@ -218,7 +218,7 @@ public class GitOrganizationTests
     public void Apply_GitOrganizationDisabled_WhenAlreadyDisabled_ShouldReturnError()
     {
         // Arrange
-        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, true);
+        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationVisibility.Public, GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, true);
         GitOrganizationDisabled disabled = new("account1-testorg");
 
         // Act
@@ -236,7 +236,7 @@ public class GitOrganizationTests
     public void Apply_GitOrganizationEnabled_ShouldEnableAggregate()
     {
         // Arrange
-        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, true);
+        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationVisibility.Public, GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, true);
         GitOrganizationEnabled enabled = new("account1-testorg");
 
         // Act
@@ -256,7 +256,7 @@ public class GitOrganizationTests
     public void Apply_GitOrganizationEnabled_WhenAlreadyEnabled_ShouldReturnError()
     {
         // Arrange
-        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
+        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationVisibility.Public, GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
         GitOrganizationEnabled enabled = new("account1-testorg");
 
         // Act
@@ -292,7 +292,7 @@ public class GitOrganizationTests
     public void Apply_EventOnDisabledAggregate_ShouldReturnNotEnabledError()
     {
         // Arrange
-        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, true);
+        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationVisibility.Public, GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, true);
         GitOrganizationDescriptionChanged changed = new("account1-testorg", "New Name", "New Description");
 
         // Act
@@ -310,7 +310,7 @@ public class GitOrganizationTests
     public void AggregateName_ShouldReturnCorrectName()
     {
         // Arrange
-        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
+        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationVisibility.Public, GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
 
         // Act
         string aggregateName = aggregate.AggregateName;
@@ -326,7 +326,7 @@ public class GitOrganizationTests
     public void AggregateId_ShouldReturnCorrectId()
     {
         // Arrange
-        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
+        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationVisibility.Public, GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
 
         // Act
         string aggregateId = aggregate.AggregateId;
@@ -358,7 +358,7 @@ public class GitOrganizationTests
     public void IsInitialized_WhenInitialized_ShouldReturnTrue()
     {
         // Arrange
-        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
+        GitOrganization aggregate = new("account1-testorg", "testorg", null, "account1", GitOrganizationVisibility.Public, GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false);
 
         // Act
         bool isInitialized = (aggregate as IDomainAggregate).IsInitialized();

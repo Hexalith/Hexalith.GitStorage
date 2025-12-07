@@ -61,6 +61,24 @@ namespace Hexalith.GitStorage.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Access Token.
+        /// </summary>
+        public static string AccessToken {
+            get {
+                return ResourceManager.GetString("AccessToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Access Token is required when providing API credentials.
+        /// </summary>
+        public static string AccessTokenRequired {
+            get {
+                return ResourceManager.GetString("AccessTokenRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add new.
         /// </summary>
         public static string AddTitle {
@@ -129,6 +147,42 @@ namespace Hexalith.GitStorage.Localizations {
         public static string NameRequired {
             get {
                 return ResourceManager.GetString("NameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provider Type.
+        /// </summary>
+        public static string ProviderType {
+            get {
+                return ResourceManager.GetString("ProviderType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server URL.
+        /// </summary>
+        public static string ServerUrl {
+            get {
+                return ResourceManager.GetString("ServerUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server URL must use HTTPS.
+        /// </summary>
+        public static string ServerUrlMustBeHttps {
+            get {
+                return ResourceManager.GetString("ServerUrlMustBeHttps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server URL is required when providing API credentials.
+        /// </summary>
+        public static string ServerUrlRequired {
+            get {
+                return ResourceManager.GetString("ServerUrlRequired", resourceCulture);
             }
         }
         

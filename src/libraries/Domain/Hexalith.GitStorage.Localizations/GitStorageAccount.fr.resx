@@ -144,4 +144,22 @@
   <data name="Disabled" xml:space="preserve">
     <value>Désactivé</value>
   </data>
+  <data name="ServerUrl" xml:space="preserve">
+    <value>URL du serveur</value>
+  </data>
+  <data name="AccessToken" xml:space="preserve">
+    <value>Jeton d'accès</value>
+  </data>
+  <data name="ProviderType" xml:space="preserve">
+    <value>Type de fournisseur</value>
+  </data>
+  <data name="ServerUrlRequired" xml:space="preserve">
+    <value>L'URL du serveur est requise lors de la fourniture des informations d'identification API</value>
+  </data>
+  <data name="AccessTokenRequired" xml:space="preserve">
+    <value>Le jeton d'accès est requis lors de la fourniture des informations d'identification API</value>
+  </data>
+  <data name="ServerUrlMustBeHttps" xml:space="preserve">
+    <value>L'URL du serveur doit utiliser HTTPS</value>
+  </data>
 </root>

@@ -10,6 +10,7 @@ using System.Runtime.Serialization;
 
 using Hexalith.Domains;
 using Hexalith.Domains.Results;
+using Hexalith.GitStorage.Aggregates.Enums;
 using Hexalith.GitStorage.Events.GitStorageAccount;
 
 /// <summary>
@@ -19,18 +20,24 @@ using Hexalith.GitStorage.Events.GitStorageAccount;
 /// <param name="Name">The GitStorageAccount name.</param>
 /// <param name="Comments">The GitStorageAccount description.</param>
 /// <param name="Disabled">The GitStorageAccount disabled status.</param>
+/// <param name="ServerUrl">The API base URL of the Git server.</param>
+/// <param name="AccessToken">The authentication token for the Git server API.</param>
+/// <param name="ProviderType">The type of Git server platform.</param>
 [DataContract]
 public sealed record GitStorageAccount(
     [property: DataMember(Order = 1)] string Id,
     [property: DataMember(Order = 2)] string Name,
     [property: DataMember(Order = 3)] string? Comments,
-    [property: DataMember(Order = 7)] bool Disabled) : IDomainAggregate
+    [property: DataMember(Order = 7)] bool Disabled,
+    [property: DataMember(Order = 8)] string? ServerUrl,
+    [property: DataMember(Order = 9)] string? AccessToken,
+    [property: DataMember(Order = 10)] GitServerProviderType? ProviderType) : IDomainAggregate
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="GitStorageAccount"/> class.
     /// </summary>
     public GitStorageAccount()
-        : this(string.Empty, string.Empty, null, false)
+        : this(string.Empty, string.Empty, null, false, null, null, null)
     {
     }
 
@@ -43,7 +50,10 @@ public sealed record GitStorageAccount(
             (added ?? throw new ArgumentNullException(nameof(added))).Id,
             added.Name,
             added.Comments,
-            false)
+            false,
+            added.ServerUrl,
+            added.AccessToken,
+            added.ProviderType ?? (added.ServerUrl != null ? GitServerProviderType.GitHub : null))
     {
     }
 
@@ -71,6 +81,8 @@ public sealed record GitStorageAccount(
             {
                 GitStorageAccountAdded e => ApplyEvent(e),
                 GitStorageAccountDescriptionChanged e => ApplyEvent(e),
+                GitStorageAccountApiCredentialsChanged e => ApplyEvent(e),
+                GitStorageAccountApiCredentialsCleared e => ApplyEvent(e),
                 GitStorageAccountDisabled e => ApplyEvent(e),
                 GitStorageAccountEnabled e => ApplyEvent(e),
                 GitStorageAccountEvent => ApplyResult.NotImplemented(this),
@@ -86,6 +98,16 @@ public sealed record GitStorageAccount(
     private ApplyResult ApplyEvent(GitStorageAccountDescriptionChanged e) => Comments == e.Comments && Name == e.Name
             ? ApplyResult.Error(this, "The GitStorageAccount name and description are already set to the specified values.")
             : ApplyResult.Success(this with { Comments = e.Comments, Name = e.Name }, [e]);
+
+    private ApplyResult ApplyEvent(GitStorageAccountApiCredentialsChanged e) =>
+        ServerUrl == e.ServerUrl && AccessToken == e.AccessToken && ProviderType == e.ProviderType
+            ? ApplyResult.Error(this, "The GitStorageAccount API credentials are already set to the specified values.")
+            : ApplyResult.Success(this with { ServerUrl = e.ServerUrl, AccessToken = e.AccessToken, ProviderType = e.ProviderType }, [e]);
+
+    private ApplyResult ApplyEvent(GitStorageAccountApiCredentialsCleared e) =>
+        ServerUrl == null && AccessToken == null && ProviderType == null
+            ? ApplyResult.Error(this, "The GitStorageAccount API credentials are already cleared.")
+            : ApplyResult.Success(this with { ServerUrl = null, AccessToken = null, ProviderType = null }, [e]);
 
     private ApplyResult ApplyEvent(GitStorageAccountDisabled e) => Disabled
             ? ApplyResult.Error(this, "The GitStorageAccount is already disabled.")

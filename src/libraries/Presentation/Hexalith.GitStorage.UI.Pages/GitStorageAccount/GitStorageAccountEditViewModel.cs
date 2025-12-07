@@ -9,6 +9,7 @@ using System.Security.Claims;
 
 using Hexalith.Application.Commands;
 using Hexalith.Domains.ValueObjects;
+using Hexalith.GitStorage.Aggregates.Enums;
 using Hexalith.GitStorage.Commands.GitStorageAccount;
 using Hexalith.GitStorage.Requests.GitStorageAccount;
 using Hexalith.UI.Components;
@@ -30,6 +31,9 @@ public sealed class GitStorageAccountEditViewModel : IIdDescription, IEntityView
         Name = details.Name;
         Comments = details.Comments;
         Disabled = details.Disabled;
+        ServerUrl = details.ServerUrl;
+        AccessToken = details.AccessToken;
+        ProviderType = details.ProviderType ?? GitServerProviderType.GitHub;
     }
 
     /// <summary>
@@ -43,6 +47,19 @@ public sealed class GitStorageAccountEditViewModel : IIdDescription, IEntityView
             false))
     {
     }
+
+    /// <summary>
+    /// Gets or sets the access token for the Git server API.
+    /// </summary>
+    public string? AccessToken { get; set; }
+
+    /// <summary>
+    /// Gets a value indicating whether the API credentials have changed.
+    /// </summary>
+    public bool ApiCredentialsChanged =>
+        ServerUrl != Original.ServerUrl ||
+        AccessToken != Original.AccessToken ||
+        ProviderType != (Original.ProviderType ?? GitServerProviderType.GitHub);
 
     /// <summary>
     /// Gets or sets the description of the file type.
@@ -65,7 +82,8 @@ public sealed class GitStorageAccountEditViewModel : IIdDescription, IEntityView
     public bool HasChanges =>
         Id != Original.Id ||
         DescriptionChanged ||
-        Disabled != Original.Disabled;
+        Disabled != Original.Disabled ||
+        ApiCredentialsChanged;
 
     /// <summary>
     /// Gets or sets the ID of the file type.
@@ -81,6 +99,16 @@ public sealed class GitStorageAccountEditViewModel : IIdDescription, IEntityView
     /// Gets the original details of the file type.
     /// </summary>
     public GitStorageAccountDetailsViewModel Original { get; }
+
+    /// <summary>
+    /// Gets or sets the type of Git server provider.
+    /// </summary>
+    public GitServerProviderType ProviderType { get; set; }
+
+    /// <summary>
+    /// Gets or sets the base URL of the Git server API.
+    /// </summary>
+    public string? ServerUrl { get; set; }
 
     /// <inheritdoc/>
     string IIdDescription.Description => Name;
@@ -101,7 +129,10 @@ public sealed class GitStorageAccountEditViewModel : IIdDescription, IEntityView
             gitStorageCommand = new AddGitStorageAccount(
                         Id!,
                         Name!,
-                        Comments);
+                        Comments,
+                        ServerUrl,
+                        AccessToken,
+                        string.IsNullOrEmpty(ServerUrl) ? null : ProviderType);
             await commandService.SubmitCommandAsync(user, gitStorageCommand, cancellationToken).ConfigureAwait(false);
             return;
         }
@@ -125,6 +156,24 @@ public sealed class GitStorageAccountEditViewModel : IIdDescription, IEntityView
         {
             gitStorageCommand = new EnableGitStorageAccount(Id);
             await commandService.SubmitCommandAsync(user, gitStorageCommand, cancellationToken).ConfigureAwait(false);
+        }
+
+        if (ApiCredentialsChanged)
+        {
+            if (!string.IsNullOrEmpty(ServerUrl) && !string.IsNullOrEmpty(AccessToken))
+            {
+                gitStorageCommand = new ChangeGitStorageAccountApiCredentials(
+                    Id!,
+                    ServerUrl!,
+                    AccessToken!,
+                    ProviderType);
+                await commandService.SubmitCommandAsync(user, gitStorageCommand, cancellationToken).ConfigureAwait(false);
+            }
+            else if (string.IsNullOrEmpty(ServerUrl) && string.IsNullOrEmpty(AccessToken) && Original.HasApiCredentials)
+            {
+                gitStorageCommand = new ClearGitStorageAccountApiCredentials(Id!);
+                await commandService.SubmitCommandAsync(user, gitStorageCommand, cancellationToken).ConfigureAwait(false);
+            }
         }
     }
 }

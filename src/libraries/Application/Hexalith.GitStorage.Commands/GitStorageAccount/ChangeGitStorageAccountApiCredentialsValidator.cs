@@ -1,4 +1,4 @@
-// <copyright file="AddGitStorageAccountValidator.cs" company="ITANEO">
+// <copyright file="ChangeGitStorageAccountApiCredentialsValidator.cs" company="ITANEO">
 // Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
@@ -12,39 +12,33 @@ using Microsoft.Extensions.Localization;
 using Labels = Localizations.GitStorageAccount;
 
 /// <summary>
-/// Validator for GitStorageAccount.
+/// Validator for <see cref="ChangeGitStorageAccountApiCredentials"/> command.
 /// </summary>
-public class AddGitStorageAccountValidator : AbstractValidator<AddGitStorageAccount>
+public class ChangeGitStorageAccountApiCredentialsValidator : AbstractValidator<ChangeGitStorageAccountApiCredentials>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="AddGitStorageAccountValidator"/> class.
+    /// Initializes a new instance of the <see cref="ChangeGitStorageAccountApiCredentialsValidator"/> class.
     /// </summary>
     /// <param name="localizer">The localizer for validation messages.</param>
-    public AddGitStorageAccountValidator(IStringLocalizer<Labels> localizer)
+    public ChangeGitStorageAccountApiCredentialsValidator(IStringLocalizer<Labels> localizer)
     {
         ArgumentNullException.ThrowIfNull(localizer);
-        _ = RuleFor(x => x.Name)
-            .NotEmpty()
-            .WithMessage(localizer[Labels.NameRequired]);
         _ = RuleFor(x => x.Id)
             .NotEmpty()
             .WithMessage(localizer[Labels.IdRequired]);
-
-        // Conditional validation for API credentials
         _ = RuleFor(x => x.ServerUrl)
+            .NotEmpty()
+            .WithMessage("Server URL is required.")
             .Must(BeValidHttpsUrl)
-            .When(x => !string.IsNullOrEmpty(x.ServerUrl))
             .WithMessage("Server URL must be a valid HTTPS URL.");
         _ = RuleFor(x => x.AccessToken)
             .NotEmpty()
-            .When(x => !string.IsNullOrEmpty(x.ServerUrl))
-            .WithMessage("Access token is required when server URL is provided.");
+            .WithMessage("Access token is required.");
         _ = RuleFor(x => x.ProviderType)
             .IsInEnum()
-            .When(x => x.ProviderType.HasValue)
             .WithMessage("Invalid provider type.");
     }
 
-    private static bool BeValidHttpsUrl(string? url)
-        => string.IsNullOrEmpty(url) || (Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) && uri.Scheme == Uri.UriSchemeHttps);
+    private static bool BeValidHttpsUrl(string url)
+        => Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) && uri.Scheme == Uri.UriSchemeHttps;
 }

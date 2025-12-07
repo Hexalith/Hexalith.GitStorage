@@ -32,7 +32,8 @@
       "Bash(git -C \"D:\\Hexalith.GitStorage\" log main..HEAD --oneline)",
       "Bash(git -C \"D:\\Hexalith.GitStorage\" diff main...HEAD --stat)",
       "Bash(gh pr create --title \"feat: Implement GitOrganization entity with CQRS commands and visibility support\" --body \"$(cat <<''EOF''\n## Summary\n\n- Add GitOrganization entity with full CQRS implementation including commands, events, and projections\n- Implement visibility feature (Public/Private/Internal) for GitOrganization with corresponding event and command\n- Add comprehensive validators for all GitOrganization commands (Add, ChangeDescription, Enable, Disable, Sync, ChangeVisibility)\n- Create REST API controller with endpoints for managing GitOrganization entities\n- Add unit tests for command validators\n\n## Test plan\n\n- [ ] Verify all GitOrganization command validators pass unit tests\n- [ ] Test REST API endpoints for CRUD operations on GitOrganization\n- [ ] Verify visibility change functionality works correctly\n- [ ] Ensure projection handlers properly update view models when events are applied\n- [ ] Run full build to confirm no compilation errors\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\nEOF\n)\")",
-      "Bash(git -C \"D:\\Hexalith.GitStorage\" rebase --continue)"
+      "Bash(git -C \"D:\\Hexalith.GitStorage\" rebase --continue)",
+      "Bash(git -C \"D:\\Hexalith.GitStorage\" checkout -b 001-git-storage-account)"
     ],
     "deny": [],
     "ask": []
