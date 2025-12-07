@@ -1,32 +1,17 @@
+@page "/GitOrganization/Add/GitOrganization"
 @page "/GitOrganization/{Id}"
-@rendermode InteractiveAuto
-
-<FluentStack Orientation="Orientation.Vertical" Style="padding: 1rem;">
-    <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center">
-        <FluentButton Appearance="Appearance.Lightweight"
-                      IconStart="@(new Icons.Regular.Size20.ArrowLeft())"
-                      OnClick="@(() => NavigationManager.NavigateTo("/GitOrganization/GitOrganization"))" />
-        <FluentLabel Typo="Typography.PageTitle">@string.Format(Labels.Title, _data?.Name ?? Id)</FluentLabel>
-    </FluentStack>
-    @if (_data is not null)
-    {
-        <FluentCard>
-            <FluentStack Orientation="Orientation.Vertical">
-                <FluentTextField Label="@Labels.Id" Value="@_data.Id" ReadOnly="true" />
-                <FluentTextField Label="@Labels.Name" Value="@_data.Name" ReadOnly="true" />
-                <FluentTextField Label="@Labels.Account" Value="@_data.GitStorageAccountName" ReadOnly="true" />
-                <FluentTextField Label="@Labels.Description" Value="@_data.Description" ReadOnly="true" />
-                <FluentTextField Label="@Labels.SyncStatus" Value="@_data.SyncStatus.ToString()" ReadOnly="true" />
-                <FluentTextField Label="@Labels.Origin" Value="@_data.Origin.ToString()" ReadOnly="true" />
-                <FluentTextField Label="@Labels.RemoteId" Value="@_data.RemoteId" ReadOnly="true" />
-                <FluentTextField Label="@Labels.LastSynced" Value="@_data.LastSyncedAt?.ToString()" ReadOnly="true" />
-                <FluentCheckbox Label="@Labels.Disabled" Value="@_data.Disabled" ReadOnly="true" />
-            </FluentStack>
-        </FluentCard>
-    }
-</FluentStack>
+<HexEntityDetailsPage AddTitle="@Labels.AddTitle"
+                      EditTitle="@Labels.Title"
+                      ViewModel="_data"
+                      EntityId="@Id"
+                      IndexPath="/GitOrganization/GitOrganization"
+                      ValidationResult="_validationResult"
+                      OnSave="OnSave"
+                      OnLoadData="OnLoadDataAsync">
+</HexEntityDetailsPage>
 
 @code {
+
     [CascadingParameter]
     public Task<AuthenticationState>? AuthenticationStateTask { get; set; }
 
@@ -34,7 +19,9 @@
     public string? Id { get; set; }
 
     private ClaimsPrincipal? _user;
-    private GitOrganizationDetailsViewModel? _data;
+    private GitOrganizationEditViewModel _data = new();
+
+    private ValidationResult? _validationResult;
 
     protected override async Task OnInitializedAsync()
     {
@@ -47,17 +34,57 @@
             }
             _user = authState.User;
         }
-        await OnLoadDataAsync();
-        await base.OnInitializedAsync();
-    }
-
-    private async Task OnLoadDataAsync()
-    {
-        if (_user is null || Id is null)
+        if (_user is null)
         {
             return;
         }
-        var details = await RequestService.SubmitAsync(_user, new GetGitOrganizationDetails(Id), CancellationToken.None);
-        _data = details.Result;
+        if (Id is not null)
+        {
+            var details = await RequestService.SubmitAsync(_user, new GetGitOrganizationDetails(Id), CancellationToken.None);
+            if (details.Result is not null)
+            {
+                _data = new GitOrganizationEditViewModel(details.Result);
+            }
+        }
+        await base.OnInitializedAsync();
+    }
+
+    protected async Task OnLoadDataAsync()
+    {
+        if (_user is null)
+        {
+            return;
+        }
+        if (Id is not null)
+        {
+            var details = await RequestService.SubmitAsync(_user, new GetGitOrganizationDetails(Id), CancellationToken.None);
+            if (details.Result is not null)
+            {
+                _data = new GitOrganizationEditViewModel(details.Result);
+            }
+        }
+    }
+
+    private async Task<SaveResult> OnSave()
+    {
+        var result = _data.ValidateSave(_user, (d) =>
+        {
+            _validationResult = new GitOrganizationEditValidation().Validate(d);
+            if (_validationResult.IsValid)
+            {
+                return true;
+            }
+            return false;
+        });
+        if (result.Result == ExecuteSaveResult.Success)
+        {
+            await _data!.SaveAsync(_user!, CommandService, Id is null, CancellationToken.None);
+            if (Id is null)
+            {
+                _data = new ();
+            }
+        }
+        StateHasChanged();
+        return result;
     }
 }
