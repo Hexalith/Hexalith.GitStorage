@@ -65,7 +65,7 @@
 
 ### Tests for User Story 1
 
-- [ ] T011 [P] [US1] Create AddGitRepositoryValidatorTests in test/Hexalith.GitStorage.Tests/GitRepository/AddGitRepositoryValidatorTests.cs
+- [ ] T011 [P] [US1] Create AddGitRepositoryValidatorTests in test/Hexalith.GitStorage.Tests/GitRepository/AddGitRepositoryValidatorTests.cs (include test cases for: required fields, URL format validation, duplicate name/URL rejection per FR-019, OrganizationId validation per FR-011)
 - [ ] T012 [P] [US1] Create GitRepositoryAddedEventTests in test/Hexalith.GitStorage.Tests/GitRepository/GitRepositoryEventTests.cs
 
 ### Implementation for User Story 1

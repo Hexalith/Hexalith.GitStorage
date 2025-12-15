@@ -177,8 +177,8 @@ As a repository manager, I want to change the default branch of a repository so 
 
 ### Measurable Outcomes
 
-- **SC-001**: Users can register a new repository in under 30 seconds
+- **SC-001**: Repository creation API responds within 5 seconds (excluding remote Git server latency); end-to-end user workflow completes within 30 seconds including UI interaction
 - **SC-002**: Repository visibility changes take effect immediately upon confirmation
-- **SC-003**: All repository operations (register, update, enable/disable) complete within 2 seconds under normal load
+- **SC-003**: All repository operations (register, update, enable/disable) complete within 2 seconds at baseline load (≤10 concurrent requests per second, ≤1000 repositories per organization)
 - **SC-004**: 100% of invalid input requests are rejected with clear, actionable error messages
 - **SC-005**: Repository metadata accurately reflects the configured values after any update operation
