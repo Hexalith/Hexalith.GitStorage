@@ -273,6 +273,10 @@
 - [ ] T067 [P] [US5] Create GitRepositoryMarkedNotFoundOnSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryMarkedNotFoundOnSummaryProjectionHandler.cs
 - [ ] T068 [P] [US5] Create GitRepositoryMarkedNotFoundOnDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryMarkedNotFoundOnDetailsProjectionHandler.cs
 
+#### Organization-Level Sync Handler
+
+- [ ] T068a [US5] Create SyncGitOrganizationRepositoriesHandler to discover and sync all repositories from a GitOrganization (handles FR-014) in src/libraries/Application/Hexalith.GitStorage.CommandHandlers/GitRepository/SyncGitOrganizationRepositoriesHandler.cs (depends on T059, T060)
+
 **Checkpoint**: User Story 5 complete - repository sync operations functional
 
 ---
