@@ -109,6 +109,7 @@
 
 - [ ] T024 [US1] Create GitRepositoryIndex.razor in src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/GitRepository/GitRepositoryIndex.razor (depends on T017, T008)
 - [ ] T025 [US1] Create GitRepositoryDetails.razor in src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/GitRepository/GitRepositoryDetails.razor (depends on T018, T009, T022, T023)
+- [ ] T025a [US1] Create GitRepositoryEdit.razor in src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/GitRepository/GitRepositoryEdit.razor (depends on T022, T023, T014, T029, T037, T047, T048, T072)
 
 **Checkpoint**: User Story 1 complete - administrators can create repositories and view them in list/detail views
 
