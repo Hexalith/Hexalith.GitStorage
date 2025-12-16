@@ -8,6 +8,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>GitOrganization.resx</DependentUpon>
     </Compile>
+    <Compile Update="GitRepository.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GitRepository.resx</DependentUpon>
+    </Compile>
     <Compile Update="GitStorageAccount.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -28,6 +33,10 @@
     <EmbeddedResource Update="GitOrganization.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GitOrganization.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GitRepository.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GitRepository.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="GitStorageAccount.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

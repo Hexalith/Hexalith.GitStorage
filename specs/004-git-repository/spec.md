@@ -125,7 +125,7 @@ As a repository manager, I want to change the default branch of a repository so 
 - **FR-009**: System MUST track the enabled/disabled state of each repository
 - **FR-010**: System MUST track the visibility setting of each repository
 - **FR-011**: System MUST associate each repository with exactly one organization
-- **FR-012**: System MUST maintain audit information (creation timestamp, last modified)
+- **FR-012**: System MUST maintain audit information (creation timestamp, last modified). *Implementation Note*: `CreatedAt` is captured in `GitRepositoryAdded` event timestamp. `LastModifiedAt` is derived from the most recent event timestamp in the aggregate's event stream per Hexalith event sourcing conventions.
 - **FR-013**: System MUST validate all command inputs before processing
 - **FR-014**: System MUST allow synchronization of repositories from a GitOrganization to the local database
 - **FR-015**: System MUST track the origin of each repository (Synced | CreatedViaApplication)

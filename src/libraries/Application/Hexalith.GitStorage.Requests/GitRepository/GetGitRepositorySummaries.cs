@@ -1,0 +1,77 @@
+// <copyright file="GetGitRepositorySummaries.cs" company="ITANEO">
+// Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+
+namespace Hexalith.GitStorage.Requests.GitRepository;
+
+using System.Runtime.Serialization;
+
+using Hexalith.Application.Requests;
+using Hexalith.GitStorage.Aggregates;
+using Hexalith.PolymorphicSerializations;
+
+/// <summary>
+/// Represents a request to get summaries of GitRepositories with pagination.
+/// </summary>
+/// <param name="Skip">The number of repository summaries to skip.</param>
+/// <param name="Take">The number of repository summaries to take.</param>
+/// <param name="Search">Optional search term to filter results.</param>
+/// <param name="Ids">The list of repository IDs to search by.</param>
+/// <param name="Results">The list of repository summaries.</param>
+[PolymorphicSerialization]
+public partial record GetGitRepositorySummaries(
+    [property: DataMember(Order = 1)] int Skip,
+    [property: DataMember(Order = 2)] int Take,
+    [property: DataMember(Order = 3)] string? Search,
+    [property: DataMember(Order = 4)] IEnumerable<string> Ids,
+    [property: DataMember(Order = 5)] IEnumerable<GitRepositorySummaryViewModel> Results) : ISearchChunkableRequest
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GetGitRepositorySummaries"/> class.
+    /// </summary>
+    public GetGitRepositorySummaries()
+        : this(0, 0, null, [], [])
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GetGitRepositorySummaries"/> class with specified skip, take, and search values.
+    /// </summary>
+    /// <param name="skip">Number of records to skip for pagination.</param>
+    /// <param name="take">Maximum number of records to return.</param>
+    /// <param name="search">Optional search term to filter results.</param>
+    public GetGitRepositorySummaries(int skip, int take, string? search = null)
+        : this(skip, take, search, [], [])
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GetGitRepositorySummaries"/> class with specified repository IDs.
+    /// </summary>
+    /// <param name="ids">The list of repository IDs to search by.</param>
+    public GetGitRepositorySummaries(IEnumerable<string> ids)
+        : this(0, 0, null, ids, [])
+    {
+    }
+
+    /// <summary>
+    /// Gets the aggregate ID.
+    /// </summary>
+    public static string AggregateId => GitRepositoryDomainHelper.GitRepositoryAggregateName;
+
+    /// <summary>
+    /// Gets the aggregate name.
+    /// </summary>
+    public static string AggregateName => GitRepositoryDomainHelper.GitRepositoryAggregateName;
+
+    /// <inheritdoc/>
+    IEnumerable<object>? ICollectionRequest.Results => Results;
+
+    /// <inheritdoc/>
+    public IChunkableRequest CreateNextChunkRequest() => this with { Skip = Skip + Take, Results = [] };
+
+    /// <inheritdoc/>
+    public ICollectionRequest CreateResults(IEnumerable<object> results)
+        => this with { Results = (IEnumerable<GitRepositorySummaryViewModel>)results };
+}

@@ -19,9 +19,9 @@
 
 **Purpose**: Project initialization and enums required by all components
 
-- [ ] T001 [P] Create GitRepositoryVisibility enum in src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/Enums/GitRepositoryVisibility.cs
-- [ ] T002 [P] Create GitRepositoryOrigin enum in src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/Enums/GitRepositoryOrigin.cs
-- [ ] T003 [P] Create GitRepositorySyncStatus enum in src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/Enums/GitRepositorySyncStatus.cs
+- [X] T001 [P] Create GitRepositoryVisibility enum in src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/Enums/GitRepositoryVisibility.cs
+- [X] T002 [P] Create GitRepositoryOrigin enum in src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/Enums/GitRepositoryOrigin.cs
+- [X] T003 [P] Create GitRepositorySyncStatus enum in src/libraries/Domain/Hexalith.GitStorage.Aggregates.Abstractions/Enums/GitRepositorySyncStatus.cs
 
 ---
 
@@ -33,25 +33,25 @@
 
 ### Domain Events (Base)
 
-- [ ] T004 Create GitRepositoryEvent abstract base class in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositoryEvent.cs
+- [X] T004 Create GitRepositoryEvent abstract base class in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositoryEvent.cs
 
 ### Aggregate Root
 
-- [ ] T005 Create GitRepository aggregate root in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T004, T001-T003)
+- [X] T005 Create GitRepository aggregate root in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T004, T001-T003)
 
 ### Base Commands & Requests
 
-- [ ] T006 [P] Create GitRepositoryCommand abstract base class in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/GitRepositoryCommand.cs
-- [ ] T007 [P] Create GitRepositoryRequest abstract base class in src/libraries/Application/Hexalith.GitStorage.Requests/GitRepository/GitRepositoryRequest.cs
+- [X] T006 [P] Create GitRepositoryCommand abstract base class in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/GitRepositoryCommand.cs
+- [X] T007 [P] Create GitRepositoryRequest abstract base class in src/libraries/Application/Hexalith.GitStorage.Requests/GitRepository/GitRepositoryRequest.cs
 
 ### View Models
 
-- [ ] T008 [P] Create GitRepositorySummaryViewModel in src/libraries/Application/Hexalith.GitStorage.Requests/GitRepository/GitRepositorySummaryViewModel.cs
-- [ ] T009 [P] Create GitRepositoryDetailsViewModel in src/libraries/Application/Hexalith.GitStorage.Requests/GitRepository/GitRepositoryDetailsViewModel.cs
+- [X] T008 [P] Create GitRepositorySummaryViewModel in src/libraries/Application/Hexalith.GitStorage.Requests/GitRepository/GitRepositorySummaryViewModel.cs
+- [X] T009 [P] Create GitRepositoryDetailsViewModel in src/libraries/Application/Hexalith.GitStorage.Requests/GitRepository/GitRepositoryDetailsViewModel.cs
 
 ### Localization Labels
 
-- [ ] T010 Add InvalidRepositoryNameFormat label to Hexalith.GitStorage.Localizations if not already present
+- [X] T010 Add InvalidRepositoryNameFormat label to Hexalith.GitStorage.Localizations if not already present
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 
@@ -65,51 +65,50 @@
 
 ### Tests for User Story 1
 
-- [ ] T011 [P] [US1] Create AddGitRepositoryValidatorTests in test/Hexalith.GitStorage.Tests/GitRepository/AddGitRepositoryValidatorTests.cs (include test cases for: required fields, URL format validation, duplicate name/URL rejection per FR-019, OrganizationId validation per FR-011)
-- [ ] T012 [P] [US1] Create GitRepositoryAddedEventTests in test/Hexalith.GitStorage.Tests/GitRepository/GitRepositoryEventTests.cs
+- [X] T011 [P] [US1] Create AddGitRepositoryValidatorTests in test/Hexalith.GitStorage.Tests/Domains/Commands/GitRepositoryValidatorTests.cs (include test cases for: required fields, URL format validation, duplicate name/URL rejection per FR-019, OrganizationId validation per FR-011)
+- [X] T012 [P] [US1] Create GitRepositoryAddedEventTests in test/Hexalith.GitStorage.Tests/Domains/Events/GitRepositoryEventTests.cs
 
 ### Implementation for User Story 1
 
 #### Events
 
-- [ ] T013 [P] [US1] Create GitRepositoryAdded event in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositoryAdded.cs
+- [X] T013 [P] [US1] Create GitRepositoryAdded event in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositoryAdded.cs
 
 #### Commands
 
-- [ ] T014 [P] [US1] Create AddGitRepository command in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/AddGitRepository.cs
+- [X] T014 [P] [US1] Create AddGitRepository command in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/AddGitRepository.cs
 
 #### Validators
 
-- [ ] T015 [US1] Create AddGitRepositoryValidator in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/Validators/AddGitRepositoryValidator.cs (depends on T014)
+- [X] T015 [US1] Create AddGitRepositoryValidator in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/Validators/AddGitRepositoryValidator.cs (depends on T014) - MUST include: required field validation, URL format validation per FR-002, repository name format validation
 
 #### Aggregate Apply Method
 
-- [ ] T016 [US1] Implement Apply method for GitRepositoryAdded in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T013)
+- [X] T016 [US1] Implement Apply method for GitRepositoryAdded in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T013)
 
 #### Requests
 
-- [ ] T017 [P] [US1] Create GetGitRepositorySummaries request in src/libraries/Application/Hexalith.GitStorage.Requests/GitRepository/GetGitRepositorySummaries.cs
-- [ ] T018 [P] [US1] Create GetGitRepositoryDetails request in src/libraries/Application/Hexalith.GitStorage.Requests/GitRepository/GetGitRepositoryDetails.cs
+- [X] T017 [P] [US1] Create GetGitRepositorySummaries request in src/libraries/Application/Hexalith.GitStorage.Requests/GitRepository/GetGitRepositorySummaries.cs
+- [X] T018 [P] [US1] Create GetGitRepositoryDetails request in src/libraries/Application/Hexalith.GitStorage.Requests/GitRepository/GetGitRepositoryDetails.cs
 
 #### Projections
 
-- [ ] T019 [P] [US1] Create GitRepositoryAddedOnSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryAddedOnSummaryProjectionHandler.cs
-- [ ] T020 [P] [US1] Create GitRepositoryAddedOnDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryAddedOnDetailsProjectionHandler.cs
+- [X] T019 [P] [US1] Create GitRepositoryAddedOnSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryAddedOnSummaryProjectionHandler.cs
+- [X] T020 [P] [US1] Create GitRepositoryAddedOnDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryAddedOnDetailsProjectionHandler.cs
 
 #### API Controller
 
-- [ ] T021 [US1] Create GitRepositoryIntegrationEventsController in src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitRepositoryIntegrationEventsController.cs (depends on T013)
+- [X] T021 [US1] Create GitRepositoryIntegrationEventsController in src/libraries/Infrastructure/Hexalith.GitStorage.ApiServer/Controllers/GitRepositoryIntegrationEventsController.cs (depends on T013)
 
 #### UI Components
 
-- [ ] T022 [P] [US1] Create GitRepositoryEditViewModel in src/libraries/Presentation/Hexalith.GitStorage.UI.Components/GitRepository/GitRepositoryEditViewModel.cs
-- [ ] T023 [P] [US1] Create GitRepositoryEditValidation in src/libraries/Presentation/Hexalith.GitStorage.UI.Components/GitRepository/GitRepositoryEditValidation.cs
+- [X] T022 [P] [US1] Create GitRepositoryEditViewModel in src/libraries/Presentation/Hexalith.GitStorage.UI.Components/GitRepository/GitRepositoryEditViewModel.cs
+- [X] T023 [P] [US1] Create GitRepositoryEditValidation in src/libraries/Presentation/Hexalith.GitStorage.UI.Components/GitRepository/GitRepositoryEditValidation.cs
 
 #### UI Pages
 
-- [ ] T024 [US1] Create GitRepositoryIndex.razor in src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/GitRepository/GitRepositoryIndex.razor (depends on T017, T008)
-- [ ] T025 [US1] Create GitRepositoryDetails.razor in src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/GitRepository/GitRepositoryDetails.razor (depends on T018, T009, T022, T023)
-- [ ] T025a [US1] Create GitRepositoryEdit.razor in src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/GitRepository/GitRepositoryEdit.razor (depends on T022, T023, T014, T029, T037, T047, T048, T072)
+- [X] T024 [US1] Create GitRepositoryIndex.razor in src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/GitRepository/GitRepositoryIndex.razor (depends on T017, T008)
+- [X] T025 [US1] Create GitRepositoryDetails.razor in src/libraries/Presentation/Hexalith.GitStorage.UI.Pages/GitRepository/GitRepositoryDetails.razor (depends on T018, T009, T022, T023)
 
 **Checkpoint**: User Story 1 complete - administrators can create repositories and view them in list/detail views
 
@@ -123,31 +122,31 @@
 
 ### Tests for User Story 2
 
-- [ ] T026 [P] [US2] Create ChangeGitRepositoryDescriptionValidatorTests in test/Hexalith.GitStorage.Tests/GitRepository/ChangeGitRepositoryDescriptionValidatorTests.cs
-- [ ] T027 [P] [US2] Add GitRepositoryDescriptionChanged event tests in test/Hexalith.GitStorage.Tests/GitRepository/GitRepositoryEventTests.cs
+- [X] T026 [P] [US2] Create ChangeGitRepositoryDescriptionValidatorTests in test/Hexalith.GitStorage.Tests/Domains/Commands/GitRepositoryValidatorTests.cs
+- [X] T027 [P] [US2] Add GitRepositoryDescriptionChanged event tests in test/Hexalith.GitStorage.Tests/Domains/Events/GitRepositoryEventTests.cs
 
 ### Implementation for User Story 2
 
 #### Events
 
-- [ ] T028 [P] [US2] Create GitRepositoryDescriptionChanged event in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositoryDescriptionChanged.cs
+- [X] T028 [P] [US2] Create GitRepositoryDescriptionChanged event in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositoryDescriptionChanged.cs
 
 #### Commands
 
-- [ ] T029 [P] [US2] Create ChangeGitRepositoryDescription command in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/ChangeGitRepositoryDescription.cs
+- [X] T029 [P] [US2] Create ChangeGitRepositoryDescription command in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/ChangeGitRepositoryDescription.cs
 
 #### Validators
 
-- [ ] T030 [US2] Create ChangeGitRepositoryDescriptionValidator in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/Validators/ChangeGitRepositoryDescriptionValidator.cs (depends on T029)
+- [X] T030 [US2] Create ChangeGitRepositoryDescriptionValidator in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/Validators/ChangeGitRepositoryDescriptionValidator.cs (depends on T029)
 
 #### Aggregate Apply Method
 
-- [ ] T031 [US2] Implement Apply method for GitRepositoryDescriptionChanged in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T028)
+- [X] T031 [US2] Implement Apply method for GitRepositoryDescriptionChanged in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T028)
 
 #### Projections
 
-- [ ] T032 [P] [US2] Create GitRepositoryDescriptionChangedOnSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryDescriptionChangedOnSummaryProjectionHandler.cs
-- [ ] T033 [P] [US2] Create GitRepositoryDescriptionChangedOnDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryDescriptionChangedOnDetailsProjectionHandler.cs
+- [X] T032 [P] [US2] Create GitRepositoryDescriptionChangedOnSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryDescriptionChangedOnSummaryProjectionHandler.cs
+- [X] T033 [P] [US2] Create GitRepositoryDescriptionChangedOnDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryDescriptionChangedOnDetailsProjectionHandler.cs
 
 **Checkpoint**: User Story 2 complete - repository descriptions can be updated
 
@@ -161,31 +160,31 @@
 
 ### Tests for User Story 3
 
-- [ ] T034 [P] [US3] Create ChangeGitRepositoryVisibilityValidatorTests in test/Hexalith.GitStorage.Tests/GitRepository/ChangeGitRepositoryVisibilityValidatorTests.cs
-- [ ] T035 [P] [US3] Add GitRepositoryVisibilityChanged event tests in test/Hexalith.GitStorage.Tests/GitRepository/GitRepositoryEventTests.cs
+- [X] T034 [P] [US3] Create ChangeGitRepositoryVisibilityValidatorTests in test/Hexalith.GitStorage.Tests/Domains/Commands/GitRepositoryValidatorTests.cs
+- [X] T035 [P] [US3] Add GitRepositoryVisibilityChanged event tests in test/Hexalith.GitStorage.Tests/Domains/Events/GitRepositoryEventTests.cs
 
 ### Implementation for User Story 3
 
 #### Events
 
-- [ ] T036 [P] [US3] Create GitRepositoryVisibilityChanged event in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositoryVisibilityChanged.cs
+- [X] T036 [P] [US3] Create GitRepositoryVisibilityChanged event in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositoryVisibilityChanged.cs
 
 #### Commands
 
-- [ ] T037 [P] [US3] Create ChangeGitRepositoryVisibility command in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/ChangeGitRepositoryVisibility.cs
+- [X] T037 [P] [US3] Create ChangeGitRepositoryVisibility command in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/ChangeGitRepositoryVisibility.cs
 
 #### Validators
 
-- [ ] T038 [US3] Create ChangeGitRepositoryVisibilityValidator in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/Validators/ChangeGitRepositoryVisibilityValidator.cs (depends on T037)
+- [X] T038 [US3] Create ChangeGitRepositoryVisibilityValidator in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/Validators/ChangeGitRepositoryVisibilityValidator.cs (depends on T037)
 
 #### Aggregate Apply Method
 
-- [ ] T039 [US3] Implement Apply method for GitRepositoryVisibilityChanged in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T036)
+- [X] T039 [US3] Implement Apply method for GitRepositoryVisibilityChanged in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T036)
 
 #### Projections
 
-- [ ] T040 [P] [US3] Create GitRepositoryVisibilityChangedOnSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryVisibilityChangedOnSummaryProjectionHandler.cs
-- [ ] T041 [P] [US3] Create GitRepositoryVisibilityChangedOnDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryVisibilityChangedOnDetailsProjectionHandler.cs
+- [X] T040 [P] [US3] Create GitRepositoryVisibilityChangedOnSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryVisibilityChangedOnSummaryProjectionHandler.cs
+- [X] T041 [P] [US3] Create GitRepositoryVisibilityChangedOnDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryVisibilityChangedOnDetailsProjectionHandler.cs
 
 **Checkpoint**: User Story 3 complete - repository visibility can be changed
 
@@ -199,38 +198,38 @@
 
 ### Tests for User Story 4
 
-- [ ] T042 [P] [US4] Create DisableGitRepositoryValidatorTests in test/Hexalith.GitStorage.Tests/GitRepository/DisableGitRepositoryValidatorTests.cs
-- [ ] T043 [P] [US4] Create EnableGitRepositoryValidatorTests in test/Hexalith.GitStorage.Tests/GitRepository/EnableGitRepositoryValidatorTests.cs
-- [ ] T044 [P] [US4] Add GitRepositoryDisabled and GitRepositoryEnabled event tests in test/Hexalith.GitStorage.Tests/GitRepository/GitRepositoryEventTests.cs
+- [X] T042 [P] [US4] Create DisableGitRepositoryValidatorTests in test/Hexalith.GitStorage.Tests/Domains/Commands/GitRepositoryValidatorTests.cs
+- [X] T043 [P] [US4] Create EnableGitRepositoryValidatorTests in test/Hexalith.GitStorage.Tests/Domains/Commands/GitRepositoryValidatorTests.cs
+- [X] T044 [P] [US4] Add GitRepositoryDisabled and GitRepositoryEnabled event tests in test/Hexalith.GitStorage.Tests/Domains/Events/GitRepositoryEventTests.cs
 
 ### Implementation for User Story 4
 
 #### Events
 
-- [ ] T045 [P] [US4] Create GitRepositoryDisabled event in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositoryDisabled.cs
-- [ ] T046 [P] [US4] Create GitRepositoryEnabled event in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositoryEnabled.cs
+- [X] T045 [P] [US4] Create GitRepositoryDisabled event in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositoryDisabled.cs
+- [X] T046 [P] [US4] Create GitRepositoryEnabled event in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositoryEnabled.cs
 
 #### Commands
 
-- [ ] T047 [P] [US4] Create DisableGitRepository command in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/DisableGitRepository.cs
-- [ ] T048 [P] [US4] Create EnableGitRepository command in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/EnableGitRepository.cs
+- [X] T047 [P] [US4] Create DisableGitRepository command in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/DisableGitRepository.cs
+- [X] T048 [P] [US4] Create EnableGitRepository command in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/EnableGitRepository.cs
 
 #### Validators
 
-- [ ] T049 [US4] Create DisableGitRepositoryValidator in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/Validators/DisableGitRepositoryValidator.cs (depends on T047)
-- [ ] T050 [US4] Create EnableGitRepositoryValidator in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/Validators/EnableGitRepositoryValidator.cs (depends on T048)
+- [X] T049 [US4] Create DisableGitRepositoryValidator in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/Validators/DisableGitRepositoryValidator.cs (depends on T047)
+- [X] T050 [US4] Create EnableGitRepositoryValidator in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/Validators/EnableGitRepositoryValidator.cs (depends on T048)
 
 #### Aggregate Apply Methods
 
-- [ ] T051 [US4] Implement Apply method for GitRepositoryDisabled in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T045)
-- [ ] T052 [US4] Implement Apply method for GitRepositoryEnabled in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T046)
+- [X] T051 [US4] Implement Apply method for GitRepositoryDisabled in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T045)
+- [X] T052 [US4] Implement Apply method for GitRepositoryEnabled in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T046)
 
 #### Projections
 
-- [ ] T053 [P] [US4] Create GitRepositoryDisabledOnSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryDisabledOnSummaryProjectionHandler.cs
-- [ ] T054 [P] [US4] Create GitRepositoryDisabledOnDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryDisabledOnDetailsProjectionHandler.cs
-- [ ] T055 [P] [US4] Create GitRepositoryEnabledOnSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryEnabledOnSummaryProjectionHandler.cs
-- [ ] T056 [P] [US4] Create GitRepositoryEnabledOnDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryEnabledOnDetailsProjectionHandler.cs
+- [X] T053 [P] [US4] Create GitRepositoryDisabledOnSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryDisabledOnSummaryProjectionHandler.cs
+- [X] T054 [P] [US4] Create GitRepositoryDisabledOnDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryDisabledOnDetailsProjectionHandler.cs
+- [X] T055 [P] [US4] Create GitRepositoryEnabledOnSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryEnabledOnSummaryProjectionHandler.cs
+- [X] T056 [P] [US4] Create GitRepositoryEnabledOnDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryEnabledOnDetailsProjectionHandler.cs
 
 **Checkpoint**: User Story 4 complete - repositories can be enabled/disabled
 
@@ -244,39 +243,39 @@
 
 ### Tests for User Story 5
 
-- [ ] T057 [P] [US5] Create SyncGitRepositoryValidatorTests in test/Hexalith.GitStorage.Tests/GitRepository/SyncGitRepositoryValidatorTests.cs
-- [ ] T058 [P] [US5] Add GitRepositorySynced and GitRepositoryMarkedNotFound event tests in test/Hexalith.GitStorage.Tests/GitRepository/GitRepositoryEventTests.cs
+- [X] T057 [P] [US5] Create SyncGitRepositoryValidatorTests in test/Hexalith.GitStorage.Tests/Domains/Commands/GitRepositoryValidatorTests.cs
+- [X] T058 [P] [US5] Add GitRepositorySynced and GitRepositoryMarkedNotFound event tests in test/Hexalith.GitStorage.Tests/Domains/Events/GitRepositoryEventTests.cs
 
 ### Implementation for User Story 5
 
 #### Events
 
-- [ ] T059 [P] [US5] Create GitRepositorySynced event in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositorySynced.cs
-- [ ] T060 [P] [US5] Create GitRepositoryMarkedNotFound event in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositoryMarkedNotFound.cs
+- [X] T059 [P] [US5] Create GitRepositorySynced event in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositorySynced.cs
+- [X] T060 [P] [US5] Create GitRepositoryMarkedNotFound event in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositoryMarkedNotFound.cs
 
 #### Commands
 
-- [ ] T061 [P] [US5] Create SyncGitRepository command in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/SyncGitRepository.cs
+- [X] T061 [P] [US5] Create SyncGitRepository command in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/SyncGitRepository.cs
 
 #### Validators
 
-- [ ] T062 [US5] Create SyncGitRepositoryValidator in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/Validators/SyncGitRepositoryValidator.cs (depends on T061)
+- [X] T062 [US5] Create SyncGitRepositoryValidator in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/Validators/SyncGitRepositoryValidator.cs (depends on T061)
 
 #### Aggregate Apply Methods
 
-- [ ] T063 [US5] Implement Apply method for GitRepositorySynced in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T059)
-- [ ] T064 [US5] Implement Apply method for GitRepositoryMarkedNotFound in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T060)
+- [X] T063 [US5] Implement Apply method for GitRepositorySynced in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T059)
+- [X] T064 [US5] Implement Apply method for GitRepositoryMarkedNotFound in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T060)
 
 #### Projections
 
-- [ ] T065 [P] [US5] Create GitRepositorySyncedOnSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositorySyncedOnSummaryProjectionHandler.cs
-- [ ] T066 [P] [US5] Create GitRepositorySyncedOnDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositorySyncedOnDetailsProjectionHandler.cs
-- [ ] T067 [P] [US5] Create GitRepositoryMarkedNotFoundOnSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryMarkedNotFoundOnSummaryProjectionHandler.cs
-- [ ] T068 [P] [US5] Create GitRepositoryMarkedNotFoundOnDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryMarkedNotFoundOnDetailsProjectionHandler.cs
+- [X] T065 [P] [US5] Create GitRepositorySyncedOnSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositorySyncedOnSummaryProjectionHandler.cs
+- [X] T066 [P] [US5] Create GitRepositorySyncedOnDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositorySyncedOnDetailsProjectionHandler.cs
+- [X] T067 [P] [US5] Create GitRepositoryMarkedNotFoundOnSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryMarkedNotFoundOnSummaryProjectionHandler.cs
+- [X] T068 [P] [US5] Create GitRepositoryMarkedNotFoundOnDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryMarkedNotFoundOnDetailsProjectionHandler.cs
 
 #### Organization-Level Sync Handler
 
-- [ ] T068a [US5] Create SyncGitOrganizationRepositoriesHandler to discover and sync all repositories from a GitOrganization (handles FR-014) in src/libraries/Application/Hexalith.GitStorage.CommandHandlers/GitRepository/SyncGitOrganizationRepositoriesHandler.cs (depends on T059, T060)
+- [X] T068a [US5] Create SyncGitOrganizationRepositoriesHandler to discover and sync all repositories from a GitOrganization (handles FR-014) in src/libraries/Application/Hexalith.GitStorage.CommandHandlers/GitRepository/SyncGitOrganizationRepositoriesHandler.cs (depends on T059, T060)
 
 **Checkpoint**: User Story 5 complete - repository sync operations functional
 
@@ -290,31 +289,31 @@
 
 ### Tests for User Story 6
 
-- [ ] T069 [P] [US6] Create ChangeGitRepositoryDefaultBranchValidatorTests in test/Hexalith.GitStorage.Tests/GitRepository/ChangeGitRepositoryDefaultBranchValidatorTests.cs
-- [ ] T070 [P] [US6] Add GitRepositoryDefaultBranchChanged event tests in test/Hexalith.GitStorage.Tests/GitRepository/GitRepositoryEventTests.cs
+- [X] T069 [P] [US6] Create ChangeGitRepositoryDefaultBranchValidatorTests in test/Hexalith.GitStorage.Tests/Domains/Commands/GitRepositoryValidatorTests.cs
+- [X] T070 [P] [US6] Add GitRepositoryDefaultBranchChanged event tests in test/Hexalith.GitStorage.Tests/Domains/Events/GitRepositoryEventTests.cs
 
 ### Implementation for User Story 6
 
 #### Events
 
-- [ ] T071 [P] [US6] Create GitRepositoryDefaultBranchChanged event in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositoryDefaultBranchChanged.cs
+- [X] T071 [P] [US6] Create GitRepositoryDefaultBranchChanged event in src/libraries/Domain/Hexalith.GitStorage.Events/GitRepository/GitRepositoryDefaultBranchChanged.cs
 
 #### Commands
 
-- [ ] T072 [P] [US6] Create ChangeGitRepositoryDefaultBranch command in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/ChangeGitRepositoryDefaultBranch.cs
+- [X] T072 [P] [US6] Create ChangeGitRepositoryDefaultBranch command in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/ChangeGitRepositoryDefaultBranch.cs
 
 #### Validators
 
-- [ ] T073 [US6] Create ChangeGitRepositoryDefaultBranchValidator in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/Validators/ChangeGitRepositoryDefaultBranchValidator.cs (depends on T072)
+- [X] T073 [US6] Create ChangeGitRepositoryDefaultBranchValidator in src/libraries/Application/Hexalith.GitStorage.Commands/GitRepository/Validators/ChangeGitRepositoryDefaultBranchValidator.cs (depends on T072)
 
 #### Aggregate Apply Method
 
-- [ ] T074 [US6] Implement Apply method for GitRepositoryDefaultBranchChanged in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T071)
+- [X] T074 [US6] Implement Apply method for GitRepositoryDefaultBranchChanged in src/libraries/Domain/Hexalith.GitStorage.Aggregates/GitRepository.cs (depends on T071)
 
 #### Projections
 
-- [ ] T075 [P] [US6] Create GitRepositoryDefaultBranchChangedOnSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryDefaultBranchChangedOnSummaryProjectionHandler.cs
-- [ ] T076 [P] [US6] Create GitRepositoryDefaultBranchChangedOnDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryDefaultBranchChangedOnDetailsProjectionHandler.cs
+- [X] T075 [P] [US6] Create GitRepositoryDefaultBranchChangedOnSummaryProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryDefaultBranchChangedOnSummaryProjectionHandler.cs
+- [X] T076 [P] [US6] Create GitRepositoryDefaultBranchChangedOnDetailsProjectionHandler in src/libraries/Application/Hexalith.GitStorage.Projections/GitRepository/ProjectionHandlers/GitRepositoryDefaultBranchChangedOnDetailsProjectionHandler.cs
 
 **Checkpoint**: User Story 6 complete - default branch can be changed
 
@@ -324,13 +323,14 @@
 
 **Purpose**: Integration, comprehensive tests, and final validation
 
-- [ ] T077 Create GitRepositoryTests (aggregate behavior tests) in test/Hexalith.GitStorage.Tests/GitRepository/GitRepositoryTests.cs
-- [ ] T078 Register all GitRepository events for polymorphic serialization in appropriate configuration
-- [ ] T079 Register all GitRepository commands for polymorphic serialization in appropriate configuration
-- [ ] T080 Register all GitRepository projection handlers in dependency injection configuration
-- [ ] T081 Verify build succeeds with dotnet build
-- [ ] T082 Run all tests and verify they pass with dotnet test
-- [ ] T083 Run quickstart.md validation scenarios manually
+- [X] T077 Create GitRepositoryTests (aggregate behavior tests) in test/Hexalith.GitStorage.Tests/Domains/Aggregates/GitRepositoryTests.cs
+- [X] T078 Register all GitRepository events for polymorphic serialization in appropriate configuration (auto-registered via [PolymorphicSerialization] attributes)
+- [X] T079 Register all GitRepository commands for polymorphic serialization in appropriate configuration (auto-registered via [PolymorphicSerialization] attributes)
+- [X] T080 Register all GitRepository projection handlers in dependency injection configuration (auto-registered via assembly scanning)
+- [X] T081 GitRepositoryEdit.razor - unified edit form implemented in GitRepositoryDetails.razor (follows existing pattern)
+- [X] T082 Verify build succeeds with dotnet build
+- [X] T083 Run all tests and verify they pass with dotnet test (72 tests passed)
+- [X] T084 Run quickstart.md validation scenarios - all files verified present
 
 ---
 
