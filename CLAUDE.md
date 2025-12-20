@@ -6,3 +6,4 @@ The module name is **Hexalith.GitStorage** and contains the GitRepository, GitOr
 
 Always read [Hexalith Common CLAUDE.md](./Hexalith.Builds/CLAUDE.md)
 
+Read Hexalith.Builds/CLAUDE.md for more information
