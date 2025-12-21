@@ -36,6 +36,8 @@ public class GitOrganizationSyncedOnGitOrganizationDetailsProjectionHandler(IPro
             baseEvent.RemoteId,
             GitOrganizationSyncStatus.Synced,
             baseEvent.SyncedAt,
+            baseEvent.WebUrl,
+            baseEvent.GitAccountId,
             model?.Disabled ?? false));
     }
 }

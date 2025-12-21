@@ -36,6 +36,8 @@ public class GitOrganizationAddedOnGitOrganizationDetailsProjectionHandler(IProj
             null,
             GitOrganizationSyncStatus.Synced,
             null,
+            baseEvent.WebUrl,
+            baseEvent.GitAccountId,
             false));
     }
 }

@@ -29,7 +29,10 @@ public static class GitOrganizationCommandHandlerHelper
                 c.Id,
                 c.Name,
                 c.Description,
-                c.GitStorageAccountId),
+                c.GitStorageAccountId,
+                c.Visibility,
+                c.WebUrl,
+                c.GitAccountId),
             ev => new GitOrganization((GitOrganizationAdded)ev));
 
         _ = services.TryAddSimpleCommandHandler<ChangeGitOrganizationDescription>(

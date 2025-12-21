@@ -25,8 +25,12 @@ using Hexalith.GitStorage.Events.GitOrganization;
 /// <param name="RemoteId">The organization's unique identifier on the remote Git Server.</param>
 /// <param name="SyncStatus">Current synchronization state with the remote Git Server.</param>
 /// <param name="LastSyncedAt">Timestamp of the last successful sync.</param>
+/// <param name="WebUrl">The URL of the organization.</param>
+/// <param name="GitAccountId">The account identifier on the Git server.</param>
 /// <param name="Disabled">Whether the organization is suspended locally.</param>
 [DataContract]
+[SuppressMessage("Design", "CA1056:URI-like properties should not be strings", Justification = "JSerialization")]
+[SuppressMessage("Design", "CA1054:UriParametersShouldNotBeStrings", Justification = "JSerialization")]
 public sealed record GitOrganization(
     [property: DataMember(Order = 1)] string Id,
     [property: DataMember(Order = 2)] string Name,
@@ -37,13 +41,15 @@ public sealed record GitOrganization(
     [property: DataMember(Order = 7)] string? RemoteId,
     [property: DataMember(Order = 8)] GitOrganizationSyncStatus SyncStatus,
     [property: DataMember(Order = 9)] DateTimeOffset? LastSyncedAt,
+    [property: DataMember(Order = 11)] string? WebUrl,
+    [property: DataMember(Order = 12)] string? GitAccountId,
     [property: DataMember(Order = 10)] bool Disabled) : IDomainAggregate
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="GitOrganization"/> class.
     /// </summary>
     public GitOrganization()
-        : this(string.Empty, string.Empty, null, string.Empty, GitOrganizationVisibility.Public, GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, false)
+        : this(string.Empty, string.Empty, null, string.Empty, GitOrganizationVisibility.Public, GitOrganizationOrigin.Synced, null, GitOrganizationSyncStatus.Synced, null, null, null, false)
     {
     }
 
@@ -62,6 +68,8 @@ public sealed record GitOrganization(
             null,
             GitOrganizationSyncStatus.Synced,
             null,
+            added.WebUrl,
+            added.GitAccountId,
             false)
     {
     }
@@ -81,6 +89,8 @@ public sealed record GitOrganization(
             synced.RemoteId,
             GitOrganizationSyncStatus.Synced,
             synced.SyncedAt,
+            synced.WebUrl,
+            synced.GitAccountId,
             false)
     {
     }
@@ -135,6 +145,8 @@ public sealed record GitOrganization(
                 RemoteId = e.RemoteId,
                 SyncStatus = GitOrganizationSyncStatus.Synced,
                 LastSyncedAt = e.SyncedAt,
+                WebUrl = e.WebUrl,
+                GitAccountId = e.GitAccountId,
             },
             [e]);
 
