@@ -27,6 +27,9 @@ public class GitStorageAccountAddedOnDetailsProjectionHandler(IProjectionFactory
             baseEvent.Id,
             baseEvent.Name,
             baseEvent.Comments,
-            false));
+            false,
+            baseEvent.ServerUrl,
+            baseEvent.AccessToken,
+            baseEvent.ProviderType));
     }
 }

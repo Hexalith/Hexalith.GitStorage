@@ -29,5 +29,22 @@ public class GitStorageAccountAddedValidator : AbstractValidator<GitStorageAccou
         _ = RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage(localizer[Labels.NameRequired]);
+
+        // Conditional validation for API credentials
+        _ = RuleFor(x => x.ServerUrl)
+            .Must(BeValidHttpsUrl)
+            .When(x => !string.IsNullOrEmpty(x.ServerUrl))
+            .WithMessage("Server URL must be a valid HTTPS URL.");
+        _ = RuleFor(x => x.AccessToken)
+            .NotEmpty()
+            .When(x => !string.IsNullOrEmpty(x.ServerUrl))
+            .WithMessage("Access token is required when server URL is provided.");
+        _ = RuleFor(x => x.ProviderType)
+            .IsInEnum()
+            .When(x => x.ProviderType.HasValue)
+            .WithMessage("Invalid provider type.");
     }
+
+    private static bool BeValidHttpsUrl(string? url)
+        => string.IsNullOrEmpty(url) || (Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) && uri.Scheme == Uri.UriSchemeHttps);
 }

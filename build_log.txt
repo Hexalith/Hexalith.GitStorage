@@ -1,0 +1,15 @@
+  Identification des projets à restaurer...
+  Tous les projets sont à jour pour la restauration.
+  Hexalith.GitStorage.Localizations -> d:\Hexalith.GitStorage\src\libraries\Domain\Hexalith.GitStorage.Localizations\bin\Debug\net10.0\Hexalith.GitStorage.Localizations.dll
+  Hexalith.GitStorage.Aggregates.Abstractions -> d:\Hexalith.GitStorage\src\libraries\Domain\Hexalith.GitStorage.Aggregates.Abstractions\bin\Debug\net10.0\Hexalith.GitStorage.Aggregates.Abstractions.dll
+d:\Hexalith.GitStorage\src\libraries\Domain\Hexalith.GitStorage.Events\GitOrganization\GitOrganizationAdded.cs(26,15): error CS0260: Modificateur partiel manquant dans la déclaration de type 'GitOrganizationAdded' ; il existe une autre déclaration partielle de ce type [d:\Hexalith.GitStorage\src\libraries\Domain\Hexalith.GitStorage.Events\Hexalith.GitStorage.Events.csproj]
+d:\Hexalith.GitStorage\src\libraries\Domain\Hexalith.GitStorage.Events\GitOrganization\GitOrganizationSynced.cs(28,15): error CS0260: Modificateur partiel manquant dans la déclaration de type 'GitOrganizationSynced' ; il existe une autre déclaration partielle de ce type [d:\Hexalith.GitStorage\src\libraries\Domain\Hexalith.GitStorage.Events\Hexalith.GitStorage.Events.csproj]
+
+ÉCHEC de la build.
+
+d:\Hexalith.GitStorage\src\libraries\Domain\Hexalith.GitStorage.Events\GitOrganization\GitOrganizationAdded.cs(26,15): error CS0260: Modificateur partiel manquant dans la déclaration de type 'GitOrganizationAdded' ; il existe une autre déclaration partielle de ce type [d:\Hexalith.GitStorage\src\libraries\Domain\Hexalith.GitStorage.Events\Hexalith.GitStorage.Events.csproj]
+d:\Hexalith.GitStorage\src\libraries\Domain\Hexalith.GitStorage.Events\GitOrganization\GitOrganizationSynced.cs(28,15): error CS0260: Modificateur partiel manquant dans la déclaration de type 'GitOrganizationSynced' ; il existe une autre déclaration partielle de ce type [d:\Hexalith.GitStorage\src\libraries\Domain\Hexalith.GitStorage.Events\Hexalith.GitStorage.Events.csproj]
+    0 Avertissement(s)
+    2 Erreur(s)
+
+Temps écoulé 00:00:01.24

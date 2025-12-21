@@ -2,10 +2,13 @@
 // Copyright (c) ITANEO (https://www.itaneo.com). All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
+
 namespace Hexalith.GitStorage.Events.GitStorageAccount;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
+using Hexalith.GitStorage.Aggregates.Enums;
 using Hexalith.PolymorphicSerializations;
 
 /// <summary>
@@ -14,10 +17,17 @@ using Hexalith.PolymorphicSerializations;
 /// <param name="Id">The identifier of the GitStorageAccount.</param>
 /// <param name="Name">The name of the GitStorageAccount.</param>
 /// <param name="Comments">Optional comments about the GitStorageAccount.</param>
+/// <param name="ServerUrl">Optional base URL of the Git server API.</param>
+/// <param name="AccessToken">Optional authentication token for the Git server API.</param>
+/// <param name="ProviderType">Optional type of Git server platform.</param>
 [PolymorphicSerialization]
+[SuppressMessage("Design", "CA1056:URI-like properties should not be strings", Justification = "N/A")]
+[SuppressMessage("Design", "CA1054:URI-like parameters should not be strings", Justification = "N/A")]
 public partial record GitStorageAccountAdded(
     string Id,
     [property: DataMember(Order = 2)] string Name,
-    [property: DataMember(Order = 3)] string? Comments)
-    : GitStorageAccountEvent(Id)
-;
+    [property: DataMember(Order = 3)] string? Comments,
+    [property: DataMember(Order = 4)] string? ServerUrl = null,
+    [property: DataMember(Order = 5)] string? AccessToken = null,
+    [property: DataMember(Order = 6)] GitServerProviderType? ProviderType = null)
+    : GitStorageAccountEvent(Id);

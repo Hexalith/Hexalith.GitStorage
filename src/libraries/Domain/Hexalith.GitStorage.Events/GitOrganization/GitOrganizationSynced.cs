@@ -19,7 +19,11 @@ using Hexalith.PolymorphicSerializations;
 /// <param name="GitStorageAccountId">Reference to the parent GitStorageAccount entity.</param>
 /// <param name="Visibility">The visibility level of the organization.</param>
 /// <param name="RemoteId">The remote server's unique identifier for the organization.</param>
-/// <param name="SyncedAt">Timestamp of the sync operation.</param>
+/// <param name="SyncedAt">Timestamp of the last successful sync.</param>
+/// <param name="WebUrl">The URL of the organization.</param>
+/// <param name="GitAccountId">The account identifier on the Git server.</param>
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1056:URI-like properties should not be strings", Justification = "JSerialization")]
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1054:UriParametersShouldNotBeStrings", Justification = "JSerialization")]
 [PolymorphicSerialization]
 public partial record GitOrganizationSynced(
     string Id,
@@ -28,5 +32,7 @@ public partial record GitOrganizationSynced(
     [property: DataMember(Order = 4)] string GitStorageAccountId,
     [property: DataMember(Order = 5)] GitOrganizationVisibility Visibility,
     [property: DataMember(Order = 6)] string? RemoteId,
-    [property: DataMember(Order = 7)] DateTimeOffset SyncedAt)
+    [property: DataMember(Order = 7)] DateTimeOffset SyncedAt,
+    [property: DataMember(Order = 8)] string? WebUrl = null,
+    [property: DataMember(Order = 9)] string? GitAccountId = null)
     : GitOrganizationEvent(Id);

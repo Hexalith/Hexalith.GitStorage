@@ -47,7 +47,7 @@ public class GitStorageAccountTests
     public void Apply_GitStorageAccountAdded_WhenAlreadyInitialized_ShouldReturnError()
     {
         // Arrange
-        GitStorageAccount aggregate = new("existing-id", "Existing Name", null, false);
+        GitStorageAccount aggregate = new("existing-id", "Existing Name", null, false, null, null, null);
         GitStorageAccountAdded added = new("test-id", "Test Name", null);
 
         // Act
@@ -65,7 +65,7 @@ public class GitStorageAccountTests
     public void Apply_GitStorageAccountDescriptionChanged_ShouldUpdateAggregate()
     {
         // Arrange
-        GitStorageAccount aggregate = new("test-id", "Old Name", "Old Comments", false);
+        GitStorageAccount aggregate = new("test-id", "Old Name", "Old Comments", false, null, null, null);
         GitStorageAccountDescriptionChanged changed = new("test-id", "New Name", "New Comments");
 
         // Act
@@ -86,7 +86,7 @@ public class GitStorageAccountTests
     public void Apply_GitStorageAccountDescriptionChanged_WhenSameValues_ShouldReturnError()
     {
         // Arrange
-        GitStorageAccount aggregate = new("test-id", "Same Name", "Same Comments", false);
+        GitStorageAccount aggregate = new("test-id", "Same Name", "Same Comments", false, null, null, null);
         GitStorageAccountDescriptionChanged changed = new("test-id", "Same Name", "Same Comments");
 
         // Act
@@ -104,7 +104,7 @@ public class GitStorageAccountTests
     public void Apply_GitStorageAccountDisabled_ShouldDisableAggregate()
     {
         // Arrange
-        GitStorageAccount aggregate = new("test-id", "Test Name", null, false);
+        GitStorageAccount aggregate = new("test-id", "Test Name", null, false, null, null, null);
         GitStorageAccountDisabled disabled = new("test-id");
 
         // Act
@@ -124,7 +124,7 @@ public class GitStorageAccountTests
     public void Apply_GitStorageAccountDisabled_WhenAlreadyDisabled_ShouldReturnError()
     {
         // Arrange
-        GitStorageAccount aggregate = new("test-id", "Test Name", null, true);
+        GitStorageAccount aggregate = new("test-id", "Test Name", null, true, null, null, null);
         GitStorageAccountDisabled disabled = new("test-id");
 
         // Act
@@ -142,7 +142,7 @@ public class GitStorageAccountTests
     public void Apply_GitStorageAccountEnabled_ShouldEnableAggregate()
     {
         // Arrange
-        GitStorageAccount aggregate = new("test-id", "Test Name", null, true);
+        GitStorageAccount aggregate = new("test-id", "Test Name", null, true, null, null, null);
         GitStorageAccountEnabled enabled = new("test-id");
 
         // Act
@@ -162,7 +162,7 @@ public class GitStorageAccountTests
     public void Apply_GitStorageAccountEnabled_WhenAlreadyEnabled_ShouldReturnError()
     {
         // Arrange
-        GitStorageAccount aggregate = new("test-id", "Test Name", null, false);
+        GitStorageAccount aggregate = new("test-id", "Test Name", null, false, null, null, null);
         GitStorageAccountEnabled enabled = new("test-id");
 
         // Act
@@ -198,7 +198,7 @@ public class GitStorageAccountTests
     public void Apply_EventOnDisabledAggregate_ShouldReturnNotEnabledError()
     {
         // Arrange
-        GitStorageAccount aggregate = new("test-id", "Test Name", null, true);
+        GitStorageAccount aggregate = new("test-id", "Test Name", null, true, null, null, null);
         GitStorageAccountDescriptionChanged changed = new("test-id", "New Name", "New Comments");
 
         // Act
@@ -216,7 +216,7 @@ public class GitStorageAccountTests
     public void AggregateName_ShouldReturnCorrectName()
     {
         // Arrange
-        GitStorageAccount aggregate = new("test-id", "Test Name", null, false);
+        GitStorageAccount aggregate = new("test-id", "Test Name", null, false, null, null, null);
 
         // Act
         string aggregateName = aggregate.AggregateName;
@@ -232,7 +232,7 @@ public class GitStorageAccountTests
     public void AggregateId_ShouldReturnCorrectId()
     {
         // Arrange
-        GitStorageAccount aggregate = new("test-id", "Test Name", null, false);
+        GitStorageAccount aggregate = new("test-id", "Test Name", null, false, null, null, null);
 
         // Act
         string aggregateId = aggregate.AggregateId;
@@ -264,7 +264,7 @@ public class GitStorageAccountTests
     public void IsInitialized_WhenInitialized_ShouldReturnTrue()
     {
         // Arrange
-        GitStorageAccount aggregate = new("test-id", "Test Name", null, false);
+        GitStorageAccount aggregate = new("test-id", "Test Name", null, false, null, null, null);
 
         // Act
         bool isInitialized = (aggregate as IDomainAggregate).IsInitialized();

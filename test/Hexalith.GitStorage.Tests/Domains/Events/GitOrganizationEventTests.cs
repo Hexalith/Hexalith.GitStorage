@@ -6,6 +6,7 @@
 namespace Hexalith.GitStorage.Tests.Domains.Events;
 
 using Hexalith.GitStorage.Aggregates;
+using Hexalith.GitStorage.Aggregates.Enums;
 using Hexalith.GitStorage.Events.GitOrganization;
 
 using Shouldly;
@@ -56,7 +57,7 @@ public class GitOrganizationEventTests
         DateTimeOffset syncedAt = DateTimeOffset.UtcNow;
 
         // Act
-        var synced = new GitOrganizationSynced("account1-testorg", "testorg", "Test Description", "account1", "remote-123", syncedAt);
+        var synced = new GitOrganizationSynced("account1-testorg", "testorg", "Test Description", "account1", GitOrganizationVisibility.Public, "remote-123", syncedAt);
 
         // Assert
         synced.Id.ShouldBe("account1-testorg");

@@ -23,8 +23,12 @@ using Hexalith.GitStorage.Aggregates.Enums;
 /// <param name="RemoteId">The remote server's unique identifier for the organization.</param>
 /// <param name="SyncStatus">Current synchronization state with the remote Git Server.</param>
 /// <param name="LastSyncedAt">Timestamp of the last successful sync.</param>
+/// <param name="WebUrl">The URL of the organization.</param>
+/// <param name="GitAccountId">The account identifier on the Git server.</param>
 /// <param name="Disabled">Whether the organization is disabled locally.</param>
 [DataContract]
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1056:URI-like properties should not be strings", Justification = "JSerialization")]
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1054:UriParametersShouldNotBeStrings", Justification = "JSerialization")]
 public sealed record GitOrganizationDetailsViewModel(
     [property: DataMember(Order = 1)] string Id,
     [property: DataMember(Order = 2)] string Name,
@@ -36,6 +40,8 @@ public sealed record GitOrganizationDetailsViewModel(
     [property: DataMember(Order = 8)] string? RemoteId,
     [property: DataMember(Order = 9)] GitOrganizationSyncStatus SyncStatus,
     [property: DataMember(Order = 10)] DateTimeOffset? LastSyncedAt,
+    [property: DataMember(Order = 12)] string? WebUrl,
+    [property: DataMember(Order = 13)] string? GitAccountId,
     [property: DataMember(Order = 11)] bool Disabled) : IIdDescription
 {
     /// <inheritdoc/>
@@ -56,6 +62,8 @@ public sealed record GitOrganizationDetailsViewModel(
         null,
         GitOrganizationSyncStatus.Synced,
         null,
+        null,
+        null,
         false);
 
     /// <summary>
@@ -75,6 +83,8 @@ public sealed record GitOrganizationDetailsViewModel(
             GitOrganizationOrigin.CreatedViaApplication,
             null,
             GitOrganizationSyncStatus.Synced,
+            null,
+            null,
             null,
             false);
 }
