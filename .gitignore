@@ -404,3 +404,6 @@ nul
 
 #Ignore vscode AI rules
 .github\instructions\codacy.instructions.md
+
+# Ignore nul file
+nul
