@@ -1,9 +1,3 @@
-# CLAUDE.md
+# AI Instructions
 
-AI assistant guidance for **Hexalith.GitStorage** - a DDD/CQRS/Event Sourcing module template.
-
-The module name is **Hexalith.GitStorage** and contains the GitRepository, GitOrganization and GitStorageAccount aggregates
-
-Always read [Hexalith Common CLAUDE.md](./Hexalith.Builds/CLAUDE.md)
-
-Read Hexalith.Builds/CLAUDE.md for more information
+Please read and follow the instructions in [Hexalith.Builds/CLAUDE.md](./Hexalith.Builds/CLAUDE.md) for coding standards, build commands, and project conventions.
